@@ -190,3 +190,16 @@ body {
   .sc-reveal { animation: none; }
   .sc-btn, .sc-card, .sc-card::before { transition: none; }
 }
+
+/* ---- Phase B: brand chrome (footer dark surface) ----------------- */
+/* Footer group runs on --pitch (set in footer-group.json). Keep colour
+   in tokens here, not the palette picker (§0.3); ensures readable text on
+   the dark surface without rebuilding Pitch's footer sections. */
+footer {
+  color: var(--on-invert);
+}
+footer h1, footer h2, footer h3, footer h4,
+footer p, footer li, footer span, footer a { color: var(--on-invert); }
+footer a:hover { color: var(--try-bright); }
+footer input { color: var(--on-invert); border-color: var(--border-invert); }
+footer hr, footer [class*="divider"] { border-color: var(--border-invert); }

@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "header": {
+      "type": "sc-page-header",
+      "settings": {
+        "surface": "pitch",
+        "eyebrow": "OUR STORY",
+        "heading": "Who we are",
+        "subcopy": "<p>A small family company making rugby kit and protective wear for women and men — every size, age and level. Built by players, funding the research that keeps the game safer.</p>"
+      }
+    },
+    "story": {
+      "type": "sc-rich-text",
+      "settings": {
+        "surface": "paper",
+        "eyebrow": "THE START",
+        "heading": "Made by people who play",
+        "body": "<p>Scrum Club makes women's and men's rugby clothing and protective wear for players of every size, age and level. What sets us apart is an unwavering commitment to player safety: a significant share of our proceeds goes directly into research aimed at understanding and reducing the risk of injury in rugby.</p><p>Buy our kit and you get quality rugby apparel — and help make the sport safer for the next generation.</p>"
+      }
+    },
+    "founders": {
+      "type": "sc-founders",
+      "settings": { "eyebrow": "WHO WE ARE", "heading": "Built by two who play" },
+      "blocks": {
+        "sam": {
+          "type": "founder",
+          "settings": {
+            "name": "Sam",
+            "role": "CO-FOUNDER · FEM-FIT",
+            "bio": "<p>Sam is a mental health nurse with 19 years in the NHS, a mother of two, and a second row who's now semi-retired from the pitch but still a devoted rugby mum, partner and grassroots club volunteer. Drawing on her own years in the pack, she designs rugby clothing engineered for the female form — so the next generation of players has the kit they deserve.</p>"
+          }
+        },
+        "nathan": {
+          "type": "founder",
+          "settings": {
+            "name": "Nathan",
+            "role": "CO-FOUNDER · PRODUCT",
+            "bio": "<p>Nathan is a senior robotics engineering manager with 20 years in hardware innovation, building autonomous systems for industries worldwide. He's played and coached rugby for two decades, with a daughter who plays and a son who has too. He knows how expensive the sport can be — which is why he's set on rugby attire everyone can wear and afford.</p>"
+          }
+        }
+      },
+      "block_order": ["sam", "nathan"]
+    },
+    "commitment": {
+      "type": "sc-rich-text",
+      "settings": {
+        "surface": "pitch",
+        "eyebrow": "WHY WE EXIST",
+        "heading": "5% of every order funds research",
+        "body": "<p>A cut of every order, every year, funds research into women's rugby — injury prevention, performance, participation. Audited annually and reported in the open. Not a campaign. A standing commitment.</p>",
+        "cta_label": "Read the commitment",
+        "cta_link": "/pages/the-5-percent"
+      }
+    }
+  },
+  "order": ["header", "story", "founders", "commitment"]
+}

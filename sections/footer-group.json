@@ -56,7 +56,7 @@
               "type": "text",
               "name": "Text",
               "settings": {
-                "text": "<h3>Join the club</h3>",
+                "text": "<h3>Scrum Club</h3>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -81,7 +81,7 @@
               "type": "text",
               "name": "Text",
               "settings": {
-                "text": "<p>Get new product announcements, skincare tips, and exclusive discounts.</p>",
+                "text": "<p>Made in the UK. 5% of every order funds women's rugby research.</p>",
                 "width": "100%",
                 "max_width": "narrow",
                 "alignment": "left",
@@ -182,8 +182,8 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "footer",
-                "heading": "Skincare",
+                "menu": "footer-shop",
+                "heading": "Shop",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
                 "accordion_icon": "plus",
@@ -201,8 +201,8 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "",
-                "heading": "Makeup",
+                "menu": "footer-club",
+                "heading": "Club",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
                 "accordion_icon": "plus",
@@ -220,8 +220,8 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "",
-                "heading": "About",
+                "menu": "footer-support",
+                "heading": "Support",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
                 "accordion_icon": "plus",
@@ -251,7 +251,7 @@
       "settings": {
         "section_width": "page-width",
         "gap": 0,
-        "background_color": "{{ settings.color_palette.color1 }}",
+        "background_color": "#0B0B0E",
         "padding-block-start": 60,
         "padding-block-end": 32
       }
@@ -299,7 +299,7 @@
         "section_height": "small",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "{{ settings.color_palette.color1 }}",
+        "background_color": "#0B0B0E",
         "video_position": "cover",
         "background_image_position": "cover",
         "border": "none",
@@ -337,11 +337,11 @@
         "social_icons": {
           "type": "social-links",
           "settings": {
-            "facebook_url": "https://www.facebook.com",
-            "instagram_url": "https://www.instagram.com",
-            "youtube_url": "https://www.youtube.com",
-            "tiktok_url": "https://www.tiktok.com",
-            "twitter_url": "https://www.twitter.com",
+            "facebook_url": "",
+            "instagram_url": "https://www.instagram.com/scrumchic",
+            "youtube_url": "",
+            "tiktok_url": "https://www.tiktok.com/@scrumchic",
+            "twitter_url": "",
             "threads_url": "",
             "linkedin_url": "",
             "bluesky_url": "",
@@ -363,7 +363,7 @@
         "section_width": "page-width",
         "gap": 24,
         "divider_thickness": 1,
-        "background_color": "{{ settings.color_palette.color1 }}",
+        "background_color": "#0B0B0E",
         "padding-block-start": 20,
         "padding-block-end": 20
       }

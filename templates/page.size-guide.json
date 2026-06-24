@@ -1,0 +1,47 @@
+{
+  "sections": {
+    "header": {
+      "type": "sc-page-header",
+      "settings": {
+        "surface": "pitch",
+        "eyebrow": "SIZING",
+        "heading": "Size guide",
+        "subcopy": "<p>Fem-Fit is drafted from a women's body block; Men-Fit from a men's. Measurements are confirmed per line before launch.</p>"
+      }
+    },
+    "fem": {
+      "type": "sc-size-guide",
+      "settings": {
+        "eyebrow": "FEM-FIT",
+        "heading": "Fem-Fit",
+        "columns": "Size|Chest (cm)|Length (cm)",
+        "note": "Measurements to be confirmed. Garment measured flat; allow for fit."
+      },
+      "blocks": {
+        "r6": { "type": "row", "settings": { "cells": "6|TBC|TBC" } },
+        "r8": { "type": "row", "settings": { "cells": "8|TBC|TBC" } },
+        "r10": { "type": "row", "settings": { "cells": "10|TBC|TBC" } },
+        "r12": { "type": "row", "settings": { "cells": "12|TBC|TBC" } },
+        "r14": { "type": "row", "settings": { "cells": "14|TBC|TBC" } }
+      },
+      "block_order": ["r6", "r8", "r10", "r12", "r14"]
+    },
+    "men": {
+      "type": "sc-size-guide",
+      "settings": {
+        "eyebrow": "MEN-FIT",
+        "heading": "Men-Fit",
+        "columns": "Size|Chest (cm)|Length (cm)",
+        "note": "Measurements to be confirmed. Garment measured flat; allow for fit."
+      },
+      "blocks": {
+        "s": { "type": "row", "settings": { "cells": "S|TBC|TBC" } },
+        "m": { "type": "row", "settings": { "cells": "M|TBC|TBC" } },
+        "l": { "type": "row", "settings": { "cells": "L|TBC|TBC" } },
+        "xl": { "type": "row", "settings": { "cells": "XL|TBC|TBC" } }
+      },
+      "block_order": ["s", "m", "l", "xl"]
+    }
+  },
+  "order": ["header", "fem", "men"]
+}

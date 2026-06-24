@@ -1,0 +1,58 @@
+{%- comment -%}
+  sc-pdp-spec.liquid — PDP mono spec line (CLAUDE.md §3.2)
+  ------------------------------------------------------------------
+  e.g. "SKU SC-FF-J01 · MADE IN UK · 5% TO RESEARCH". Each segment is
+  shown only if present (never an empty label). SKU prefers sc.sku_code,
+  falls back to the variant SKU. made_in prefers sc.made_in (§6 #5 —
+  verify before launch). Theme block.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = closest.product
+  assign segments = ''
+
+  assign sku = p.metafields.sc.sku_code
+  if sku == blank
+    assign sku = p.selected_or_first_available_variant.sku
+  endif
+  if sku != blank
+    assign segments = segments | append: 'SKU ' | append: sku | append: '||'
+  endif
+
+  assign made = p.metafields.sc.made_in
+  if made != blank
+    assign made_label = 'MADE IN ' | append: made | upcase
+  else
+    assign made_label = block.settings.made_in_text
+  endif
+  if made_label != blank
+    assign segments = segments | append: made_label | append: '||'
+  endif
+
+  if block.settings.research_text != blank
+    assign segments = segments | append: block.settings.research_text | append: '||'
+  endif
+
+  assign parts = segments | split: '||'
+-%}
+
+{%- if parts.size > 0 -%}
+  <p class="sc-mono sc-pdp-spec" {{ block.shopify_attributes }}>
+    {%- for part in parts -%}
+      <span class="sc-pdp-spec__seg">{{ part | escape }}</span>
+      {%- unless forloop.last -%}<span class="sc-pdp-spec__sep" aria-hidden="true"> · </span>{%- endunless -%}
+    {%- endfor -%}
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SC PDP Spec Line",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "made_in_text", "label": "Made-in fallback", "info": "Used when the sc.made_in metafield is empty. Verify before launch (§6).", "default": "MADE IN UK" },
+    { "type": "text", "id": "research_text", "label": "Research text", "default": "5% TO RESEARCH" }
+  ],
+  "presets": [ { "name": "SC PDP Spec Line", "category": "Scrum Club" } ]
+}
+{% endschema %}

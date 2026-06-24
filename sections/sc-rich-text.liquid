@@ -1,0 +1,64 @@
+{%- comment -%}
+  sc-rich-text.liquid — reusable prose band
+  ------------------------------------------------------------------
+  Editorial copy block for content pages (story, the 5% explainer, policy
+  intros). Optional eyebrow + heading + body; measure-capped for reading.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = false
+  if s.surface == 'pitch'
+    assign is_pitch = true
+  endif
+-%}
+
+<section class="sc-richtext {% if is_pitch %}sc-pitch{% else %}sc-paper{% endif %}">
+  <div class="sc-wrap sc-richtext__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}<p class="sc-eyebrow{% if is_pitch %} muted{% endif %}">{{ s.eyebrow | escape }}</p>{%- endif -%}
+    {%- if s.heading != blank -%}<h2 class="sc-h2 sc-richtext__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+    {%- if s.body != blank -%}<div class="sc-body sc-richtext__body">{{ s.body }}</div>{%- endif -%}
+    {%- if s.cta_label != blank -%}
+      <a class="sc-btn sc-btn--primary sc-richtext__cta" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-richtext { padding-block: var(--s-8); }
+  .sc-richtext__inner { max-width: 720px; }
+  .sc-richtext.sc-pitch .sc-richtext__heading { color: var(--paper); }
+  .sc-richtext__heading { margin-bottom: var(--s-4); }
+  .sc-richtext__body { max-width: var(--measure); }
+  .sc-richtext.sc-pitch .sc-richtext__body { color: var(--fog); }
+  .sc-richtext__body h3 { font-family: var(--font-display); text-transform: uppercase; font-size: var(--fs-h3); line-height: 1; margin: var(--s-6) 0 var(--s-3); }
+  .sc-richtext__body p + p { margin-top: var(--s-4); }
+  .sc-richtext__body a { color: var(--try); text-decoration: underline; }
+  .sc-richtext__cta { margin-top: var(--s-6); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Rich Text",
+  "tag": "section",
+  "class": "sc-section sc-richtext-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "paper", "label": "Paper (light)" },
+        { "value": "pitch", "label": "Pitch (dark)" }
+      ],
+      "default": "paper"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "richtext", "id": "body", "label": "Body" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "SC Rich Text" } ]
+}
+{% endschema %}

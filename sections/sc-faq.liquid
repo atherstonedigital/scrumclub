@@ -1,0 +1,93 @@
+{%- comment -%}
+  sc-faq.liquid — FAQ accordion
+  ------------------------------------------------------------------
+  Native <details>/<summary> accordion (keyboard-accessible, no JS). One
+  block per question. Seed copy is sensible default — review before launch.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="sc-faq sc-paper">
+  <div class="sc-wrap sc-faq__inner">
+    {%- if s.heading != blank -%}
+      <div class="sc-faq__head sc-reveal">
+        {%- if s.eyebrow != blank -%}<p class="sc-eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="sc-h2 sc-faq__title">{{ s.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="sc-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="sc-faq__item" {{ block.shopify_attributes }}>
+          <summary class="sc-faq__q">
+            <span>{{ block.settings.question | escape }}</span>
+            <span class="sc-faq__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="sc-faq__a sc-body">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-faq { padding-block: var(--s-9); }
+  .sc-faq__inner { max-width: 820px; }
+  .sc-faq__head { margin-bottom: var(--s-6); }
+  .sc-faq__title { margin-top: var(--s-2); }
+  .sc-faq__item { border-top: 1px solid var(--bone); }
+  .sc-faq__item:last-child { border-bottom: 1px solid var(--bone); }
+  .sc-faq__q {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+    padding: var(--s-5) 0; cursor: pointer; list-style: none;
+    font-family: var(--font-action); font-weight: 800; font-style: italic;
+    text-transform: uppercase; letter-spacing: 0.02em; font-size: 18px;
+  }
+  .sc-faq__q::-webkit-details-marker { display: none; }
+  .sc-faq__icon { position: relative; width: 16px; height: 16px; flex: 0 0 auto; }
+  .sc-faq__icon::before,
+  .sc-faq__icon::after { content: ""; position: absolute; background: var(--try); transition: transform var(--dur-fast) var(--ease-tackle); }
+  .sc-faq__icon::before { top: 7px; left: 0; width: 16px; height: 2px; }
+  .sc-faq__icon::after { top: 0; left: 7px; width: 2px; height: 16px; }
+  .sc-faq__item[open] .sc-faq__icon::after { transform: scaleY(0); }
+  .sc-faq__a { padding-bottom: var(--s-5); color: var(--steel); }
+  .sc-faq__a p + p { margin-top: var(--s-3); }
+  .sc-faq__a a { color: var(--try); text-decoration: underline; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC FAQ",
+  "tag": "section",
+  "class": "sc-section sc-faq-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "HELP" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC FAQ",
+      "blocks": [
+        { "type": "qa", "settings": { "question": "What's the difference between Fem-Fit and Men-Fit?", "answer": "<p>Fem-Fit is drafted from a women's body block — not a resized men's pattern. Men-Fit uses a men's block. They're separate products, so choose by the fit you want.</p>" } },
+        { "type": "qa", "settings": { "question": "How do I choose my size?", "answer": "<p>See our <a href=\"/pages/size-guide\">size guide</a>. Fem-Fit runs in numeric sizes 6–14; Men-Fit in S–XL. If you're between sizes, size up for layering under match kit.</p>" } },
+        { "type": "qa", "settings": { "question": "Is your kit really made in the UK?", "answer": "<p>Our garments are cut and sewn in Britain and carry a \"Made in UK\" label. (Sourcing is confirmed per line before launch.)</p>" } },
+        { "type": "qa", "settings": { "question": "What is the 5% commitment?", "answer": "<p>Five percent of every order funds research into women's rugby — injury prevention, performance and participation. It's audited annually and reported openly. <a href=\"/pages/the-5-percent\">Read more</a>.</p>" } },
+        { "type": "qa", "settings": { "question": "Shipping and returns?", "answer": "<p>Free UK shipping over £75. Unworn items can be returned within 30 days. See our shipping & returns policy for details.</p>" } },
+        { "type": "qa", "settings": { "question": "How should I care for my kit?", "answer": "<p>Cold wash, inside out, no fabric softener, hang to dry. It's built to take a season of contact — treat it well and it lasts.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

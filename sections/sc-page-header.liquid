@@ -1,0 +1,63 @@
+{%- comment -%}
+  sc-page-header.liquid — reusable content-page title band
+  ------------------------------------------------------------------
+  Pitch-surface header for About / 5% / Size Guide / FAQ etc. One H1 per
+  page lives here. Eyebrow + title + optional subcopy.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = true
+  if s.surface == 'paper'
+    assign is_pitch = false
+  endif
+  assign title = s.heading
+  if title == blank
+    assign title = page.title
+  endif
+-%}
+
+<section class="sc-pagehead {% if is_pitch %}sc-pitch{% else %}sc-paper{% endif %}">
+  <div class="sc-wrap sc-pagehead__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow{% if is_pitch %} muted{% endif %}">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    <h1 class="sc-h1 sc-pagehead__title">{{ title | escape }}</h1>
+    {%- if s.subcopy != blank -%}
+      <div class="sc-body sc-pagehead__sub">{{ s.subcopy }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-pagehead { padding-block: var(--s-9) var(--s-8); }
+  .sc-pagehead__inner { max-width: 880px; }
+  .sc-pagehead.sc-pitch .sc-pagehead__title { color: var(--paper); }
+  .sc-pagehead__title { margin-top: var(--s-3); }
+  .sc-pagehead__sub { margin-top: var(--s-5); }
+  .sc-pagehead.sc-pitch .sc-pagehead__sub { color: var(--fog); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Page Header",
+  "tag": "section",
+  "class": "sc-section sc-pagehead-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "pitch", "label": "Pitch (dark)" },
+        { "value": "paper", "label": "Paper (light)" }
+      ],
+      "default": "pitch"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Defaults to the page title." },
+    { "type": "richtext", "id": "subcopy", "label": "Subcopy" }
+  ],
+  "presets": [ { "name": "SC Page Header" } ]
+}
+{% endschema %}

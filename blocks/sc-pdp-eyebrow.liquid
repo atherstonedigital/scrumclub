@@ -1,0 +1,46 @@
+{%- comment -%}
+  sc-pdp-eyebrow.liquid — PDP fit/category eyebrow (CLAUDE.md §3.2)
+  ------------------------------------------------------------------
+  Saira eyebrow e.g. "FEM-FIT · MATCH". Composes from sc.fit metafield +
+  product type, with a manual override. Degrades to nothing if both are
+  absent (never an empty label, §3.2). Also loads the PDP restyle once.
+  Theme block — place inside the product-information section.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = closest.product
+  assign label = block.settings.eyebrow_override
+  if label == blank and p != blank
+    assign fit = p.metafields.sc.fit
+    assign cat = block.settings.category | default: p.type
+    if fit != blank and cat != blank
+      assign label = fit | append: ' · ' | append: cat
+    elsif fit != blank
+      assign label = fit
+    elsif cat != blank
+      assign label = cat
+    endif
+  endif
+-%}
+
+{{ 'sc-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- if label != blank -%}
+  <p class="sc-eyebrow sc-pdp-eyebrow" {{ block.shopify_attributes }}>{{ label | escape }}</p>
+{%- else -%}
+  <p class="sc-eyebrow sc-pdp-eyebrow" {{ block.shopify_attributes }}>{{ block.settings.placeholder | default: 'FEM-FIT · MATCH' | escape }}</p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SC PDP Eyebrow",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Composes from the product's sc.fit metafield and type. Override below if needed." },
+    { "type": "text", "id": "eyebrow_override", "label": "Override text" },
+    { "type": "text", "id": "category", "label": "Category (defaults to product type)" },
+    { "type": "text", "id": "placeholder", "label": "Editor placeholder", "default": "FEM-FIT · MATCH" }
+  ],
+  "presets": [ { "name": "SC PDP Eyebrow", "category": "Scrum Club" } ]
+}
+{% endschema %}

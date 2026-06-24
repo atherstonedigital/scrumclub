@@ -1,0 +1,50 @@
+/* ==================================================================
+   sc-pdp.css — PDP brand layout + restyle (CLAUDE.md §3.2)
+   Loaded once via the sc-pdp-eyebrow block (so it ships only on PDPs).
+   Scoped to [data-template^="product"] so it never leaks to other pages.
+   Native Pitch blocks keep their cart/variant logic; brand colour for the
+   variant buttons + add-to-cart is set in product.json via their own
+   settings — here we handle the brand layout, type and cut-shadow.
+   ================================================================== */
+
+[data-template^="product"] .sc-pdp-eyebrow { margin-bottom: var(--s-3); }
+
+[data-template^="product"] .sc-pdp-title {
+  font-size: var(--fs-h1);
+  margin-bottom: var(--s-4);
+}
+
+[data-template^="product"] .sc-pdp-spec {
+  margin-top: var(--s-4);
+  color: var(--grit);
+}
+[data-template^="product"] .sc-pdp-spec__seg { white-space: nowrap; }
+
+/* Variant option buttons -> sharp brand pills (web component tag is stable). */
+[data-template^="product"] variant-picker label,
+[data-template^="product"] variant-picker .variant-option__button-label {
+  border-radius: var(--r-1) !important;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Primary add-to-cart -> cut-shadow on top of its custom red (set in JSON). */
+[data-template^="product"] add-to-cart-component .button,
+[data-template^="product"] .add-to-cart-button,
+[data-template^="product"] button[name="add"] {
+  border-radius: var(--r-1) !important;
+  box-shadow: var(--cut);
+  transition: transform var(--dur-fast) var(--ease-tackle),
+              box-shadow var(--dur-fast) var(--ease-tackle);
+}
+[data-template^="product"] add-to-cart-component .button:hover,
+[data-template^="product"] .add-to-cart-button:hover,
+[data-template^="product"] button[name="add"]:hover {
+  transform: translate(-2px, -2px);
+}
+[data-template^="product"] add-to-cart-component .button:active,
+[data-template^="product"] .add-to-cart-button:active,
+[data-template^="product"] button[name="add"]:active {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 var(--try);
+}

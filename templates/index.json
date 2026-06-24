@@ -7,13 +7,6 @@
  */
 {
   "sections": {
-    "announcement": {
-      "type": "sc-announcement",
-      "settings": {
-        "surface": "pitch",
-        "text": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
-      }
-    },
     "hero": {
       "type": "sc-home-hero",
       "settings": {
@@ -149,7 +142,6 @@
     }
   },
   "order": [
-    "announcement",
     "hero",
     "marquee",
     "featured",
