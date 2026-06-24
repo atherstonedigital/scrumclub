@@ -7,7 +7,7 @@
   link-based (no JS); sorting is a JS-enhanced select.
 
   The fit bar + chips appear once the relevant filters are enabled in admin
-  (Search & Discovery). The fit filter expects the `sc.fit` metafield as a
+  (Search & Discovery). The fit filter expects the `scc.fit` metafield as a
   storefront filter (§6 #1). Degrades to placeholders when empty.
 {%- endcomment -%}
 
@@ -17,7 +17,7 @@
 
   assign fit_filter = null
   for f in collection.filters
-    if f.param_name contains 'sc.fit' or f.label == 'Fit'
+    if f.param_name contains 'scc.fit' or f.label == 'Fit'
       assign fit_filter = f
     endif
   endfor

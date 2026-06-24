@@ -32,7 +32,8 @@ Already built and committed — **do not recreate** (the token layer, `sc/brand-
 - **Homepage** (`templates/index.json`): `sc-home-hero`, `sc-marquee`, `sc-featured-collection` (+ `snippets/sc-product-card` + `assets/sc-product-card.css`), `sc-media-text`, `sc-shop-by-fit`, `sc-shop-the-look`, `sc-journal`, `sc-trust-row`, `sc-newsletter`.
 - **Chrome (Phase B started)**: `header-group.json` uses the site-wide `sc-announcement`; `footer-group.json` restyled to pitch with Shop/Club/Support columns (menus `footer-shop` / `footer-club` / `footer-support` to be created in admin).
 - **Support pages**: `sc-page-header`, `sc-rich-text`, `sc-founders`, `sc-faq`, `sc-size-guide` + templates `page.about` / `page.commitment` / `page.faq` / `page.size-guide`.
-- **PDP** (`templates/product.json`, §3.2): reuses Pitch media/variant/buy blocks; brand blocks `blocks/sc-pdp-eyebrow`, `sc-pdp-title`, `sc-pdp-spec`, and the reusable `sc-trust-5pct` (§3.3); restyle in `assets/sc-pdp.css`. References `product.metafields.sc.*` with fallbacks — namespace `sc` still to be confirmed (§6 #1).
+- **PDP** (`templates/product.json`, §3.2): reuses Pitch media/variant/buy blocks; brand blocks `blocks/sc-pdp-eyebrow`, `sc-pdp-title`, `sc-pdp-spec`, and the reusable `sc-trust-5pct` (§3.3); restyle in `assets/sc-pdp.css`. References `product.metafields.scc.*` with fallbacks.
+- **PLP** (`templates/collection.json`, §3.6): `sc-collection` — native filtering/sorting/pagination rendered with `sc-product-card`; fem/men fit bar driven by the `scc.fit` filter.
 
 ### Step 0 before any new section work — verify the token layer
 Run `shopify theme dev` and confirm on a real page:
@@ -148,7 +149,7 @@ Define on the store (via the Shopify MCP connector or admin), then reference in 
 | `made_in` | single line | "United Kingdom" — **verify, currently a placeholder** |
 | `house` | single line / list | Scrum Club (future: ScrumChic, ScrumSleek, Strike, Scrumdog, Grit) |
 
-**Namespace is an open decision (§6). Recommended: `sc`** — survives across the houses and won't collide with app metafields that dump into `custom`. Confirm before the PDP build hard-codes references.
+**Namespace: `scc`** (Scrum Club) — resolved 2026-06-24. A dedicated, brand-owned namespace that won't collide with app metafields that dump into `custom`. All theme Liquid references `product.metafields.scc.*`. Keys: `fit` (Fem-Fit / Men-Fit), `made_in`, `sku_code`, `house`. Storefronts access ON (required for filtering + Liquid).
 
 ---
 
@@ -160,7 +161,7 @@ Define on the store (via the Shopify MCP connector or admin), then reference in 
 - ✅ **Brand model:** one brand now (Scrum Club; Fem-Fit / Men-Fit are fits, not sub-brands). ScrumChic / ScrumSleek deferred (tokens reserved).
 
 **Still open:**
-1. **Metafield namespace:** `custom` vs `sc`. Recommend `sc`. *(Blocks PDP.)*
+1. ✅ **Metafield namespace:** resolved — **`scc`** (2026-06-24). Theme references `product.metafields.scc.*`.
 2. **Sizing storage format:** text ranges vs split min/max integers for `chest_cm`/`length_cm`. *(Blocks the PDP sizing table.)*
 3. **Club Rugby Package page type:** buyable product, bespoke-quote enquiry form, or content page. Appears in mock nav + footer (and a "Kit Builder ↗"). *(Blocks that page.)*
 4. **Kids items (SC010, SC011):** in Phase 1 scope? *(Affects catalogue + collections.)*

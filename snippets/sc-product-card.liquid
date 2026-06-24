@@ -8,7 +8,7 @@
     product   - a product object (required)
     eyebrow   - optional override for the eyebrow line
 
-  Fit eyebrow resolves: explicit param -> sc.fit metafield -> product.type.
+  Fit eyebrow resolves: explicit param -> scc.fit metafield -> product.type.
   Namespace `sc` is the recommended default (§6 open #1) — referenced with
   fallbacks so absence never renders an empty label.
 {%- endcomment -%}
@@ -17,7 +17,7 @@
   assign p = product
   assign fit = eyebrow
   if fit == blank
-    assign fit = p.metafields.sc.fit
+    assign fit = p.metafields.scc.fit
   endif
   if fit == blank
     assign fit = p.type
