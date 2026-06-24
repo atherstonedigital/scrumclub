@@ -39,6 +39,63 @@ body {
   --font-accent--weight: 800;
 }
 
+/* ---- Brand colour scheme site-wide ------------------------------- */
+/* Override the --color-* custom properties that color-palette.liquid
+   generates from theme settings, so every native Pitch surface (page,
+   buttons, inputs, variant pickers, drawers, and the Phase B templates —
+   cart / search / account / 404) uses the brand palette. This is the
+   §0.3-compliant path: brand colour lives in CODE here, NOT in the admin
+   colour picker (which misrenders the warm --paper value). Hex values
+   reference tokens; the companion *-rgb triplets must be literal (CSS
+   can't derive them) and mirror the same token values. */
+:root {
+  --color-background: var(--paper);
+  --color-background-rgb: 244 241 236;       /* --paper */
+  --color-foreground: var(--steel);
+  --color-foreground-rgb: 42 45 51;          /* --steel */
+  --color-border: var(--bone);
+  --color-border-rgb: 212 207 194;           /* --bone */
+  --palette-lightest: var(--paper);
+  --palette-lightest-rgb: 244 241 236;
+  --palette-darkest: var(--pitch);
+  --palette-darkest-rgb: 11 11 14;           /* --pitch */
+
+  --color-primary-button-background: var(--try);
+  --color-primary-button-text: var(--paper);
+  --color-primary-button-border: var(--try);
+  --color-primary-button-focus-outline: var(--try);
+  --color-primary-button-hover-background: var(--try-bright);
+  --color-primary-button-hover-text: var(--paper);
+  --color-primary-button-hover-border: var(--try-bright);
+
+  --color-secondary-button-background: transparent;
+  --color-secondary-button-text: var(--steel);
+  --color-secondary-button-border: var(--steel);
+  --color-secondary-button-hover-background: var(--steel);
+  --color-secondary-button-hover-text: var(--paper);
+  --color-secondary-button-hover-border: var(--steel);
+
+  --color-input-background: var(--paper);
+  --color-input-text: var(--steel);
+  --color-input-text-rgb: 42 45 51;
+  --color-input-border: var(--bone);
+
+  --color-variant-background: var(--paper);
+  --color-variant-text: var(--steel);
+  --color-variant-text-rgb: 42 45 51;
+  --color-variant-border: var(--bone);
+  --color-variant-hover-background: var(--chalk);
+  --color-variant-hover-text: var(--steel);
+  --color-variant-hover-border: var(--steel);
+
+  --color-selected-variant-background: var(--pitch);
+  --color-selected-variant-text: var(--paper);
+  --color-selected-variant-border: var(--pitch);
+  --color-selected-variant-hover-background: var(--mud);
+  --color-selected-variant-hover-text: var(--paper);
+  --color-selected-variant-hover-border: var(--mud);
+}
+
 /* ---- Brand surfaces ---------------------------------------------- */
 .sc-paper { background: var(--paper); color: var(--on-surface); }
 .sc-pitch { background: var(--pitch); color: var(--on-invert); }
