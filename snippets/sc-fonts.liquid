@@ -1,0 +1,21 @@
+{%- comment -%}
+  sc-fonts.liquid — Scrum Club web font load
+  ------------------------------------------------------------------
+  Loads the brand type stack. Referenced by the token layer via
+  layout/theme.liquid. Do not load these fonts anywhere else.
+
+    Anton            -> display headings (CAPS only)        --font-display
+    Saira Condensed  -> eyebrows / pills / labels           --font-eyebrow
+    Archivo          -> body copy                           --font-body
+    JetBrains Mono   -> spec lines (SKU, made-in, %)         --font-mono
+
+  Self-hosting these later (Shopify font_url / local woff2) removes the
+  third-party request and the FOUT; kept on Google Fonts for now so the
+  stack is editable without re-uploading assets. Flag for launch QA.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Saira+Condensed:wght@500;600;700&display=swap"
+>

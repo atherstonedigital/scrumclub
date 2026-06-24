@@ -1,0 +1,114 @@
+{%- comment -%}
+  sc-brand-tokens.liquid — Scrum Club design tokens (source of truth)
+  ==================================================================
+  CSS custom properties for the whole build. Reference these everywhere
+  (var(--try), var(--font-display), var(--s-5)); never hard-code a hex,
+  font stack, or spacing value in a section/block. If a value is missing,
+  ADD IT HERE — do not localise it.
+
+  Values mirror the realised homepage mock (Scrum_Club_Homepage_Mock_1,
+  "Prestige"), which is the concrete source of truth and reconciles the
+  brand deck with the original guidelines:
+
+    • PAPER-LED canvas (--paper #F4F1EC) with dark --pitch bands
+      (hero, inverted sections) and a red --try marquee.
+    • --try (ScrumClub red) is THE accent — the 5% "whistle".
+    • --turf (green) and --whistle (yellow) are sparing functional accents.
+
+  Brand model = ONE BRAND for now. --chic / --sleek are reserved for the
+  future sub-lines and are NOT used in primary UI yet.
+{%- endcomment -%}
+<style>
+  :root {
+    /* ---- Surfaces (paper-led; ~80% paper-or-pitch) ---- */
+    --paper: #F4F1EC;  /* primary canvas — warm off-white (Horizon colour-bug value) */
+    --pitch: #0B0B0E;  /* dark band surface — hero, inverted sections, footer */
+    --mud:   #1A1814;  /* deepest brown-black — full-bleed accents */
+    --steel: #2A2D33;  /* body-copy ink on paper / raised dark cards */
+    --grit:  #5A5E66;  /* muted text, hairlines */
+    --fog:   #9CA0A8;  /* dimmed text on --pitch */
+    --bone:  #D4CFC2;  /* warm mid neutral — borders, fills on paper */
+    --chalk: #E9E5DC;  /* light text/fills on dark */
+
+    /* ---- Accents (the ~5% whistle — CTAs and single accents only) ---- */
+    --try:        #E1261C;  /* ScrumClub red — PRIMARY accent */
+    --try-bright: #FF3A2D;  /* hover */
+    --crimson:    #8C1410;  /* pressed */
+    --turf:       #2F6F3E;  /* green — sparing functional accent */
+    --whistle:    #F5C518;  /* yellow — sparing functional accent / slash */
+
+    /* ---- Sub-line accents (deferred — token only, not primary UI yet) ---- */
+    --chic:  #D01060;  /* ScrumChic magenta (from deck) */
+    --sleek: #5FA0A0;  /* ScrumSleek teal (from deck) */
+
+    /* ---- Semantic aliases ---- */
+    --surface:        var(--paper);
+    --surface-invert: var(--pitch);
+    --on-surface:     var(--steel);
+    --on-invert:      var(--paper);
+    --on-invert-dim:  var(--fog);
+    --accent:         var(--try);
+    --border:         var(--bone);
+    --border-invert:  rgba(255,255,255,.14);
+
+    /* ---- Type stack ---- */
+    --font-display: 'Anton', Impact, sans-serif;                       /* CAPS only */
+    --font-action:  'Saira Condensed', 'Arial Narrow', sans-serif;     /* eyebrows / pills / buttons — 800 italic */
+    --font-body:    'Archivo', system-ui, -apple-system, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+    /* ---- Type scale (clamped, fluid) ---- */
+    --fs-display:  clamp(72px, 11vw, 168px);  /* hero — lh .86 / -.01em */
+    --fs-h1:       clamp(48px, 6vw, 96px);    /* lh .9 / -.005em */
+    --fs-h2:       clamp(30px, 4vw, 52px);
+    --fs-h3:       clamp(22px, 2.4vw, 32px);
+    --fs-marquee:  clamp(28px, 4vw, 52px);
+    --fs-body:     16px;
+    --fs-small:    14px;
+    --fs-eyebrow:  13px;   /* uppercase italic, tracked .18em */
+    --fs-mono:     13px;   /* spec lines */
+    --fs-label:    10px;   /* mono placeholder/utility labels, tracked .14em */
+
+    --lh-display:    0.86;
+    --lh-h1:         0.90;
+    --lh-body:       1.55;
+    --track-display: -0.01em;
+    --track-h1:      -0.005em;
+    --track-eyebrow: 0.18em;
+    --measure:       64ch;   /* max body line length */
+
+    /* ---- Spacing scale ---- */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+    --s-8: 64px;
+    --s-9: 96px;
+    --s-10:128px;
+    /* responsive page gutter: 24 / 48 / 80 (mobile / tablet / desktop) */
+    --gutter: clamp(24px, 6vw, 80px);
+    --wrap:   1480px;   /* max content width */
+
+    /* ---- Radii (restrained; pills for tags only) ---- */
+    --r-0: 0;
+    --r-1: 2px;
+    --r-2: 4px;
+    --r-3: 8px;
+    --r-4: 16px;
+    --r-pill: 999px;
+
+    /* ---- Shadow ---- */
+    --cut:         6px 6px 0 var(--try);          /* hero CTAs + stat blocks only */
+    --shadow-soft: 0 12px 40px rgba(0,0,0,.45);   /* modals / drawers only */
+
+    /* ---- Motion ---- */
+    --ease-tackle: cubic-bezier(0.85, 0, 0.15, 1);   /* buttons / toggles / state */
+    --ease-kick:   cubic-bezier(0.22, 1, 0.36, 1);   /* reveals */
+    --dur-fast: 180ms;
+    --dur-base: 320ms;
+    --dur-kick: 520ms;
+  }
+</style>

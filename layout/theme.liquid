@@ -31,6 +31,18 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-palette' -%}
 
+    {%- comment -%}
+      Scrum Club brand token layer — the ONLY custom include in this core
+      file (see CLAUDE.md §0.1 / §1). Loaded after Pitch's own variables and
+      colour palette so brand tokens win the cascade. Order matters:
+        1. sc-fonts        — load the type stack
+        2. sc-brand-tokens — :root custom properties (source of truth)
+        3. sc-brand.css    — utilities + base restyle, consuming the tokens
+    {%- endcomment -%}
+    {%- render 'sc-fonts' -%}
+    {%- render 'sc-brand-tokens' -%}
+    {{ 'sc-brand.css' | asset_url | stylesheet_tag }}
+
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}
