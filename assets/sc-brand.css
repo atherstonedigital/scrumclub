@@ -21,6 +21,24 @@ body {
   line-height: var(--lh-body);
 }
 
+/* ---- Brand fonts site-wide --------------------------------------- */
+/* Remap Pitch's own font variables to the brand stack so every native
+   theme surface (cart, search, account, collection list, 404, header,
+   footer) inherits Anton / Saira / Archivo. Loaded after Pitch's
+   theme-styles-variables, so these win. Sizes/spacing stay Pitch's. */
+:root {
+  --font-body--family: var(--font-body);
+  --font-body--weight: 400;
+  --font-paragraph--family: var(--font-body);
+  --font-primary--family: var(--font-body);
+  --font-heading--family: var(--font-display);
+  --font-heading--weight: 400;
+  --font-subheading--family: var(--font-action);
+  --font-subheading--weight: 800;
+  --font-accent--family: var(--font-action);
+  --font-accent--weight: 800;
+}
+
 /* ---- Brand surfaces ---------------------------------------------- */
 .sc-paper { background: var(--paper); color: var(--on-surface); }
 .sc-pitch { background: var(--pitch); color: var(--on-invert); }

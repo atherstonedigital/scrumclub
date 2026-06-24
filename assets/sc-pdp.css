@@ -7,23 +7,7 @@
    settings — here we handle the brand layout, type and cut-shadow.
    ================================================================== */
 
-/* Remap Pitch's font variables to brand fonts — scoped to the product
-   template so every native block (price, buttons, quantity, disclosures,
-   recommendations) inherits Anton / Saira / Archivo without touching each
-   class. Custom properties cascade from <main data-template="product">. */
-[data-template^="product"] {
-  --font-body--family: var(--font-body);
-  --font-body--weight: 400;
-  --font-paragraph--family: var(--font-body);
-  --font-primary--family: var(--font-body);
-  --font-heading--family: var(--font-display);
-  --font-heading--weight: 400;
-  --font-subheading--family: var(--font-action);
-  --font-subheading--weight: 800;
-  --font-accent--family: var(--font-action);
-  --font-accent--weight: 800;
-}
-
+/* Brand fonts are remapped globally in sc-brand.css; PDP just adds colour. */
 /* Colour consistency on the paper PDP surface. */
 [data-template^="product"] .compare-at-price,
 [data-template^="product"] .tax-note,
