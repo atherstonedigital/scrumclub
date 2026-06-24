@@ -11,49 +11,11 @@
   "type": "header",
   "name": "Header",
   "sections": {
-    "header_announcements_kcHY6p": {
-      "type": "header-announcements",
-      "blocks": {
-        "announcement_MHUQgy": {
-          "type": "_announcement",
-          "name": "t:names.announcement",
-          "settings": {
-            "text": "Sign up for our newsletter",
-            "link": "shopify://pages/contact",
-            "font": "var(--font-body--family)",
-            "font_size": "var(--font-size--body-sm)",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        },
-        "announcement_UNyCWD": {
-          "type": "_announcement",
-          "name": "t:names.announcement",
-          "settings": {
-            "text": "Just launched: bestselling skincare bundles",
-            "link": "shopify://collections/all",
-            "font": "var(--font-primary--family)",
-            "font_size": "var(--font-size--body-sm)",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_MHUQgy",
-        "announcement_UNyCWD"
-      ],
+    "sc_announcement": {
+      "type": "sc-announcement",
       "settings": {
-        "speed": 5,
-        "section_width": "full-width",
-        "background_color": "{{ settings.color_palette.color1 }}",
-        "divider_width": 0,
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "surface": "pitch",
+        "text": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
       }
     },
     "header_section": {
@@ -63,7 +25,7 @@
           "type": "_header-logo",
           "static": true,
           "settings": {
-            "hide_logo_on_home_page": true,
+            "hide_logo_on_home_page": false,
             "padding-block-start": 0,
             "padding-block-end": 0
           },
@@ -118,7 +80,7 @@
     }
   },
   "order": [
-    "header_announcements_kcHY6p",
+    "sc_announcement",
     "header_section"
   ]
 }
