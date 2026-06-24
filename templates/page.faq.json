@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "header": {
+      "type": "sc-page-header",
+      "settings": {
+        "surface": "pitch",
+        "eyebrow": "HELP",
+        "heading": "FAQ",
+        "subcopy": "<p>Fit, sizing, shipping and the 5%. Can't find it? <a href=\"/pages/contact\">Get in touch</a>.</p>"
+      }
+    },
+    "faq": {
+      "type": "sc-faq",
+      "settings": { "eyebrow": "HELP", "heading": "Frequently asked" },
+      "blocks": {
+        "fit": { "type": "qa", "settings": { "question": "What's the difference between Fem-Fit and Men-Fit?", "answer": "<p>Fem-Fit is drafted from a women's body block — not a resized men's pattern. Men-Fit uses a men's block. They're separate products, so choose by the fit you want.</p>" } },
+        "size": { "type": "qa", "settings": { "question": "How do I choose my size?", "answer": "<p>See our <a href=\"/pages/size-guide\">size guide</a>. Fem-Fit runs in numeric sizes 6–14; Men-Fit in S–XL. If you're between sizes, size up for layering under match kit.</p>" } },
+        "uk": { "type": "qa", "settings": { "question": "Is your kit really made in the UK?", "answer": "<p>Our garments are cut and sewn in Britain and carry a \"Made in UK\" label. (Sourcing is confirmed per line before launch.)</p>" } },
+        "five": { "type": "qa", "settings": { "question": "What is the 5% commitment?", "answer": "<p>Five percent of every order funds research into women's rugby — injury prevention, performance and participation. It's audited annually and reported openly. <a href=\"/pages/the-5-percent\">Read more</a>.</p>" } },
+        "ship": { "type": "qa", "settings": { "question": "Shipping and returns?", "answer": "<p>Free UK shipping over £75. Unworn items can be returned within 30 days. See our shipping & returns policy for details.</p>" } },
+        "care": { "type": "qa", "settings": { "question": "How should I care for my kit?", "answer": "<p>Cold wash, inside out, no fabric softener, hang to dry. It's built to take a season of contact — treat it well and it lasts.</p>" } }
+      },
+      "block_order": ["fit", "size", "uk", "five", "ship", "care"]
+    }
+  },
+  "order": ["header", "faq"]
+}

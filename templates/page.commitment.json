@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "header": {
+      "type": "sc-page-header",
+      "settings": {
+        "surface": "pitch",
+        "eyebrow": "WHY WE EXIST",
+        "heading": "The 5% commitment",
+        "subcopy": "<p>A cut of every order, every year — funding research into women's rugby. Audited annually and reported in the open.</p>"
+      }
+    },
+    "what": {
+      "type": "sc-rich-text",
+      "settings": {
+        "surface": "paper",
+        "eyebrow": "WHAT IT IS",
+        "heading": "Five percent. Every order. Every year.",
+        "body": "<p>Five percent of every order funds research into women's rugby — injury prevention, performance and participation. It isn't a one-off campaign or a rounding-up at checkout. It's a standing commitment, built into how the business runs.</p><p>The figure is audited annually and reported openly, so you can see where it went.</p>"
+      }
+    },
+    "where": {
+      "type": "sc-rich-text",
+      "settings": {
+        "surface": "paper",
+        "eyebrow": "WHERE IT GOES",
+        "heading": "Injury prevention, performance, participation",
+        "body": "<p>Women's rugby has historically been under-researched — from kit drafted off men's patterns to injury data that didn't reflect the women's game. The 5% backs work that changes that.</p><p>A plain accounting of each year's contribution is published in the Journal.</p>",
+        "cta_label": "Read the latest report",
+        "cta_link": "/blogs/journal"
+      }
+    }
+  },
+  "order": ["header", "what", "where"]
+}
