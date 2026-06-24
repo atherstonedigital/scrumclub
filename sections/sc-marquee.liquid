@@ -1,0 +1,121 @@
+{%- comment -%}
+  sc-marquee.liquid — Scrum Club scrolling tagline band (CLAUDE.md §3.4)
+  ------------------------------------------------------------------
+  Red --try band, Anton uppercase, seamless infinite scroll. Default copy
+  is the locked tagline (full stops, caps). Two identical tracks give a
+  seamless loop; animation is paused under prefers-reduced-motion.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign sep = s.separator | default: '/'
+  assign phrases = s.text | split: '|'
+-%}
+
+{%- capture track -%}
+  {%- for i in (1..6) -%}
+    {%- for phrase in phrases -%}
+      <span class="sc-marquee__item">{{ phrase | strip | escape }}</span>
+      <span class="sc-marquee__sep" aria-hidden="true">{{ sep | escape }}</span>
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<section
+  class="sc-marquee sc-marquee--{{ s.surface }}"
+  style="--marquee-speed: {{ s.speed }}s;"
+  aria-label="{{ s.text | replace: '|', '. ' | strip }}"
+>
+  <div class="sc-marquee__track" aria-hidden="false">{{ track }}</div>
+  <div class="sc-marquee__track" aria-hidden="true">{{ track }}</div>
+</section>
+
+{% stylesheet %}
+  .sc-marquee {
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    user-select: none;
+  }
+  .sc-marquee--try { background: var(--try); color: var(--paper); }
+  .sc-marquee--pitch { background: var(--pitch); color: var(--paper); }
+  .sc-marquee--paper { background: var(--paper); color: var(--pitch); }
+  .sc-marquee__track {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    will-change: transform;
+    animation: sc-marquee-slide var(--marquee-speed, 26s) linear infinite;
+  }
+  .sc-marquee__item,
+  .sc-marquee__sep {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--fs-marquee);
+    line-height: 1;
+    padding-block: 18px;
+    letter-spacing: 0.01em;
+  }
+  .sc-marquee__sep {
+    padding-inline: 28px;
+    opacity: 0.55;
+  }
+  @keyframes sc-marquee-slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-marquee__track { animation: none; }
+    .sc-marquee__track[aria-hidden="true"] { display: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Marquee",
+  "tag": "section",
+  "class": "sc-section sc-marquee-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "try", "label": "Try-red" },
+        { "value": "pitch", "label": "Pitch (dark)" },
+        { "value": "paper", "label": "Paper (light)" }
+      ],
+      "default": "try"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Phrases",
+      "info": "Separate phrases with a pipe ( | ).",
+      "default": "PLAY STRONG.|LOOK FIERCE.|BE UNSTOPPABLE."
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "/"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll duration",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "default": 26
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Marquee"
+    }
+  ]
+}
+{% endschema %}

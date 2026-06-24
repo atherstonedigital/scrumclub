@@ -1,0 +1,283 @@
+{%- comment -%}
+  sc-home-hero.liquid — Scrum Club home hero / manifesto (CLAUDE.md §3.1)
+  ------------------------------------------------------------------
+  First real composition + token-layer smoke test. Mirrors the homepage
+  mock's pitch hero: Anton display headline with optional red accent,
+  Saira 800-italic eyebrow, primary (cut-shadow) + ghost CTAs, faint
+  watermark mark, hero reveal on enter. Brand values come from the token
+  layer (var(--...)); only instance values are inlined.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = false
+  if s.surface == 'pitch'
+    assign is_pitch = true
+  endif
+  assign overlay = s.overlay_opacity | divided_by: 100.0
+-%}
+
+<section
+  class="sc-home-hero {% if is_pitch %}sc-pitch is-pitch{% else %}sc-paper{% endif %}"
+  style="--hero-min-h: {{ s.min_height }}vh; --hero-overlay: {{ overlay }};"
+>
+  {%- if s.background_image != blank -%}
+    <div class="sc-home-hero__media">
+      {{
+        s.background_image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          class: 'sc-home-hero__img',
+          alt: s.background_image.alt | default: s.headline
+      }}
+      <span class="sc-home-hero__scrim" aria-hidden="true"></span>
+    </div>
+  {%- else -%}
+    {%- comment -%} No final photography yet — flag, don't fake (§0.5). {%- endcomment -%}
+    <div class="sc-home-hero__ph" aria-hidden="true">
+      <span>Photography TBC — hero shoot</span>
+    </div>
+  {%- endif -%}
+
+  {%- if s.watermark_image != blank -%}
+    {{
+      s.watermark_image
+      | image_url: width: 1200
+      | image_tag: loading: 'lazy', class: 'sc-home-hero__wm', alt: ''
+    }}
+  {%- endif -%}
+
+  <div class="sc-wrap sc-home-hero__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow{% if is_pitch %} muted{% endif %} sc-home-hero__eyebrow">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+
+    {%- if s.headline != blank -%}
+      <h1 class="sc-display sc-home-hero__headline">
+        {{- s.headline | escape -}}
+        {%- if s.accent_word != blank -%}
+          <span class="red">{{ s.accent_word | escape }}</span>
+        {%- endif -%}
+      </h1>
+    {%- endif -%}
+
+    {%- if s.subcopy != blank -%}
+      <div class="sc-body sc-home-hero__subcopy">{{ s.subcopy }}</div>
+    {%- endif -%}
+
+    {%- if s.cta_primary_label != blank or s.cta_secondary_label != blank -%}
+      <div class="sc-home-hero__ctas">
+        {%- if s.cta_primary_label != blank -%}
+          <a class="sc-btn sc-btn--primary" href="{{ s.cta_primary_link | default: '#' }}">
+            {{- s.cta_primary_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if s.cta_secondary_label != blank -%}
+          <a
+            class="sc-btn sc-btn--ghost{% if is_pitch %} on-pitch{% endif %}"
+            href="{{ s.cta_secondary_link | default: '#' }}"
+          >
+            {{- s.cta_secondary_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-home-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: var(--hero-min-h, 88vh);
+    overflow: hidden;
+  }
+  .sc-home-hero.is-pitch {
+    background: linear-gradient(180deg, #0d0d11, var(--pitch));
+  }
+  .sc-home-hero__media,
+  .sc-home-hero__ph {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .sc-home-hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .sc-home-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--pitch);
+    opacity: var(--hero-overlay, 0.55);
+  }
+  .sc-home-hero__ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 18px, rgba(255, 255, 255, 0.02) 18px 19px),
+      var(--mud);
+  }
+  .sc-home-hero__ph span {
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fog);
+    border: 1px dashed var(--grit);
+    padding: 6px 10px;
+    border-radius: var(--r-1);
+  }
+  .sc-home-hero__wm {
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 118%;
+    width: auto;
+    opacity: 0.06;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .sc-home-hero__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 980px;
+    padding-block: var(--s-9) var(--s-8);
+  }
+  .sc-home-hero__eyebrow { margin-bottom: var(--s-4); }
+  .sc-home-hero__headline { margin-bottom: var(--s-5); }
+  .sc-home-hero.is-pitch .sc-home-hero__headline { color: var(--paper); }
+  .sc-home-hero__headline .red { color: var(--try); }
+  .sc-home-hero__subcopy { margin-bottom: var(--s-6); }
+  .sc-home-hero.is-pitch .sc-home-hero__subcopy { color: var(--fog); }
+  .sc-home-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Home Hero",
+  "tag": "section",
+  "class": "sc-section sc-home-hero-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "pitch", "label": "Pitch (dark)" },
+        { "value": "paper", "label": "Paper (light)" }
+      ],
+      "default": "pitch"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 2,
+      "unit": "vh",
+      "default": 88
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "AW26 · MATCHDAY DROP"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Built for the women's game."
+    },
+    {
+      "type": "text",
+      "id": "accent_word",
+      "label": "Accent word (red, optional)",
+      "info": "Appended to the headline in Try-red."
+    },
+    {
+      "type": "richtext",
+      "id": "subcopy",
+      "label": "Subcopy",
+      "default": "<p>Rugby kit and protective wear drafted from a women's body block — not shrunk down from a men's one. Tested in the mud. Made in the UK.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "Shop the range"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "Explore Fem-Fit"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Leave blank to show a 'Photography TBC' placeholder."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "image_picker",
+      "id": "watermark_image",
+      "label": "Watermark mark (optional)",
+      "info": "Faint SC mark, top-right. Renders at 6% opacity."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Home Hero"
+    }
+  ]
+}
+{% endschema %}
