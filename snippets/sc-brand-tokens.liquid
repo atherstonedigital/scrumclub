@@ -1,0 +1,101 @@
+{%- comment -%}
+  sc-brand-tokens.liquid — Scrum Club design tokens (source of truth)
+  ==================================================================
+  CSS custom properties for the whole build. Reference these everywhere
+  (var(--try), var(--font-display), var(--s-5)); never hard-code a hex,
+  font stack, or spacing value in a section/block. If a value is missing,
+  ADD IT HERE — do not localise it.
+
+  COLOUR VALUES are sampled from the brand deck (SCRUMCLUB.pdf, June 2026),
+  which is the governing visual source: black surfaces, halftone motif,
+  per-house accent colours. Type scale, spacing, radii, shadow and motion
+  are engineering defaults (no brand-doc spec exists for them yet).
+
+  Brand model = ONE BRAND for now: ScrumClub red (--try) is THE accent.
+  --chic (magenta) and --sleek (teal) are defined for the future sub-lines
+  but are NOT used as primary UI colour yet.
+{%- endcomment -%}
+<style>
+  :root {
+    /* ---- Surfaces (deck: black-led, ~80% of any composition) ---- */
+    --ink:        #000000;  /* true black — full-bleed media, footer */
+    --pitch:      #0B0B0B;  /* primary near-black surface (screen-comfort black) */
+    --steel:      #161616;  /* raised dark surface — cards, drawers */
+    --grit:       #606060;  /* mid grey — muted text, hairline borders (sampled) */
+    --chalk:      #F2F2F0;  /* off-white — light surfaces / inverted text (sampled #F0F0F0) */
+    --chalk-dim:  #C9C9C9;  /* muted light text on dark */
+
+    /* ---- Accents (the 5% whistle — CTAs and single accents only) ---- */
+    --try:        #D00000;  /* ScrumClub red — PRIMARY accent (sampled) */
+    --try-bright: #E11414;  /* hover */
+    --crimson:    #A50000;  /* pressed */
+
+    /* ---- Sub-line accents (deferred — token only, not primary UI yet) ---- */
+    --chic:       #D01060;  /* ScrumChic magenta (sampled) */
+    --sleek:      #5FA0A0;  /* ScrumSleek teal (sampled) */
+    --gold:       #C99A3A;  /* slash gold — APPROXIMATE, confirm vs source artwork */
+
+    /* ---- Semantic aliases ---- */
+    --surface:       var(--pitch);
+    --surface-raised:var(--steel);
+    --on-surface:    var(--chalk);
+    --on-surface-dim:var(--chalk-dim);
+    --accent:        var(--try);
+    --border:        rgba(255,255,255,.12);
+
+    /* ---- Type stack (see sc-fonts.liquid) ---- */
+    --font-display: 'Anton', 'Arial Narrow', sans-serif;          /* CAPS only */
+    --font-eyebrow: 'Saira Condensed', 'Arial Narrow', sans-serif;
+    --font-body:    'Archivo', system-ui, -apple-system, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+    /* ---- Type scale (clamped, fluid) ---- */
+    --fs-hero:   clamp(72px, 11vw, 168px);  /* hero display, line-height 0.86, -0.01em */
+    --fs-h1:     clamp(40px, 6vw, 80px);
+    --fs-h2:     clamp(30px, 4vw, 52px);
+    --fs-h3:     clamp(22px, 2.4vw, 32px);
+    --fs-body:   clamp(16px, 1.1vw, 18px);
+    --fs-small:  14px;
+    --fs-eyebrow:14px;   /* uppercase, tracked */
+    --fs-mono:   13px;
+
+    --lh-display: 0.86;
+    --lh-body:    1.55;
+    --track-display: -0.01em;
+    --track-eyebrow: 0.14em;
+    --measure: 64ch;     /* max body line length */
+
+    /* ---- Spacing scale ---- */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+    --s-8: 64px;
+    --s-9: 96px;
+    --s-10:128px;
+    /* responsive page gutter: 24 / 48 / 80 (mobile / tablet / desktop) */
+    --gutter: clamp(24px, 6vw, 80px);
+
+    /* ---- Radii (deck allows rounded badges; UI stays restrained) ---- */
+    --r-0: 0;
+    --r-1: 2px;
+    --r-2: 4px;
+    --r-3: 8px;
+    --r-4: 16px;
+    --r-pill: 999px;   /* tags / chips only */
+
+    /* ---- Shadow ---- */
+    --shadow-cut:  6px 6px 0 var(--try);          /* hero CTAs + stat blocks only */
+    --shadow-soft: 0 12px 40px rgba(0,0,0,.45);   /* modals / drawers only */
+
+    /* ---- Motion ---- */
+    --ease-tackle: cubic-bezier(.2,.8,.2,1);   /* buttons / toggles / state */
+    --ease-kick:   cubic-bezier(.16,1,.3,1);   /* reveals */
+    --dur-fast:  180ms;
+    --dur-base:  320ms;
+    --dur-kick:  520ms;
+  }
+</style>

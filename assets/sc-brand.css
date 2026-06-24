@@ -1,0 +1,175 @@
+/* ==================================================================
+   sc-brand.css — Scrum Club brand utilities + light base restyle
+   ------------------------------------------------------------------
+   Loaded globally via layout/theme.liquid. Pairs with the tokens in
+   snippets/sc-brand-tokens.liquid — every value below references a
+   var(--token); no raw hexes / sizes live here.
+
+   Deck-governed look: black-led surfaces, halftone motif, red accent.
+   Surfaces are applied PER-SECTION via .sc-pitch / .sc-ink (not forced
+   on <body> globally) so this doesn't fight Pitch's section colour
+   schemes or the config/settings_data.json contested zone.
+
+   Block-specific styles belong in that block's {% stylesheet %} or its
+   own assets/sc-<block>.css — keep this file to shared primitives.
+   ================================================================== */
+
+/* ---- Base type (gentle, non-destructive) -------------------------- */
+body {
+  font-family: var(--font-body);
+  line-height: var(--lh-body);
+}
+
+/* ---- Brand surfaces ---------------------------------------------- */
+.sc-ink   { background: var(--ink);   color: var(--on-surface); }
+.sc-pitch { background: var(--pitch); color: var(--on-surface); }
+.sc-pitch a { color: var(--on-surface); }
+/* light island (e.g. logo lockup cards from the deck) */
+.sc-chalk { background: var(--chalk); color: var(--pitch); }
+
+/* ---- Halftone motif (the deck's signature) ----------------------- */
+/* One motif per composition — do not combine with the slash. */
+.sc-halftone {
+  --dot: var(--try);
+  --dot-size: 14px;
+  background-image: radial-gradient(var(--dot) 22%, transparent 23%);
+  background-size: var(--dot-size) var(--dot-size);
+  background-position: 0 0;
+}
+.sc-halftone--fade {            /* dots dissolving across — deck edge treatment */
+  -webkit-mask-image: linear-gradient(90deg, #000, transparent);
+          mask-image: linear-gradient(90deg, #000, transparent);
+}
+
+/* ---- Slash motif ------------------------------------------------- */
+.sc-slash { position: relative; overflow: hidden; }
+.sc-slash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  clip-path: polygon(72% 0, 100% 0, 38% 100%, 10% 100%);
+  pointer-events: none;
+}
+
+/* ---- Typography utilities ---------------------------------------- */
+.sc-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;          /* Anton is CAPS only */
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  text-align: left;                   /* headings never centred */
+}
+.sc-hero { font-size: var(--fs-hero); }
+.sc-h1   { font-size: var(--fs-h1); }
+.sc-h2   { font-size: var(--fs-h2); }
+.sc-h3   { font-size: var(--fs-h3); }
+
+.sc-eyebrow {
+  font-family: var(--font-eyebrow);
+  font-weight: 600;
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--accent);
+}
+
+.sc-body { font-family: var(--font-body); font-size: var(--fs-body); max-width: var(--measure); }
+
+.sc-mono {                              /* spec lines: SKU · MADE IN UK · 5% TO RESEARCH */
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: .02em;
+  color: var(--on-surface-dim);
+}
+
+/* ---- Buttons ----------------------------------------------------- */
+/* Primary CTA: red with the cut-shadow. CTAs + stat blocks only. */
+.sc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-eyebrow);
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--chalk);
+  background: var(--try);
+  border: 0;
+  border-radius: var(--r-1);
+  padding: var(--s-3) var(--s-6);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: var(--shadow-cut);
+  transition: transform var(--dur-fast) var(--ease-tackle),
+              background-color var(--dur-fast) var(--ease-tackle),
+              box-shadow var(--dur-fast) var(--ease-tackle);
+}
+.sc-btn:hover  { background: var(--try-bright); transform: translateY(-2px); }
+.sc-btn:active { background: var(--crimson);    transform: translateY(0); box-shadow: 0 0 0 var(--try); }
+
+.sc-btn--ghost {
+  background: transparent;
+  color: var(--chalk);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.sc-btn--ghost:hover { border-color: var(--chalk); transform: translateY(-2px); }
+
+/* ---- Tags / pills (the ONLY place 999 radius is allowed) --------- */
+.sc-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-eyebrow);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: var(--s-1) var(--s-4);
+  color: var(--on-surface);
+  background: transparent;
+}
+.sc-pill[aria-pressed="true"],
+.sc-pill--active { background: var(--chalk); color: var(--pitch); border-color: var(--chalk); }
+
+/* ---- Card hover: inner border + corner slash, no shadow lift ----- */
+.sc-card {
+  position: relative;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-3);
+  overflow: hidden;
+  transition: border-color var(--dur-base) var(--ease-tackle);
+}
+.sc-card::before {                      /* corner slash, extends on hover */
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 16px; height: 16px;
+  background: var(--accent);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  transition: width var(--dur-base) var(--ease-tackle),
+              height var(--dur-base) var(--ease-tackle);
+}
+.sc-card:hover { border-color: var(--chalk); }
+.sc-card:hover::before { width: 24px; height: 24px; }
+
+/* ---- Layout helpers ---------------------------------------------- */
+.sc-gutter { padding-inline: var(--gutter); }
+.sc-stack > * + * { margin-top: var(--s-5); }
+
+/* ---- Motion: hero reveal (fade + rise 24px, 520ms kick) ---------- */
+@keyframes sc-reveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sc-reveal { animation: sc-reveal var(--dur-kick) var(--ease-kick) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-reveal { animation: none; }
+  .sc-btn, .sc-card, .sc-card::before { transition: none; }
+}
