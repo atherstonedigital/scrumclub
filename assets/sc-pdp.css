@@ -7,6 +7,14 @@
    settings — here we handle the brand layout, type and cut-shadow.
    ================================================================== */
 
+/* Brand fonts are remapped globally in sc-brand.css; PDP just adds colour. */
+/* Colour consistency on the paper PDP surface. */
+[data-template^="product"] .compare-at-price,
+[data-template^="product"] .tax-note,
+[data-template^="product"] .installments { color: var(--grit); }
+[data-template^="product"] .price-item--sale,
+[data-template^="product"] .price-item__group .price-item--last { color: var(--try); }
+
 [data-template^="product"] .sc-pdp-eyebrow { margin-bottom: var(--s-3); }
 
 [data-template^="product"] .sc-pdp-title {
