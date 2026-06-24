@@ -49,7 +49,7 @@ The realised look is **paper-led, not black-led**: a warm `--paper` canvas (~80%
 - **Sharp corners.** Radius 0/2/4/8 only; pills (999) for tags/chips only. Buttons use 2px.
 - **No decorative colour gradients, no glassmorphism** (sticky/transparent header is the only exception). The only sanctioned gradient is the near-black depth on `--pitch` surfaces (e.g. the hero `linear-gradient(180deg,#0d0d11,#0B0B0E)`) and gradients baked into supplied logo art.
 - **Banned words in any copy:** elevate, unleash, redefine, reimagined. No Title Case headings (CAPS or sentence case only). No emoji anywhere in product/marketing/UI.
-- **Tagline is locked, verbatim:** `PLAY STRONG, LOOK FIERCE, BE UNSTOPPABLE` — **commas, caps**, display face, never paraphrased. *(Note: the mock's marquee currently renders it sentence-case with full stops — reconcile to this locked form when building the marquee.)*
+- **Tagline is locked, verbatim:** `PLAY STRONG. LOOK FIERCE. BE UNSTOPPABLE.` — **full stops, caps**, display face, never paraphrased.
 
 Motion (use the existing tokens): `--ease-tackle` `cubic-bezier(.85,0,.15,1)` for buttons/toggles/state; `--ease-kick` `cubic-bezier(.22,1,.36,1)` for reveals. Hero copy fades + translates up 24px on enter (520ms kick). Button hover try→try-bright, translate(-2px,-2px); press→crimson, settles to 0, no shrink. Card hover = 1px inner border + corner slash extends 8px, no shadow lift. No bouncy/wobbly motion.
 
@@ -150,7 +150,7 @@ Define on the store (via the Shopify MCP connector or admin), then reference in 
 
 **Resolved (2026-06-24):**
 - ✅ **Visual source of truth:** the homepage mock governs; deck is the brand input behind it.
-- ✅ **Tagline punctuation:** commas — `PLAY STRONG, LOOK FIERCE, BE UNSTOPPABLE`.
+- ✅ **Tagline punctuation:** full stops — `PLAY STRONG. LOOK FIERCE. BE UNSTOPPABLE.` (matches the mock).
 - ✅ **Brand model:** one brand now (Scrum Club; Fem-Fit / Men-Fit are fits, not sub-brands). ScrumChic / ScrumSleek deferred (tokens reserved).
 
 **Still open:**
