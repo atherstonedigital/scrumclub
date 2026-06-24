@@ -1,0 +1,145 @@
+{%- comment -%}
+  sc-trust-row.liquid — Scrum Club "text with icons" trust row (§3.4)
+  ------------------------------------------------------------------
+  Four short proof points (Made in UK · 5% to research · Contact-tested ·
+  Self-fulfilled). Block-based so the client can edit / reorder items in
+  the editor. Icon is an optional image; falls back to a mono index label.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = false
+  if s.surface == 'pitch'
+    assign is_pitch = true
+  endif
+-%}
+
+<section class="sc-trust-row {% if is_pitch %}sc-pitch{% else %}sc-paper{% endif %}">
+  <div class="sc-wrap sc-trust-row__grid">
+    {%- for block in section.blocks -%}
+      <div class="sc-trust-row__item sc-reveal" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {{
+            block.settings.icon
+            | image_url: width: 96
+            | image_tag: loading: 'lazy', class: 'sc-trust-row__icon', alt: ''
+          }}
+        {%- else -%}
+          <span class="sc-trust-row__index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="sc-eyebrow{% if is_pitch %} muted{% endif %} sc-trust-row__title">{{ block.settings.title | escape }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p class="sc-small sc-trust-row__text">{{ block.settings.text | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-trust-row { padding-block: var(--s-8); }
+  .sc-trust-row__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+  .sc-trust-row__item { border-top: 2px solid var(--try); padding-top: var(--s-4); }
+  .sc-trust-row__icon { width: 40px; height: 40px; object-fit: contain; margin-bottom: var(--s-3); }
+  .sc-trust-row__index {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    color: var(--try);
+    margin-bottom: var(--s-3);
+  }
+  .sc-trust-row__title { margin-bottom: var(--s-2); }
+  .sc-trust-row__text { color: var(--grit); max-width: 32ch; }
+  .sc-trust-row.sc-pitch .sc-trust-row__text { color: var(--fog); }
+
+  @media (min-width: 800px) {
+    .sc-trust-row__grid { grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Trust Row",
+  "tag": "section",
+  "class": "sc-section sc-trust-row-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "paper", "label": "Paper (light)" },
+        { "value": "pitch", "label": "Pitch (dark)" }
+      ],
+      "default": "paper"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Proof point",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Made in the UK"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Cut and sewn in Britain. \"MADE IN UK\" on every label."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "SC Trust Row",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "title": "Made in the UK",
+            "text": "Cut and sewn in Britain. \"MADE IN UK\" on every label."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "5% to research",
+            "text": "Audited annually, reported openly."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Contact-tested",
+            "text": "Protective wear trialled by club players."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Self-fulfilled",
+            "text": "Packed and shipped by us. Free UK over £75."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
