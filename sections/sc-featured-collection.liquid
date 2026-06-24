@@ -1,0 +1,106 @@
+{%- comment -%}
+  sc-featured-collection.liquid — featured product grid (CLAUDE.md §3.4/§3.2)
+  ------------------------------------------------------------------
+  Renders a chosen collection as sc-product-card grid. Degrades to
+  placeholder cards when no collection is set or it's empty, so the band
+  previews before the catalogue exists (§0.5).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign coll = s.collection
+  assign limit = s.product_limit
+  assign products = coll.products
+-%}
+
+{{ 'sc-product-card.css' | asset_url | stylesheet_tag }}
+
+<section class="sc-featured sc-paper">
+  <div class="sc-wrap">
+    <div class="sc-featured__head sc-reveal">
+      <div>
+        {%- if s.eyebrow != blank -%}<p class="sc-eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+        {%- if s.heading != blank -%}<h2 class="sc-h2 sc-featured__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      </div>
+      {%- if s.link_label != blank -%}
+        <a class="sc-featured__all" href="{{ s.link_url | default: coll.url | default: '#' }}">{{ s.link_label | escape }} →</a>
+      {%- endif -%}
+    </div>
+
+    <div class="sc-featured__grid">
+      {%- if products.size > 0 -%}
+        {%- for product in products limit: limit -%}
+          {%- render 'sc-product-card', product: product -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} No collection chosen / empty — show placeholders. {%- endcomment -%}
+        {%- for i in (1..4) -%}
+          <article class="sc-card sc-pcard">
+            <div class="sc-pcard__media"><div class="sc-pcard__ph"><span>Photo TBC</span></div></div>
+            <div class="sc-pcard__body">
+              <p class="sc-eyebrow sc-pcard__eyebrow">FEM-FIT · MATCH</p>
+              <h3 class="sc-pcard__title"><a href="#">Product name {{ i }}</a></h3>
+              <p class="sc-pcard__price">£00</p>
+              <ul class="sc-pcard__sizes"><li class="sc-pcard__size">6</li><li class="sc-pcard__size">8</li><li class="sc-pcard__size">10</li><li class="sc-pcard__size">12</li><li class="sc-pcard__size">14</li></ul>
+              <a class="sc-btn sc-btn--primary sc-pcard__cta" href="#">Add to bag</a>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if products.size == 0 -%}
+      <p class="sc-mono sc-featured__note">Connect a collection in the editor to populate this grid.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-featured { padding-block: var(--s-9); }
+  .sc-featured__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s-4);
+    margin-bottom: var(--s-6);
+  }
+  .sc-featured__heading { margin-top: var(--s-2); }
+  .sc-featured__all {
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 14px;
+    color: var(--try);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .sc-featured__all:hover { color: var(--try-bright); }
+  .sc-featured__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-4);
+  }
+  .sc-featured__note { margin-top: var(--s-5); }
+  @media (min-width: 900px) {
+    .sc-featured__grid { grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Featured Collection",
+  "tag": "section",
+  "class": "sc-section sc-featured-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "IN STOCK NOW · NEW IN" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured collection" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "product_limit", "label": "Products shown", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop all" },
+    { "type": "url", "id": "link_url", "label": "Link URL (defaults to the collection)" }
+  ],
+  "presets": [ { "name": "SC Featured Collection" } ]
+}
+{% endschema %}

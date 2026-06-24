@@ -1,0 +1,82 @@
+{%- comment -%}
+  sc-product-card.liquid — reusable product card (CLAUDE.md §3.2 / §4)
+  ------------------------------------------------------------------
+  Used by the featured collection and (later) the PLP. Degrades
+  gracefully: works with no metafields, no image, single or multi-size.
+
+  Params:
+    product   - a product object (required)
+    eyebrow   - optional override for the eyebrow line
+
+  Fit eyebrow resolves: explicit param -> sc.fit metafield -> product.type.
+  Namespace `sc` is the recommended default (§6 open #1) — referenced with
+  fallbacks so absence never renders an empty label.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = product
+  assign fit = eyebrow
+  if fit == blank
+    assign fit = p.metafields.sc.fit
+  endif
+  if fit == blank
+    assign fit = p.type
+  endif
+
+  assign size_option = null
+  for opt in p.options_with_values
+    assign name_down = opt.name | downcase
+    if name_down == 'size'
+      assign size_option = opt
+    endif
+  endfor
+-%}
+
+<article class="sc-card sc-pcard">
+  <a class="sc-pcard__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+    {%- if p.featured_media != blank -%}
+      {{
+        p.featured_media
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          sizes: '(min-width: 900px) 25vw, 50vw',
+          widths: '300, 450, 600, 800',
+          class: 'sc-pcard__img',
+          alt: p.featured_media.alt | default: p.title
+      }}
+    {%- else -%}
+      <div class="sc-pcard__ph"><span>Photo TBC</span></div>
+    {%- endif -%}
+    {%- if p.available == false -%}
+      <span class="sc-pcard__flag">Sold out</span>
+    {%- endif -%}
+  </a>
+
+  <div class="sc-pcard__body">
+    {%- if fit != blank -%}
+      <p class="sc-eyebrow sc-pcard__eyebrow">{{ fit | escape }}</p>
+    {%- endif -%}
+    <h3 class="sc-pcard__title">
+      <a href="{{ p.url }}">{{ p.title | escape }}</a>
+    </h3>
+    <p class="sc-pcard__price">
+      {%- if p.compare_at_price > p.price -%}
+        <span class="sc-pcard__price-sale">{{ p.price | money }}</span>
+        <s class="sc-pcard__price-was">{{ p.compare_at_price | money }}</s>
+      {%- else -%}
+        {{ p.price | money }}
+      {%- endif -%}
+    </p>
+
+    {%- if size_option -%}
+      <ul class="sc-pcard__sizes" aria-label="Available sizes">
+        {%- for value in size_option.values -%}
+          <li class="sc-pcard__size">{{ value | escape }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <a class="sc-btn sc-btn--primary sc-pcard__cta" href="{{ p.url }}">Add to bag</a>
+  </div>
+</article>

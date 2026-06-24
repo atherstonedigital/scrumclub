@@ -1,13 +1,19 @@
 /*
  * Scrum Club homepage — intentionally Git-authored (CLAUDE.md §0.2).
- * Replaces the Pitch demo content and places the sc-* home sections in the
- * mock's order. Because this file is now owned in Git, manage the homepage
- * layout from ONE source: if you rearrange/merchandise it in the Shopify
- * editor, pull it back and commit (or tell Claude) so the two don't drift
- * and clobber each other.
+ * Places the sc-* home sections in the mock's order. Because this file is
+ * now owned in Git, manage the homepage layout from ONE source: if you
+ * rearrange/merchandise it in the Shopify editor, pull it back and commit
+ * (or tell Claude) so the two don't drift and clobber each other.
  */
 {
   "sections": {
+    "announcement": {
+      "type": "sc-announcement",
+      "settings": {
+        "surface": "pitch",
+        "text": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
+      }
+    },
     "hero": {
       "type": "sc-home-hero",
       "settings": {
@@ -30,6 +36,15 @@
         "speed": 26
       }
     },
+    "featured": {
+      "type": "sc-featured-collection",
+      "settings": {
+        "eyebrow": "IN STOCK NOW · NEW IN",
+        "heading": "Matchday picks",
+        "product_limit": 4,
+        "link_label": "Shop all"
+      }
+    },
     "femfit": {
       "type": "sc-media-text",
       "settings": {
@@ -41,6 +56,38 @@
         "cta_label": "Shop Fem-Fit",
         "placeholder_label": "Photography TBC — Fem-Fit on-body"
       }
+    },
+    "shopbyfit": {
+      "type": "sc-shop-by-fit",
+      "settings": {
+        "surface": "paper",
+        "heading": "SHOP BY FIT"
+      },
+      "blocks": {
+        "fem": {
+          "type": "tile",
+          "settings": { "overline": "WOMEN'S", "label": "Fem-Fit", "cta": "Browse" }
+        },
+        "men": {
+          "type": "tile",
+          "settings": { "overline": "MEN'S", "label": "Men-Fit", "cta": "Browse" }
+        }
+      },
+      "block_order": ["fem", "men"]
+    },
+    "look": {
+      "type": "sc-shop-the-look",
+      "settings": {
+        "eyebrow": "LOOKBOOK",
+        "heading": "Shop the kit",
+        "body": "<p>The full matchday look, built to be worn together. Tap a piece to shop it.</p>",
+        "cta_label": "View the lookbook"
+      },
+      "blocks": {
+        "h1": { "type": "hotspot", "settings": { "x": 38, "y": 30 } },
+        "h2": { "type": "hotspot", "settings": { "x": 58, "y": 62 } }
+      },
+      "block_order": ["h1", "h2"]
     },
     "commitment": {
       "type": "sc-media-text",
@@ -55,11 +102,18 @@
         "placeholder_label": "Photography TBC"
       }
     },
+    "journal": {
+      "type": "sc-journal",
+      "settings": {
+        "eyebrow": "FROM THE CLUB",
+        "heading": "Journal",
+        "post_limit": 3,
+        "link_label": "All stories"
+      }
+    },
     "trust": {
       "type": "sc-trust-row",
-      "settings": {
-        "surface": "paper"
-      },
+      "settings": { "surface": "paper" },
       "blocks": {
         "made": {
           "type": "item",
@@ -70,24 +124,15 @@
         },
         "research": {
           "type": "item",
-          "settings": {
-            "title": "5% to research",
-            "text": "Audited annually, reported openly."
-          }
+          "settings": { "title": "5% to research", "text": "Audited annually, reported openly." }
         },
         "tested": {
           "type": "item",
-          "settings": {
-            "title": "Contact-tested",
-            "text": "Protective wear trialled by club players."
-          }
+          "settings": { "title": "Contact-tested", "text": "Protective wear trialled by club players." }
         },
         "fulfilled": {
           "type": "item",
-          "settings": {
-            "title": "Self-fulfilled",
-            "text": "Packed and shipped by us. Free UK over £75."
-          }
+          "settings": { "title": "Self-fulfilled", "text": "Packed and shipped by us. Free UK over £75." }
         }
       },
       "block_order": ["made", "research", "tested", "fulfilled"]
@@ -103,5 +148,17 @@
       }
     }
   },
-  "order": ["hero", "marquee", "femfit", "commitment", "trust", "newsletter"]
+  "order": [
+    "announcement",
+    "hero",
+    "marquee",
+    "featured",
+    "femfit",
+    "shopbyfit",
+    "look",
+    "commitment",
+    "journal",
+    "trust",
+    "newsletter"
+  ]
 }

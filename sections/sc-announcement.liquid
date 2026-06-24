@@ -1,0 +1,79 @@
+{%- comment -%}
+  sc-announcement.liquid — top announcement strip (CLAUDE.md §3.4)
+  ------------------------------------------------------------------
+  Thin message bar (Made in UK · 5% · free shipping in the mock). Static,
+  pipe-separated messages with separators. For a SITE-WIDE bar, add this
+  to the header group in the editor; placed in index.json it shows on the
+  homepage only.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign messages = s.text | split: '|'
+-%}
+
+<section class="sc-announce sc-announce--{{ s.surface }}">
+  <div class="sc-wrap sc-announce__inner">
+    {%- for message in messages -%}
+      <span class="sc-announce__msg">{{ message | strip | escape }}</span>
+      {%- unless forloop.last -%}<span class="sc-announce__sep" aria-hidden="true">·</span>{%- endunless -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-announce { width: 100%; }
+  .sc-announce--pitch { background: var(--pitch); color: var(--paper); }
+  .sc-announce--try { background: var(--try); color: var(--paper); }
+  .sc-announce--paper { background: var(--paper); color: var(--pitch); border-bottom: 1px solid var(--bone); }
+  .sc-announce__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-3);
+    padding-block: 9px;
+  }
+  .sc-announce__msg {
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 12px;
+  }
+  .sc-announce__sep { opacity: 0.5; }
+  @media (max-width: 600px) {
+    .sc-announce__sep { display: none; }
+    .sc-announce__inner { gap: 4px var(--s-4); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Announcement",
+  "tag": "section",
+  "class": "sc-section sc-announce-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "pitch", "label": "Pitch (dark)" },
+        { "value": "try", "label": "Try-red" },
+        { "value": "paper", "label": "Paper (light)" }
+      ],
+      "default": "pitch"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Messages",
+      "info": "Separate messages with a pipe ( | ).",
+      "default": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
+    }
+  ],
+  "presets": [ { "name": "SC Announcement" } ]
+}
+{% endschema %}
