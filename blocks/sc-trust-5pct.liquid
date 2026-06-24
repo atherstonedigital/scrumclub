@@ -1,0 +1,53 @@
+{%- comment -%}
+  sc-trust-5pct.liquid — reusable 5%-to-research signal (CLAUDE.md §3.3)
+  ------------------------------------------------------------------
+  Author once, place anywhere that accepts @theme blocks (PDP now; later
+  footer/About). Audited fact, not marketing. Theme block.
+{%- endcomment -%}
+
+<aside class="sc-trust5" {{ block.shopify_attributes }}>
+  <span class="sc-display sc-trust5__stat">{{ block.settings.stat | default: '5%' | escape }}</span>
+  <span class="sc-trust5__body">
+    <span class="sc-trust5__text">{{ block.settings.text | default: 'of every order funds women’s rugby research — audited annually, reported openly.' | escape }}</span>
+    {%- if block.settings.link_label != blank -%}
+      <a class="sc-trust5__link" href="{{ block.settings.link | default: '/pages/the-5-percent' }}">{{ block.settings.link_label | escape }} →</a>
+    {%- endif -%}
+  </span>
+</aside>
+
+{% stylesheet %}
+  .sc-trust5 {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-4);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--try);
+    border-radius: var(--r-2);
+    background: transparent;
+  }
+  .sc-trust5__stat { font-size: var(--fs-h2); line-height: 0.86; color: var(--try); flex: 0 0 auto; }
+  .sc-trust5__body { display: flex; flex-direction: column; gap: 4px; }
+  .sc-trust5__text { font-family: var(--font-body); font-size: var(--fs-small); line-height: 1.4; color: var(--steel); }
+  .sc-trust5__link {
+    font-family: var(--font-action); font-weight: 800; font-style: italic;
+    text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px;
+    color: var(--try); text-decoration: none;
+  }
+  .sc-trust5__link:hover { color: var(--try-bright); }
+  .sc-pitch .sc-trust5__text, .sc-mud .sc-trust5__text { color: var(--fog); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC 5% Trust",
+  "tag": null,
+  "settings": [
+    { "type": "text", "id": "stat", "label": "Stat", "default": "5%" },
+    { "type": "text", "id": "text", "label": "Text", "default": "of every order funds women’s rugby research — audited annually, reported openly." },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Read the commitment" },
+    { "type": "url", "id": "link", "label": "Link", "default": "/pages/the-5-percent" }
+  ],
+  "presets": [ { "name": "SC 5% Trust", "category": "Scrum Club" } ]
+}
+{% endschema %}

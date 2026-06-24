@@ -28,6 +28,12 @@ Already built and committed — **do not recreate** (the token layer, `sc/brand-
 
 **These files are the source of truth for all brand values.** Do not duplicate hexes, font stacks, or spacing values into new files — reference the CSS variables (`var(--try)`, `var(--font-display)`, `var(--s-7)` etc.). If a value is missing from the token layer, add it there, don't hard-code it locally.
 
+### Also built (do not recreate)
+- **Homepage** (`templates/index.json`): `sc-home-hero`, `sc-marquee`, `sc-featured-collection` (+ `snippets/sc-product-card` + `assets/sc-product-card.css`), `sc-media-text`, `sc-shop-by-fit`, `sc-shop-the-look`, `sc-journal`, `sc-trust-row`, `sc-newsletter`.
+- **Chrome (Phase B started)**: `header-group.json` uses the site-wide `sc-announcement`; `footer-group.json` restyled to pitch with Shop/Club/Support columns (menus `footer-shop` / `footer-club` / `footer-support` to be created in admin).
+- **Support pages**: `sc-page-header`, `sc-rich-text`, `sc-founders`, `sc-faq`, `sc-size-guide` + templates `page.about` / `page.commitment` / `page.faq` / `page.size-guide`.
+- **PDP** (`templates/product.json`, §3.2): reuses Pitch media/variant/buy blocks; brand blocks `blocks/sc-pdp-eyebrow`, `sc-pdp-title`, `sc-pdp-spec`, and the reusable `sc-trust-5pct` (§3.3); restyle in `assets/sc-pdp.css`. References `product.metafields.sc.*` with fallbacks — namespace `sc` still to be confirmed (§6 #1).
+
 ### Step 0 before any new section work — verify the token layer
 Run `shopify theme dev` and confirm on a real page:
 - Page background renders as warm paper `#F4F1EC`, **not** white or grey (this is the Horizon colour bug check).

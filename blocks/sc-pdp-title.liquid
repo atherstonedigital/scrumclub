@@ -1,0 +1,27 @@
+{%- comment -%}
+  sc-pdp-title.liquid — PDP product title in Anton (CLAUDE.md §3.2)
+  ------------------------------------------------------------------
+  The page H1. Kept as a brand block (not Pitch's title) purely for the
+  Anton display treatment — no cart/variant logic here. Theme block.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = closest.product
+  assign title = p.title
+  if title == blank
+    assign title = 'Product title'
+  endif
+-%}
+
+<h1 class="sc-display sc-pdp-title" {{ block.shopify_attributes }}>{{ title | escape }}</h1>
+
+{% schema %}
+{
+  "name": "SC PDP Title",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Renders the product title in the Anton display face as the page H1." }
+  ],
+  "presets": [ { "name": "SC PDP Title", "category": "Scrum Club" } ]
+}
+{% endschema %}
