@@ -1,0 +1,141 @@
+{%- comment -%}
+  sc-shop-the-look.liquid — image hotspot / "shop the look" (CLAUDE.md §3.4)
+  ------------------------------------------------------------------
+  One lookbook image with positioned hotspots linking to products. Each
+  hotspot block sets x/y (%), a product (or manual link) and a label.
+  Placeholder when no image is set (§0.5).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="sc-look sc-pitch">
+  <div class="sc-wrap sc-look__grid">
+    <div class="sc-look__intro sc-reveal">
+      {%- if s.eyebrow != blank -%}<p class="sc-eyebrow muted">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="sc-h2 sc-look__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      {%- if s.body != blank -%}<div class="sc-body sc-look__body">{{ s.body }}</div>{%- endif -%}
+      {%- if s.cta_label != blank -%}<a class="sc-btn sc-btn--ghost on-pitch" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | escape }}</a>{%- endif -%}
+    </div>
+
+    <div class="sc-look__stage">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width:900px) 55vw, 100vw', widths: '600,900,1200,1600', class: 'sc-look__img', alt: s.image.alt | default: s.heading }}
+      {%- else -%}
+        <div class="sc-look__ph" aria-hidden="true"><span>Photography TBC — studio lookbook</span></div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign hp = block.settings.product
+          assign href = block.settings.link
+          if href == blank and hp != blank
+            assign href = hp.url
+          endif
+          assign label = block.settings.label
+          if label == blank and hp != blank
+            assign label = hp.title
+          endif
+        -%}
+        <a
+          class="sc-look__hotspot"
+          href="{{ href | default: '#' }}"
+          style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%;"
+          {{ block.shopify_attributes }}
+        >
+          <span class="sc-look__dot" aria-hidden="true">+</span>
+          {%- if label != blank -%}
+            <span class="sc-look__tip">
+              {{- label | escape -}}
+              {%- if hp != blank %} · {{ hp.price | money }}{% endif -%}
+            </span>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-look { padding-block: var(--s-9); }
+  .sc-look__grid { display: grid; gap: var(--s-6); align-items: center; }
+  .sc-look__heading { margin-block: var(--s-3) var(--s-4); color: var(--paper); }
+  .sc-look__body { color: var(--fog); margin-bottom: var(--s-5); }
+  .sc-look__stage { position: relative; }
+  .sc-look__img,
+  .sc-look__ph { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-3); display: block; }
+  .sc-look__ph {
+    display: flex; align-items: center; justify-content: center;
+    background: repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.02) 18px 19px), var(--mud);
+  }
+  .sc-look__ph span {
+    font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fog); border: 1px dashed var(--grit);
+    padding: 6px 10px; border-radius: var(--r-1);
+  }
+  .sc-look__hotspot { position: absolute; transform: translate(-50%, -50%); z-index: 2; text-decoration: none; }
+  .sc-look__dot {
+    display: grid; place-items: center;
+    width: 32px; height: 32px;
+    background: var(--try); color: var(--paper);
+    font-family: var(--font-action); font-weight: 800; font-size: 20px; line-height: 1;
+    border-radius: var(--r-pill);
+    box-shadow: 0 0 0 4px rgba(225, 38, 28, 0.25);
+    transition: transform var(--dur-fast) var(--ease-tackle);
+  }
+  .sc-look__hotspot:hover .sc-look__dot { transform: scale(1.12); }
+  .sc-look__tip {
+    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    background: var(--paper); color: var(--pitch);
+    font-family: var(--font-mono); font-size: 12px; white-space: nowrap;
+    padding: 6px 10px; border-radius: var(--r-1);
+    opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) var(--ease-tackle);
+  }
+  .sc-look__hotspot:hover .sc-look__tip,
+  .sc-look__hotspot:focus-visible .sc-look__tip { opacity: 1; }
+  @media (min-width: 900px) {
+    .sc-look__grid { grid-template-columns: 0.85fr 1.15fr; gap: var(--s-8); }
+    .sc-look__intro { order: 1; }
+    .sc-look__stage { order: 2; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Shop The Look",
+  "tag": "section",
+  "class": "sc-section sc-look-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "LOOKBOOK" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the kit" },
+    { "type": "richtext", "id": "body", "label": "Body" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "image_picker", "id": "image", "label": "Lookbook image" }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "label", "label": "Label (defaults to product title)" },
+        { "type": "url", "id": "link", "label": "Manual link (overrides product)" },
+        { "type": "range", "id": "x", "label": "Horizontal position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "y", "label": "Vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "SC Shop The Look",
+      "blocks": [
+        { "type": "hotspot", "settings": { "x": 38, "y": 32 } },
+        { "type": "hotspot", "settings": { "x": 60, "y": 64 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
