@@ -186,6 +186,7 @@
               "block_order": ["variant_picker", "buy_buttons"]
             },
             "sc_spec": { "type": "sc-pdp-spec", "settings": {}, "blocks": {} },
+            "sc_benefits": { "type": "sc-pdp-benefits", "settings": {}, "blocks": {} },
             "sc_trust": { "type": "sc-trust-5pct", "settings": {}, "blocks": {} },
             "description": {
               "type": "text",
@@ -219,7 +220,7 @@
               "blocks": {}
             }
           },
-          "block_order": ["group_main", "group_form", "sc_spec", "sc_trust", "description", "disclosures"]
+          "block_order": ["group_main", "group_form", "sc_spec", "sc_benefits", "sc_trust", "description", "disclosures"]
         }
       },
       "settings": {

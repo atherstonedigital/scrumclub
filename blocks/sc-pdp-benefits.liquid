@@ -1,0 +1,61 @@
+{%- comment -%}
+  sc-pdp-benefits.liquid — PDP benefits / feature list (CLAUDE.md §3.2)
+  ------------------------------------------------------------------
+  Renders the `scc.benefits` list metafield (list.single_line_text) as a
+  brand checklist, e.g. "Two-way stretch · Mud-tolerant · Contact-tested".
+  Hides entirely if the metafield is absent or empty (§0.5). Theme block.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = closest.product
+  assign items = p.metafields.scc.benefits.value
+-%}
+
+{%- if items != blank and items.size > 0 -%}
+  <div class="sc-pdp-benefits" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <p class="sc-eyebrow muted sc-pdp-benefits__head">{{ block.settings.heading | escape }}</p>
+    {%- endif -%}
+    <ul class="sc-pdp-benefits__list">
+      {%- for item in items -%}
+        <li class="sc-pdp-benefits__item">{{ item | escape }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .sc-pdp-benefits { margin-block: var(--s-4); }
+  .sc-pdp-benefits__head { margin-bottom: var(--s-3); }
+  .sc-pdp-benefits__list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-2); }
+  .sc-pdp-benefits__item {
+    position: relative;
+    padding-left: 26px;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.4;
+    color: var(--steel);
+  }
+  .sc-pdp-benefits__item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 12px;
+    height: 12px;
+    background: var(--try);
+    clip-path: polygon(14% 44%, 0 58%, 43% 100%, 100% 18%, 86% 6%, 41% 70%);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC PDP Benefits",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Renders the product's scc.benefits list metafield (list of single line text). Hidden when empty." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY IT WORKS" }
+  ],
+  "presets": [ { "name": "SC PDP Benefits", "category": "Scrum Club" } ]
+}
+{% endschema %}
