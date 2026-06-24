@@ -1,0 +1,203 @@
+{%- comment -%}
+  sc-media-text.liquid — Scrum Club image-with-text band (CLAUDE.md §3.4)
+  ------------------------------------------------------------------
+  Two-column media + copy. Used for the Fem-Fit range band and the
+  inverted 5%-commitment band in the mock. Image side / surface / optional
+  big stat figure are all schema-driven. Falls back to a "Photo TBC"
+  placeholder when no image is set (§0.5).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = false
+  if s.surface == 'pitch'
+    assign is_pitch = true
+  endif
+-%}
+
+<section class="sc-media-text {% if is_pitch %}sc-pitch{% else %}sc-paper{% endif %} {% if s.image_position == 'right' %}is-img-right{% endif %}">
+  <div class="sc-wrap sc-media-text__grid">
+    <div class="sc-media-text__media">
+      {%- if s.image != blank -%}
+        {{
+          s.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 900px) 55vw, 100vw',
+            widths: '600, 900, 1200, 1600',
+            class: 'sc-media-text__img',
+            alt: s.image.alt | default: s.heading
+        }}
+      {%- else -%}
+        <div class="sc-media-text__ph" aria-hidden="true">
+          <span>{{ s.placeholder_label | default: 'Photography TBC' }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="sc-media-text__copy sc-reveal">
+      {%- if s.stat != blank -%}
+        <p class="sc-display sc-media-text__stat">{{ s.stat | escape }}</p>
+      {%- endif -%}
+      {%- if s.eyebrow != blank -%}
+        <p class="sc-eyebrow{% if is_pitch %} muted{% endif %}">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="sc-h2 sc-media-text__heading">{{ s.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <div class="sc-body sc-media-text__body">{{ s.body }}</div>
+      {%- endif -%}
+      {%- if s.cta_label != blank -%}
+        <a class="sc-btn sc-btn--ghost{% if is_pitch %} on-pitch{% endif %} sc-media-text__cta" href="{{ s.cta_link | default: '#' }}">
+          {{- s.cta_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-media-text { padding-block: var(--s-9); }
+  .sc-media-text__grid {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+  }
+  .sc-media-text__media { order: 1; }
+  .sc-media-text__copy { order: 2; }
+  .sc-media-text__img,
+  .sc-media-text__ph {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-3);
+    object-fit: cover;
+    display: block;
+  }
+  .sc-media-text__ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 18px, rgba(0, 0, 0, 0.03) 18px 19px),
+      var(--bone);
+  }
+  .sc-media-text.sc-pitch .sc-media-text__ph { background: var(--mud); }
+  .sc-media-text__ph span {
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--grit);
+    border: 1px dashed var(--grit);
+    padding: 6px 10px;
+    border-radius: var(--r-1);
+  }
+  .sc-media-text__stat {
+    font-size: var(--fs-display);
+    color: var(--try);
+    line-height: 0.86;
+    margin-bottom: var(--s-3);
+  }
+  .sc-media-text__heading { margin-block: var(--s-3) var(--s-4); }
+  .sc-media-text.sc-pitch .sc-media-text__heading { color: var(--paper); }
+  .sc-media-text__body { margin-bottom: var(--s-5); }
+  .sc-media-text.sc-pitch .sc-media-text__body { color: var(--fog); }
+
+  @media (min-width: 900px) {
+    .sc-media-text__grid { grid-template-columns: 1.05fr 0.95fr; gap: var(--s-8); }
+    .sc-media-text.is-img-right .sc-media-text__media { order: 2; }
+    .sc-media-text.is-img-right .sc-media-text__copy { order: 1; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Image With Text",
+  "tag": "section",
+  "class": "sc-section sc-media-text-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "paper", "label": "Paper (light)" },
+        { "value": "pitch", "label": "Pitch (dark)" }
+      ],
+      "default": "paper"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "stat",
+      "label": "Stat figure (optional)",
+      "info": "Large Try-red figure above the eyebrow, e.g. 5%."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE MATCH RANGE · FEM-FIT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cut for the way you play."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Drafted from a women's body block and photographed independently — never resized from the men's line. Two-way stretch, mud-tolerant, built to last a season of contact.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop Fem-Fit"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Leave blank to show a placeholder."
+    },
+    {
+      "type": "text",
+      "id": "placeholder_label",
+      "label": "Placeholder label",
+      "default": "Photography TBC — Fem-Fit on-body"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Image With Text"
+    }
+  ]
+}
+{% endschema %}
