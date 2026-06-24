@@ -5,10 +5,11 @@
    snippets/sc-brand-tokens.liquid — every value below references a
    var(--token); no raw hexes / sizes live here.
 
-   Deck-governed look: black-led surfaces, halftone motif, red accent.
-   Surfaces are applied PER-SECTION via .sc-pitch / .sc-ink (not forced
-   on <body> globally) so this doesn't fight Pitch's section colour
-   schemes or the config/settings_data.json contested zone.
+   Realised look (homepage mock "Prestige"): PAPER-LED canvas with dark
+   .sc-pitch bands and a red marquee. Surfaces are applied PER-SECTION
+   (.sc-paper / .sc-pitch), not forced on <body> globally, so this does
+   not fight Pitch's section colour schemes or the contested
+   config/settings_data.json zone.
 
    Block-specific styles belong in that block's {% stylesheet %} or its
    own assets/sc-<block>.css — keep this file to shared primitives.
@@ -21,22 +22,20 @@ body {
 }
 
 /* ---- Brand surfaces ---------------------------------------------- */
-.sc-ink   { background: var(--ink);   color: var(--on-surface); }
-.sc-pitch { background: var(--pitch); color: var(--on-surface); }
-.sc-pitch a { color: var(--on-surface); }
-/* light island (e.g. logo lockup cards from the deck) */
-.sc-chalk { background: var(--chalk); color: var(--pitch); }
+.sc-paper { background: var(--paper); color: var(--on-surface); }
+.sc-pitch { background: var(--pitch); color: var(--on-invert); }
+.sc-mud   { background: var(--mud);   color: var(--on-invert); }
+.sc-pitch .sc-body, .sc-mud .sc-body { color: var(--on-invert-dim); }
 
-/* ---- Halftone motif (the deck's signature) ----------------------- */
+/* ---- Halftone motif (deck signature) ----------------------------- */
 /* One motif per composition — do not combine with the slash. */
 .sc-halftone {
   --dot: var(--try);
   --dot-size: 14px;
   background-image: radial-gradient(var(--dot) 22%, transparent 23%);
   background-size: var(--dot-size) var(--dot-size);
-  background-position: 0 0;
 }
-.sc-halftone--fade {            /* dots dissolving across — deck edge treatment */
+.sc-halftone--fade {
   -webkit-mask-image: linear-gradient(90deg, #000, transparent);
           mask-image: linear-gradient(90deg, #000, transparent);
 }
@@ -47,7 +46,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--gold);
+  background: var(--whistle);
   clip-path: polygon(72% 0, 100% 0, 38% 100%, 10% 100%);
   pointer-events: none;
 }
@@ -60,70 +59,87 @@ body {
   line-height: var(--lh-display);
   letter-spacing: var(--track-display);
   text-align: left;                   /* headings never centred */
+  font-size: var(--fs-display);
 }
-.sc-hero { font-size: var(--fs-hero); }
-.sc-h1   { font-size: var(--fs-h1); }
-.sc-h2   { font-size: var(--fs-h2); }
-.sc-h3   { font-size: var(--fs-h3); }
+.sc-h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: var(--lh-h1);
+  letter-spacing: var(--track-h1);
+  text-align: left;
+  font-size: var(--fs-h1);
+}
+.sc-h2 { font-family: var(--font-display); text-transform: uppercase; line-height: var(--lh-h1); text-align: left; font-size: var(--fs-h2); }
+.sc-h3 { font-family: var(--font-display); text-transform: uppercase; line-height: var(--lh-h1); text-align: left; font-size: var(--fs-h3); }
+.sc-display .red, .sc-h1 .red, .sc-h2 .red { color: var(--try); }
 
 .sc-eyebrow {
-  font-family: var(--font-eyebrow);
-  font-weight: 600;
+  font-family: var(--font-action);
+  font-weight: 800;
+  font-style: italic;
   font-size: var(--fs-eyebrow);
   text-transform: uppercase;
   letter-spacing: var(--track-eyebrow);
   color: var(--accent);
 }
+.sc-eyebrow.muted { color: var(--grit); }
+.sc-pitch .sc-eyebrow.muted, .sc-mud .sc-eyebrow.muted { color: var(--fog); }
 
 .sc-body { font-family: var(--font-body); font-size: var(--fs-body); max-width: var(--measure); }
+.sc-small { font-size: var(--fs-small); line-height: 1.45; }
 
 .sc-mono {                              /* spec lines: SKU · MADE IN UK · 5% TO RESEARCH */
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
   letter-spacing: .02em;
-  color: var(--on-surface-dim);
+  color: var(--grit);
 }
 
 /* ---- Buttons ----------------------------------------------------- */
-/* Primary CTA: red with the cut-shadow. CTAs + stat blocks only. */
 .sc-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  font-family: var(--font-eyebrow);
-  font-weight: 700;
-  font-size: 15px;
+  gap: 10px;
+  font-family: var(--font-action);
+  font-weight: 800;
+  font-style: italic;
+  font-size: 16px;
   text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--chalk);
-  background: var(--try);
+  letter-spacing: .04em;
+  padding: 16px 28px;
   border: 0;
   border-radius: var(--r-1);
-  padding: var(--s-3) var(--s-6);
   cursor: pointer;
   text-decoration: none;
-  box-shadow: var(--shadow-cut);
   transition: transform var(--dur-fast) var(--ease-tackle),
-              background-color var(--dur-fast) var(--ease-tackle),
-              box-shadow var(--dur-fast) var(--ease-tackle);
+              background-color var(--dur-fast) var(--ease-tackle);
 }
-.sc-btn:hover  { background: var(--try-bright); transform: translateY(-2px); }
-.sc-btn:active { background: var(--crimson);    transform: translateY(0); box-shadow: 0 0 0 var(--try); }
+/* Primary CTA: red with the cut-shadow. CTAs + stat blocks only. */
+.sc-btn--primary {
+  background: var(--try);
+  color: var(--paper);
+  box-shadow: var(--cut);
+}
+.sc-btn--primary:hover  { background: var(--try-bright); transform: translate(-2px, -2px); }
+.sc-btn--primary:active { background: var(--crimson);    transform: translate(0, 0); }
 
 .sc-btn--ghost {
   background: transparent;
-  color: var(--chalk);
-  border: 1px solid var(--border);
-  box-shadow: none;
+  color: inherit;
+  border: 2px solid currentColor;
+  padding: 14px 26px;
 }
-.sc-btn--ghost:hover { border-color: var(--chalk); transform: translateY(-2px); }
+.sc-btn--ghost:hover { transform: translateY(-2px); }
+.sc-btn--ghost.on-pitch { color: var(--paper); }
 
 /* ---- Tags / pills (the ONLY place 999 radius is allowed) --------- */
 .sc-pill {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-eyebrow);
-  font-weight: 600;
+  font-family: var(--font-action);
+  font-weight: 800;
+  font-style: italic;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: .06em;
@@ -134,18 +150,18 @@ body {
   background: transparent;
 }
 .sc-pill[aria-pressed="true"],
-.sc-pill--active { background: var(--chalk); color: var(--pitch); border-color: var(--chalk); }
+.sc-pill--active { background: var(--pitch); color: var(--paper); border-color: var(--pitch); }
 
 /* ---- Card hover: inner border + corner slash, no shadow lift ----- */
 .sc-card {
   position: relative;
-  background: var(--surface-raised);
+  background: var(--paper);
   border: 1px solid var(--border);
   border-radius: var(--r-3);
   overflow: hidden;
   transition: border-color var(--dur-base) var(--ease-tackle);
 }
-.sc-card::before {                      /* corner slash, extends on hover */
+.sc-card::before {
   content: "";
   position: absolute;
   top: 0; right: 0;
@@ -155,10 +171,11 @@ body {
   transition: width var(--dur-base) var(--ease-tackle),
               height var(--dur-base) var(--ease-tackle);
 }
-.sc-card:hover { border-color: var(--chalk); }
+.sc-card:hover { border-color: var(--steel); }
 .sc-card:hover::before { width: 24px; height: 24px; }
 
 /* ---- Layout helpers ---------------------------------------------- */
+.sc-wrap   { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
 .sc-gutter { padding-inline: var(--gutter); }
 .sc-stack > * + * { margin-top: var(--s-5); }
 
