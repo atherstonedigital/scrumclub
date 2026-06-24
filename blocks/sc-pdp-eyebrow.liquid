@@ -1,7 +1,7 @@
 {%- comment -%}
   sc-pdp-eyebrow.liquid — PDP fit/category eyebrow (CLAUDE.md §3.2)
   ------------------------------------------------------------------
-  Saira eyebrow e.g. "FEM-FIT · MATCH". Composes from sc.fit metafield +
+  Saira eyebrow e.g. "FEM-FIT · MATCH". Composes from scc.fit metafield +
   product type, with a manual override. Degrades to nothing if both are
   absent (never an empty label, §3.2). Also loads the PDP restyle once.
   Theme block — place inside the product-information section.
@@ -11,7 +11,7 @@
   assign p = closest.product
   assign label = block.settings.eyebrow_override
   if label == blank and p != blank
-    assign fit = p.metafields.sc.fit
+    assign fit = p.metafields.scc.fit
     assign cat = block.settings.category | default: p.type
     if fit != blank and cat != blank
       assign label = fit | append: ' · ' | append: cat
@@ -36,7 +36,7 @@
   "name": "SC PDP Eyebrow",
   "tag": null,
   "settings": [
-    { "type": "paragraph", "content": "Composes from the product's sc.fit metafield and type. Override below if needed." },
+    { "type": "paragraph", "content": "Composes from the product's scc.fit metafield and type. Override below if needed." },
     { "type": "text", "id": "eyebrow_override", "label": "Override text" },
     { "type": "text", "id": "category", "label": "Category (defaults to product type)" },
     { "type": "text", "id": "placeholder", "label": "Editor placeholder", "default": "FEM-FIT · MATCH" }
