@@ -32,7 +32,7 @@ Already built and committed — **do not recreate** (the token layer, `sc/brand-
 - **Homepage** (`templates/index.json`): `sc-home-hero`, `sc-marquee`, `sc-featured-collection` (+ `snippets/sc-product-card` + `assets/sc-product-card.css`), `sc-media-text`, `sc-shop-by-fit`, `sc-shop-the-look`, `sc-journal`, `sc-trust-row`, `sc-newsletter`.
 - **Chrome (Phase B started)**: `header-group.json` uses the site-wide `sc-announcement`; `footer-group.json` restyled to pitch with Shop/Club/Support columns (menus `footer-shop` / `footer-club` / `footer-support` to be created in admin).
 - **Support pages**: `sc-page-header`, `sc-rich-text`, `sc-founders`, `sc-faq`, `sc-size-guide` + templates `page.about` / `page.commitment` / `page.faq` / `page.size-guide`.
-- **PDP** (`templates/product.json`, §3.2): reuses Pitch media/variant/buy blocks; brand blocks `blocks/sc-pdp-eyebrow`, `sc-pdp-title`, `sc-pdp-spec`, and the reusable `sc-trust-5pct` (§3.3); restyle in `assets/sc-pdp.css`. References `product.metafields.scc.*` with fallbacks.
+- **PDP** (`templates/product.json`, §3.2): reuses Pitch media/variant/buy blocks; brand blocks `blocks/sc-pdp-eyebrow`, `sc-pdp-title`, `sc-pdp-spec`, and the reusable `sc-trust-5pct` (§3.3); related row is `sc-related-products` using `sc-product-card`. `assets/sc-pdp.css` remaps Pitch's `--font-*--family` vars to brand fonts scoped to `[data-template^="product"]`, so native blocks inherit Anton/Saira/Archivo. References `product.metafields.scc.*` with fallbacks.
 - **PLP** (`templates/collection.json`, §3.6): `sc-collection` — native filtering/sorting/pagination rendered with `sc-product-card`; fem/men fit bar driven by the `scc.fit` filter.
 
 ### Step 0 before any new section work — verify the token layer

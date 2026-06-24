@@ -1,0 +1,58 @@
+{%- comment -%}
+  sc-related-products.liquid — "Complete the kit" row (CLAUDE.md §3.2)
+  ------------------------------------------------------------------
+  Brand related-products using sc-product-card so PDP cards match the
+  homepage + PLP exactly. Deterministic (no async recommendations API):
+  pulls from a chosen collection, else the product's first collection,
+  excluding the current product. Hides itself if there's nothing to show.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign source = s.collection.products
+  if s.collection == blank
+    assign source = product.collections.first.products
+  endif
+  assign limit = s.products_to_show
+-%}
+
+{%- if source.size > 0 -%}
+  {{ 'sc-product-card.css' | asset_url | stylesheet_tag }}
+  <section class="sc-related sc-paper">
+    <div class="sc-wrap">
+      {%- if s.heading != blank -%}
+        <h2 class="sc-h2 sc-related__heading sc-reveal">{{ s.heading | escape }}</h2>
+      {%- endif -%}
+      <div class="sc-related__grid">
+        {%- assign shown = 0 -%}
+        {%- for p in source -%}
+          {%- if p.id == product.id -%}{% continue %}{%- endif -%}
+          {%- if shown >= limit -%}{% break %}{%- endif -%}
+          {%- render 'sc-product-card', product: p -%}
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .sc-related { padding-block: var(--s-9); }
+  .sc-related__heading { margin-bottom: var(--s-6); }
+  .sc-related__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-4); }
+  @media (min-width: 900px) { .sc-related__grid { grid-template-columns: repeat(4, 1fr); gap: var(--s-5); } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Related Products",
+  "tag": "section",
+  "class": "sc-section sc-related-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete the kit" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Defaults to the product's first collection." },
+    { "type": "range", "id": "products_to_show", "label": "Products shown", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "presets": [ { "name": "SC Related Products" } ]
+}
+{% endschema %}

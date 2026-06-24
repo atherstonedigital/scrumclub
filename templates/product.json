@@ -243,42 +243,13 @@
         "speed": 30
       }
     },
-    "recommendations": {
-      "type": "product-recommendations",
-      "blocks": {
-        "header": {
-          "type": "text",
-          "name": "Header",
-          "settings": {
-            "text": "<h3>Complete the kit</h3>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": ["header"],
-      "name": "Product recommendations",
+    "related": {
+      "type": "sc-related-products",
       "settings": {
-        "product": "{{ closest.product }}",
-        "recommendation_type": "related",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 36,
-        "section_width": "page-width",
-        "gap": 28,
-        "background_color": "#F4F1EC",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "heading": "Complete the kit",
+        "products_to_show": 4
       }
     }
   },
-  "order": ["main", "marquee", "recommendations"]
+  "order": ["main", "marquee", "related"]
 }
