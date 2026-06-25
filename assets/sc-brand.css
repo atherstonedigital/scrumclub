@@ -291,8 +291,15 @@ footer hr, footer [class*="divider"] { border-color: var(--border-invert); }
    white logo. Declared on .header__row to win over the inline default;
    only while not stuck — once the header sticks to solid paper (or a
    menu is hovered, raising the underlay) Pitch reverts to dark and the
-   red primary logo, which is what we want. Colour stays in tokens (§0.3). */
-[data-template='index'] .header[transparent]:not([data-sticky-state='active']) .header__row {
+   red primary logo, which is what we want. Colour stays in tokens (§0.3).
+
+   NOTE: not scoped to [data-template='index'] — that attribute lives on
+   <main>, which is a SIBLING of #header-group, so the header is not a
+   descendant of it and such a selector never matches. The transparent
+   header only exists on the homepage anyway (product/collection
+   transparency are off), so targeting .header[transparent] is correct
+   and mirrors Pitch's own unscoped core rules. */
+.header[transparent]:not([data-sticky-state='active']) .header__row {
   --color-transparent-text: var(--on-invert);
   --color-transparent-text-rgb: 244 241 236;       /* --paper */
   --color-transparent-text-contrast: var(--pitch);
@@ -305,8 +312,7 @@ footer hr, footer [class*="divider"] { border-color: var(--border-invert); }
    uses (header.liquid) so that once a menu opens — raising the solid paper
    underlay — or the header sticks, the colour reverts to dark and stays
    readable. Colour stays in tokens (§0.3). */
-[data-template='index']
-  .header[transparent]:not([data-sticky-state='active']):not(
+.header[transparent]:not([data-sticky-state='active']):not(
     :has(.menu-list__link:is(:hover, [aria-expanded='true']))
   )
   .header__row {
