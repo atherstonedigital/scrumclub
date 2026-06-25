@@ -56,3 +56,21 @@
   transform: translate(0, 0);
   box-shadow: 0 0 0 var(--try);
 }
+
+/* Buy row: keep every control sharp (§2 — buttons are 2px, pills are for
+   tags/chips only). Global theme settings round secondary buttons into pills
+   (button_border_radius_secondary / variant_button_radius = 100); Add to cart
+   is squared above, so square the quantity stepper and the dynamic
+   "Buy it now" / Shop Pay button too, so the row reads as one button family. */
+[data-template^="product"] .quantity-selector,
+[data-template^="product"] .quantity-selector-wrapper {
+  border-radius: var(--r-1) !important;
+}
+[data-template^="product"] .accelerated-checkout-block .shopify-payment-button__button,
+[data-template^="product"] .accelerated-checkout-block .shopify-payment-button__button--unbranded {
+  border-radius: var(--r-1) !important;
+}
+[data-template^="product"] .accelerated-checkout-block,
+[data-template^="product"] shop-pay-button {
+  --shop-pay-button-border-radius: var(--r-1);
+}
