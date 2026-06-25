@@ -10,7 +10,7 @@
 ## 0. Non-negotiable working rules (read first, every time)
 
 1. **Never edit Pitch core files.** All custom work goes in net-new, prefixed files: `sections/sc-*.liquid`, `blocks/sc-*.liquid`, `snippets/sc-*.liquid`, `assets/sc-*.css`, `assets/sc-*.js`. Horizon updates weekly; editing core means every update is a merge conflict. If a core block looks like it needs changing, duplicate it to an `sc-` file and change that instead. **The one sanctioned exception** is the single documented include block already in `layout/theme.liquid` that wires the token layer — do not add others.
-2. **The contested zone is `config/settings_data.json` and the template JSONs.** Structure (which sections/blocks exist, schema, defaults) lives in Git. Content and merchandising live in the Shopify editor. Do not author the same JSON file from both Git and the editor — a sync will clobber one side. When adding a section to a template, prefer doing it via the editor and pulling, or commit the JSON deliberately and note it in the PR.
+2. **The contested zone is `config/settings_data.json` and the template JSONs.** Structure (which sections/blocks exist, schema, defaults) lives in Git. Content and merchandising live in the Shopify editor. Do not author the same JSON file from both Git and the editor — a sync will clobber one side. When adding a section to a template, prefer doing it via the editor and pulling, or commit the JSON deliberately and note it in the PR. **Once the client takes over editing, these files become editor-owned — see §9 for the deployment & handoff protocol and the hard rule against re-pushing them.**
 3. **Colours come from code, not the admin colour picker.** Horizon has a known bug that misrenders warm off-whites; `--paper` (`#F4F1EC`) is exactly the value it breaks. The palette is set in `snippets/sc-brand-tokens.liquid`. Do not re-enter brand hexes into theme settings.
 4. **One PR per logical unit.** Small, reviewable diffs. Branch naming: `sc/<area>-<thing>` e.g. `sc/home-hero`, `sc/pdp-template`.
 5. **Never silently work around a missing decision or asset.** If a build step needs a decision from §6 or an asset that doesn't exist, stop and flag it in the PR description rather than inventing a placeholder that looks final. The mock marks every image `Photo TBC` for this reason.
@@ -201,3 +201,33 @@ Photography is the critical path, not the code. If it hasn't landed, the build i
 - No edits to Pitch core files (the one token-layer include excepted); all new work in `sc-*` files.
 - LCP image (hero) compressed.
 - Diff is small and the PR description names any decision/asset it's waiting on.
+
+---
+
+## 9. Deployment & client-editing handoff protocol
+
+Two different "deploys" with different timing. Keep them separate.
+
+### Ownership split (what makes client editing safe)
+
+| Layer | Lives in | Owner | Client edits? |
+|---|---|---|---|
+| Section/block **schema + Liquid** (`sc-*.liquid`), token layer, CSS/JS | Git | Dev | Never — client never touches Liquid |
+| **Content & merchandising** (`templates/*.json`, `sections/*-group.json`, `config/settings_data.json`) | Shopify editor | Client | Yes |
+
+Schema correctness is verified consistent (schema ↔ code ↔ template JSON) — the editor renders correct controls and every content field is schema-driven. Hard-coded strings in sections are intentional **placeholders / empty-states** (`Photo TBC`, `Connect a collection…`) per §0.5 and PLP system strings, **not** locked content.
+
+### Sequence
+
+1. **Structural dev** — finish all section/schema/Liquid work in Git (dev-owned files only). Deploy continuously; `.liquid`/CSS never conflict with editor content.
+2. **Deploy code → the connected live theme** and publish. (Verify *which* theme the GitHub integration feeds and that it's the published one — a stuck sync here is why brand fonts/colours/header can look unapplied while `main` is correct.)
+3. **Final Git authoring of the template JSONs** — seed `index.json`, `collection.json`, `product.json`, `page.*.json`, the `*-group.json` files and `settings_data.json` with intended structure + default content. **This is the last time Git writes those files.**
+4. **Handoff** — client edits content in the editor from here.
+5. **Ongoing** — pull editor state *into* Git for backup only; never push over it.
+
+### Hard rules after handoff
+
+- **Never re-push a contested-zone JSON** (`templates/*.json`, `*-group.json`, `settings_data.json`) from Git. A push clobbers the client's merchandising.
+- **Brand colours/fonts stay in code** (§0.3) — they are *not* in the editor's domain, so deploying code never touches client content.
+- **Structural change after handoff** (new section type, schema edit): edit the `.liquid` file (safe, dev-owned), never the template JSON. If a template JSON genuinely must change, **pull the client's editor state first**, apply deliberately, push, and let the editor re-sync.
+- **Coordinate across sessions** — more than one agent works this repo; the same no-re-push rule binds every session.
