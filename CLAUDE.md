@@ -149,7 +149,18 @@ Define on the store (via the Shopify MCP connector or admin), then reference in 
 | `made_in` | single line | "United Kingdom" — **verify, currently a placeholder** |
 | `house` | single line / list | Scrum Club (future: ScrumChic, ScrumSleek, Strike, Scrumdog, Grit) |
 
-**Namespace: `scc`** (Scrum Club) — resolved 2026-06-24. A dedicated, brand-owned namespace that won't collide with app metafields that dump into `custom`. All theme Liquid references `product.metafields.scc.*`. Keys: `fit` (Fem-Fit / Men-Fit), `made_in`, `sku_code`, `house`. Storefronts access ON (required for filtering + Liquid).
+**Namespace: `scc`** (Scrum Club) — resolved 2026-06-24. A dedicated, brand-owned namespace that won't collide with app metafields that dump into `custom`. All theme Liquid references `product.metafields.scc.*`. Storefronts access ON (required for filtering + Liquid).
+
+Keys in use by the theme:
+| Key | Type | Used by | Notes |
+|---|---|---|---|
+| `fit` | single line text | PDP eyebrow, PLP fit filter, product card | values `Fem-Fit` / `Men-Fit` |
+| `made_in` | single line text | PDP spec line | store `UK` → "MADE IN UK"; verify §6 #5 |
+| `sku_code` | single line text | PDP spec line | optional — falls back to variant SKU |
+| `house` | single line text | future | default `Scrum Club` |
+| `benefits` | **list.single_line_text** | PDP benefits block | e.g. "Two-way stretch", "Mud-tolerant", "Contact-tested" |
+
+Optional/recommended next (define when content's ready, theme can surface on request): `fabric` (single line — composition), `care` (multi-line — wash care), `fit_notes` (single line — e.g. "Athletic fit; size up for layering").
 
 ---
 
