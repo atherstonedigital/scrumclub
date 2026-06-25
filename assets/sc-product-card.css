@@ -69,3 +69,9 @@
 }
 .sc-pcard__cta { margin-top: var(--s-3); justify-content: center; box-shadow: none; }
 .sc-pcard__cta:hover { transform: translateY(-2px); }
+/* Cards sit 2-up on mobile (~96px inner at 320px). Trim the shared .sc-btn
+   padding so "Add to bag" fits the narrow card instead of wrapping/clipping. */
+.sc-pcard__cta { padding: 12px 14px; }
+@media (max-width: 420px) {
+  .sc-pcard__cta { padding: 11px 10px; font-size: 14px; letter-spacing: 0.02em; }
+}
