@@ -135,6 +135,7 @@ body {
   letter-spacing: var(--track-display);
   text-align: left;                   /* headings never centred */
   font-size: var(--fs-display);
+  overflow-wrap: break-word;          /* a long word breaks rather than clipping on narrow phones */
 }
 .sc-h1 {
   font-family: var(--font-display);
@@ -144,6 +145,7 @@ body {
   letter-spacing: var(--track-h1);
   text-align: left;
   font-size: var(--fs-h1);
+  overflow-wrap: break-word;
 }
 .sc-h2 { font-family: var(--font-display); text-transform: uppercase; line-height: var(--lh-h1); text-align: left; font-size: var(--fs-h2); }
 .sc-h3 { font-family: var(--font-display); text-transform: uppercase; line-height: var(--lh-h1); text-align: left; font-size: var(--fs-h3); }
