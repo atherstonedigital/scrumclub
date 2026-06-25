@@ -15,7 +15,7 @@
           "type": "text",
           "name": "Title",
           "settings": {
-            "text": "<h1>{{ article.title }}</h1>",
+            "text": "<h1>{{ closest.article.title }}</h1>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -54,7 +54,7 @@
           "type": "image",
           "name": "Featured image",
           "settings": {
-            "image": "{{ article.image }}",
+            "image": "{{ closest.article.image }}",
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
