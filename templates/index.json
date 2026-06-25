@@ -21,7 +21,7 @@
         "cta_primary_label": "Shop the range",
         "cta_primary_link": "shopify://collections/all",
         "cta_secondary_label": "Explore Fem-Fit",
-        "cta_secondary_link": "shopify://collections",
+        "cta_secondary_link": "shopify://collections/womens",
         "overlay_opacity": 60
       }
     },
