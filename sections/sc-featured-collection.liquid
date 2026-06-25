@@ -56,7 +56,7 @@
 </section>
 
 {% stylesheet %}
-  .sc-featured { padding-block: var(--s-9); }
+  .sc-featured { padding-block: var(--section-y); }
   .sc-featured__head {
     display: flex;
     align-items: flex-end;
@@ -83,6 +83,9 @@
     gap: var(--s-4);
   }
   .sc-featured__note { margin-top: var(--s-5); }
+  @media (max-width: 480px) {
+    .sc-featured__head { flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+  }
   @media (min-width: 900px) {
     .sc-featured__grid { grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
   }

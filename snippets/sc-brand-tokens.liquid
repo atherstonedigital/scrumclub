@@ -91,6 +91,11 @@
     /* responsive page gutter: 24 / 48 / 80 (mobile / tablet / desktop) */
     --gutter: clamp(24px, 6vw, 80px);
     --wrap:   1480px;   /* max content width */
+    /* responsive section rhythm — vertical band padding scales down on mobile
+       (was a flat --s-9/--s-8 on every viewport, ~190px of dead space between
+       bands on a phone). Tops out at the desktop --s-9/--s-8 values. */
+    --section-y:       clamp(56px, 9vw, 96px);   /* standard band (= --s-9 at desktop) */
+    --section-y-tight: clamp(44px, 7vw, 64px);   /* tighter band  (= --s-8 at desktop) */
 
     /* ---- Radii (restrained; pills for tags only) ---- */
     --r-0: 0;

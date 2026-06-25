@@ -297,3 +297,25 @@ footer hr, footer [class*="divider"] { border-color: var(--border-invert); }
   --color-transparent-text-rgb: 244 241 236;       /* --paper */
   --color-transparent-text-contrast: var(--pitch);
 }
+/* Belt-and-braces: the nav links read --menu-top-level-font-color and the
+   account/cart icons read --color-account-icon — neither is guaranteed to
+   follow the --color-transparent-text swap above (Pitch can bake a concrete
+   colour into the menu font styles). Set them to paper directly so the nav and
+   icons are legible over the dark hero. Guarded with the SAME exclusion Pitch
+   uses (header.liquid) so that once a menu opens — raising the solid paper
+   underlay — or the header sticks, the colour reverts to dark and stays
+   readable. Colour stays in tokens (§0.3). */
+[data-template='index']
+  .header[transparent]:not([data-sticky-state='active']):not(
+    :has(.menu-list__link:is(:hover, [aria-expanded='true']))
+  )
+  .header__row {
+  --menu-top-level-font-color: var(--on-invert);
+  --menu-top-level-font-color-rgb: 244 241 236;    /* --paper */
+  --color-account-icon: var(--on-invert);
+  /* Mobile drawer toggle (hamburger) and the search/account/cart icons all read
+     --color-foreground; pin it to paper too so the whole mobile + desktop chrome
+     stays legible over the dark hero, independent of the transparent-text chain. */
+  --color-foreground: var(--on-invert);
+  --color-foreground-rgb: 244 241 236;             /* --paper */
+}
