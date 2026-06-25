@@ -37,10 +37,14 @@
       <span class="sc-home-hero__scrim" aria-hidden="true"></span>
     </div>
   {%- else -%}
-    {%- comment -%} No final photography yet — flag, don't fake (§0.5). {%- endcomment -%}
-    <div class="sc-home-hero__ph" aria-hidden="true">
-      <span>Photography TBC — hero shoot</span>
-    </div>
+    {%- comment -%}
+      No background image set: fall back to the hero's own pitch/paper
+      surface as a clean backdrop. No "Photography TBC" label is shown
+      (removed per request) so the hero never renders placeholder copy
+      behind the headline. Add a background image in the editor to use a
+      real hero shoot (§7).
+    {%- endcomment -%}
+    <div class="sc-home-hero__ph" aria-hidden="true"></div>
   {%- endif -%}
 
   {%- if s.watermark_image != blank -%}
