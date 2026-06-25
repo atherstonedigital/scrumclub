@@ -1,0 +1,178 @@
+{%- comment -%}
+  sc-pdp-trust.liquid — PDP CRO trust bar (CLAUDE.md §2 / §3.2)
+  ------------------------------------------------------------------
+  Compact, schema-driven row of trust signals to sit directly under the
+  Add to Bag button — the highest-converting placement for reassurance.
+  Defaults: Made in the UK · Fast UK delivery · 5% to research ·
+  Contact-tested. Each of the four slots is independently editable and
+  hides if its title is blank (never an empty cell, §0.5). Icons are
+  inline brand SVGs (sharp, no emoji per §2). Theme block — place inside
+  the product-information section.
+{%- endcomment -%}
+
+{%- liquid
+  assign items = ''
+  for i in (1..4)
+    assign title = block.settings['title_' | append: i]
+    if title != blank
+      assign items = items | append: i | append: ','
+    endif
+  endfor
+  assign item_ids = items | split: ','
+-%}
+
+{%- if item_ids.size > 0 -%}
+  <ul class="sc-pdp-trust" {{ block.shopify_attributes }}>
+    {%- for i in item_ids -%}
+      {%- liquid
+        assign icon = block.settings['icon_' | append: i]
+        assign title = block.settings['title_' | append: i]
+        assign sub = block.settings['sub_' | append: i]
+      -%}
+      <li class="sc-pdp-trust__item">
+        <span class="sc-pdp-trust__icon" aria-hidden="true">
+          {%- case icon -%}
+            {%- when 'flag' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 22V3"/><path d="M5 4h13l-2.5 4L18 12H5"/></svg>
+            {%- when 'truck' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h11v10H2zM13 9h4l3 3v4h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
+            {%- when 'percent' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19 19 5"/><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg>
+            {%- when 'shield' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+            {%- when 'return' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 1 2.3 5.6"/><path d="M4 8v4h4"/></svg>
+            {%- when 'lock' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10" width="14" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            {%- when 'check' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+          {%- endcase -%}
+        </span>
+        <span class="sc-pdp-trust__text">
+          <span class="sc-pdp-trust__title">{{ title | escape }}</span>
+          {%- if sub != blank -%}<span class="sc-pdp-trust__sub">{{ sub | escape }}</span>{%- endif -%}
+        </span>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+{% stylesheet %}
+  .sc-pdp-trust {
+    list-style: none;
+    margin: var(--s-4) 0 0;
+    padding: var(--s-4) 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-4);
+    border-top: 1px solid var(--border, var(--bone));
+    border-bottom: 1px solid var(--border, var(--bone));
+  }
+  .sc-pdp-trust__item {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-width: 0;
+  }
+  .sc-pdp-trust__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    color: var(--try);
+  }
+  .sc-pdp-trust__icon svg { width: 100%; height: 100%; stroke-linecap: round; stroke-linejoin: round; }
+  .sc-pdp-trust__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .sc-pdp-trust__title {
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 13px;
+    line-height: 1.1;
+    color: var(--steel);
+  }
+  .sc-pdp-trust__sub {
+    font-family: var(--font-body);
+    font-size: var(--fs-small, 13px);
+    line-height: 1.25;
+    color: var(--grit);
+  }
+  /* On dark/inverted surfaces, lift the muted text. */
+  .sc-pitch .sc-pdp-trust__title, .sc-mud .sc-pdp-trust__title { color: var(--chalk); }
+  .sc-pitch .sc-pdp-trust__sub, .sc-mud .sc-pdp-trust__sub { color: var(--fog); }
+
+  @media (min-width: 1100px) {
+    .sc-pdp-trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC PDP Trust Bar",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "CRO trust signals shown under Add to Bag. Leave a title blank to hide that slot." },
+    { "type": "header", "content": "Signal 1" },
+    { "type": "select", "id": "icon_1", "label": "Icon", "default": "flag",
+      "options": [
+        { "value": "flag", "label": "UK / flag" },
+        { "value": "truck", "label": "Delivery" },
+        { "value": "percent", "label": "Percent" },
+        { "value": "shield", "label": "Shield / tested" },
+        { "value": "check", "label": "Check" },
+        { "value": "return", "label": "Returns" },
+        { "value": "lock", "label": "Secure" }
+      ]
+    },
+    { "type": "text", "id": "title_1", "label": "Title", "default": "MADE IN THE UK" },
+    { "type": "text", "id": "sub_1", "label": "Subtitle", "default": "Cut and sewn in Britain" },
+    { "type": "header", "content": "Signal 2" },
+    { "type": "select", "id": "icon_2", "label": "Icon", "default": "truck",
+      "options": [
+        { "value": "flag", "label": "UK / flag" },
+        { "value": "truck", "label": "Delivery" },
+        { "value": "percent", "label": "Percent" },
+        { "value": "shield", "label": "Shield / tested" },
+        { "value": "check", "label": "Check" },
+        { "value": "return", "label": "Returns" },
+        { "value": "lock", "label": "Secure" }
+      ]
+    },
+    { "type": "text", "id": "title_2", "label": "Title", "default": "FAST UK DELIVERY" },
+    { "type": "text", "id": "sub_2", "label": "Subtitle", "default": "Free over £75 · 2–3 working days" },
+    { "type": "header", "content": "Signal 3" },
+    { "type": "select", "id": "icon_3", "label": "Icon", "default": "percent",
+      "options": [
+        { "value": "flag", "label": "UK / flag" },
+        { "value": "truck", "label": "Delivery" },
+        { "value": "percent", "label": "Percent" },
+        { "value": "shield", "label": "Shield / tested" },
+        { "value": "check", "label": "Check" },
+        { "value": "return", "label": "Returns" },
+        { "value": "lock", "label": "Secure" }
+      ]
+    },
+    { "type": "text", "id": "title_3", "label": "Title", "default": "5% BACK TO RESEARCH" },
+    { "type": "text", "id": "sub_3", "label": "Subtitle", "default": "Women’s rugby — audited yearly" },
+    { "type": "header", "content": "Signal 4" },
+    { "type": "select", "id": "icon_4", "label": "Icon", "default": "shield",
+      "options": [
+        { "value": "flag", "label": "UK / flag" },
+        { "value": "truck", "label": "Delivery" },
+        { "value": "percent", "label": "Percent" },
+        { "value": "shield", "label": "Shield / tested" },
+        { "value": "check", "label": "Check" },
+        { "value": "return", "label": "Returns" },
+        { "value": "lock", "label": "Secure" }
+      ]
+    },
+    { "type": "text", "id": "title_4", "label": "Title", "default": "CONTACT-TESTED" },
+    { "type": "text", "id": "sub_4", "label": "Subtitle", "default": "Built for the women’s game" }
+  ],
+  "presets": [ { "name": "SC PDP Trust Bar", "category": "Scrum Club" } ]
+}
+{% endschema %}
