@@ -7,13 +7,6 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-/*
- * Scrum Club homepage — intentionally Git-authored (CLAUDE.md §0.2).
- * Places the sc-* home sections in the mock's order. Because this file is
- * now owned in Git, manage the homepage layout from ONE source: if you
- * rearrange/merchandise it in the Shopify editor, pull it back and commit
- * (or tell Claude) so the two don't drift and clobber each other.
- */
 {
   "sections": {
     "hero": {
@@ -23,9 +16,12 @@
         "min_height": 88,
         "eyebrow": "AW26 · MATCHDAY DROP",
         "headline": "Built for the women's game.",
+        "accent_word": "",
         "subcopy": "<p>Rugby kit and protective wear drafted from a women's body block — not shrunk down from a men's one. Tested in the mud. Made in the UK.</p>",
         "cta_primary_label": "Shop the range",
+        "cta_primary_link": "shopify://collections/all",
         "cta_secondary_label": "Explore Fem-Fit",
+        "cta_secondary_link": "shopify://collections",
         "overlay_opacity": 55
       }
     },
@@ -43,8 +39,10 @@
       "settings": {
         "eyebrow": "IN STOCK NOW · NEW IN",
         "heading": "Matchday picks",
+        "collection": "",
         "product_limit": 4,
-        "link_label": "Shop all"
+        "link_label": "Shop all",
+        "link_url": ""
       }
     },
     "femfit": {
@@ -52,44 +50,81 @@
       "settings": {
         "surface": "paper",
         "image_position": "left",
+        "stat": "",
         "eyebrow": "THE MATCH RANGE · FEM-FIT",
         "heading": "Cut for the way you play.",
         "body": "<p>Drafted from a women's body block and photographed independently — never resized from the men's line. Two-way stretch, mud-tolerant, built to last a season of contact.</p>",
         "cta_label": "Shop Fem-Fit",
+        "cta_link": "",
         "placeholder_label": "Photography TBC — Fem-Fit on-body"
       }
     },
     "shopbyfit": {
       "type": "sc-shop-by-fit",
-      "settings": {
-        "surface": "paper",
-        "heading": "SHOP BY FIT"
-      },
       "blocks": {
         "fem": {
           "type": "tile",
-          "settings": { "overline": "WOMEN'S", "label": "Fem-Fit", "cta": "Browse" }
+          "settings": {
+            "overline": "WOMEN'S",
+            "label": "Fem-Fit",
+            "cta": "Browse",
+            "link": ""
+          }
         },
         "men": {
           "type": "tile",
-          "settings": { "overline": "MEN'S", "label": "Men-Fit", "cta": "Browse" }
+          "settings": {
+            "overline": "MEN'S",
+            "label": "Men-Fit",
+            "cta": "Browse",
+            "link": ""
+          }
         }
       },
-      "block_order": ["fem", "men"]
+      "block_order": [
+        "fem",
+        "men"
+      ],
+      "settings": {
+        "surface": "paper",
+        "heading": "SHOP BY FIT"
+      }
     },
     "look": {
       "type": "sc-shop-the-look",
+      "blocks": {
+        "h1": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "label": "",
+            "link": "",
+            "x": 38,
+            "y": 30
+          }
+        },
+        "h2": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "label": "",
+            "link": "",
+            "x": 58,
+            "y": 62
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2"
+      ],
       "settings": {
         "eyebrow": "LOOKBOOK",
         "heading": "Shop the kit",
         "body": "<p>The full matchday look, built to be worn together. Tap a piece to shop it.</p>",
-        "cta_label": "View the lookbook"
-      },
-      "blocks": {
-        "h1": { "type": "hotspot", "settings": { "x": 38, "y": 30 } },
-        "h2": { "type": "hotspot", "settings": { "x": 58, "y": 62 } }
-      },
-      "block_order": ["h1", "h2"]
+        "cta_label": "View the lookbook",
+        "cta_link": ""
+      }
     },
     "commitment": {
       "type": "sc-media-text",
@@ -101,6 +136,7 @@
         "heading": "A cut of every order, every year.",
         "body": "<p>Five percent of every order funds research into women's rugby — injury prevention, performance, participation. Audited annually and reported in the open. Not a campaign. A standing commitment.</p>",
         "cta_label": "Read the commitment",
+        "cta_link": "",
         "placeholder_label": "Photography TBC"
       }
     },
@@ -109,13 +145,13 @@
       "settings": {
         "eyebrow": "FROM THE CLUB",
         "heading": "Journal",
+        "blog": "",
         "post_limit": 3,
         "link_label": "All stories"
       }
     },
     "trust": {
       "type": "sc-trust-row",
-      "settings": { "surface": "paper" },
       "blocks": {
         "made": {
           "type": "item",
@@ -126,18 +162,35 @@
         },
         "research": {
           "type": "item",
-          "settings": { "title": "5% to research", "text": "Audited annually, reported openly." }
+          "settings": {
+            "title": "5% to research",
+            "text": "Audited annually, reported openly."
+          }
         },
         "tested": {
           "type": "item",
-          "settings": { "title": "Contact-tested", "text": "Protective wear trialled by club players." }
+          "settings": {
+            "title": "Contact-tested",
+            "text": "Protective wear trialled by club players."
+          }
         },
         "fulfilled": {
           "type": "item",
-          "settings": { "title": "Self-fulfilled", "text": "Packed and shipped by us. Free UK over £75." }
+          "settings": {
+            "title": "Self-fulfilled",
+            "text": "Packed and shipped by us. Free UK over £75."
+          }
         }
       },
-      "block_order": ["made", "research", "tested", "fulfilled"]
+      "block_order": [
+        "made",
+        "research",
+        "tested",
+        "fulfilled"
+      ],
+      "settings": {
+        "surface": "paper"
+      }
     },
     "newsletter": {
       "type": "sc-newsletter",
@@ -146,7 +199,9 @@
         "eyebrow": "JOIN THE CLUB",
         "heading": "First drops. No noise.",
         "body": "<p>Early access to new kit, restocks and the research story. We email when it matters — not for the sake of it.</p>",
-        "button_label": "Join"
+        "placeholder": "Email address",
+        "button_label": "Join",
+        "success_message": "You're in. First drops incoming."
       }
     }
   },
