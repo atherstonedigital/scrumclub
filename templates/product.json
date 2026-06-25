@@ -177,7 +177,7 @@
                   "settings": {
                     "show_sale_price_first": true,
                     "show_installments": true,
-                    "show_tax_info": true,
+                    "show_tax_info": false,
                     "type_preset": "h6",
                     "width": "100%",
                     "alignment": "left",
@@ -328,12 +328,31 @@
                     }
                   },
                   "block_order": []
+                },
+                "sc_pdp_trust_5wKq2P": {
+                  "type": "sc-pdp-trust",
+                  "settings": {
+                    "icon_1": "flag",
+                    "title_1": "MADE IN THE UK",
+                    "sub_1": "Cut and sewn in Britain",
+                    "icon_2": "truck",
+                    "title_2": "FAST UK DELIVERY",
+                    "sub_2": "Free over £75 · 2–3 working days",
+                    "icon_3": "percent",
+                    "title_3": "5% BACK TO RESEARCH",
+                    "sub_3": "Women’s rugby — audited yearly",
+                    "icon_4": "shield",
+                    "title_4": "CONTACT-TESTED",
+                    "sub_4": "Built for the women’s game"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "ai_gen_block_dc5e69b_Uft8F7",
                 "variant_picker_KePPVa",
-                "buy_buttons_6p8c63"
+                "buy_buttons_6p8c63",
+                "sc_pdp_trust_5wKq2P"
               ]
             },
             "text_LbbLqQ": {
