@@ -9,8 +9,8 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/scrumclub-logo-full-transparent-2.png",
-    "logo_inverse": "shopify://shop_images/scrumclub-logo-full-white.png",
+    "logo": "shopify://shop_images/scrumclub-logo-full-white.png",
+    "logo_inverse": "shopify://shop_images/scrumclub-logo-full-transparent-2.png",
     "logo_height": 60,
     "logo_height_mobile": 28,
     "favicon": "shopify://shop_images/scrumclub-mark-white.svg",
