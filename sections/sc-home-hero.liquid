@@ -155,7 +155,14 @@
     padding-block: var(--s-9) var(--s-8);
   }
   .sc-home-hero__eyebrow { margin-bottom: var(--s-4); }
-  .sc-home-hero__headline { margin-bottom: var(--s-5); }
+  .sc-home-hero__headline {
+    margin-bottom: var(--s-5);
+    /* Hero-specific scale: the global --fs-display max (168px) overflows a
+       multi-word headline past the 88vh hero (pushing the eyebrow under the
+       header and the CTAs below the fold). Cap it so the full composition —
+       eyebrow, headline, subcopy, CTAs — stays visible. */
+    font-size: clamp(44px, 8.5vw, 116px);
+  }
   .sc-home-hero.is-pitch .sc-home-hero__headline { color: var(--paper); }
   .sc-home-hero__headline .red { color: var(--try); }
   .sc-home-hero__subcopy { margin-bottom: var(--s-6); }
