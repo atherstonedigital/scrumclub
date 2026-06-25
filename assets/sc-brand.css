@@ -278,3 +278,20 @@ footer p, footer li, footer span, footer a { color: var(--on-invert); }
 footer a:hover { color: var(--try-bright); }
 footer input { color: var(--on-invert); border-color: var(--border-invert); }
 footer hr, footer [class*="divider"] { border-color: var(--border-invert); }
+
+/* ---- Transparent home header: light nav over the dark hero ------- */
+/* The header is transparent + absolute over the .sc-pitch hero on the
+   homepage, and swaps to the white inverse logo there (header.liquid
+   sets --header-logo-inverse-display). Pitch derives the transparent
+   row text from --color-transparent-text, which defaults to the dark
+   page text colour — so the nav reads dark on the dark hero. Flip it to
+   the on-invert (paper) token so the nav, icons and chrome match the
+   white logo. Declared on .header__row to win over the inline default;
+   only while not stuck — once the header sticks to solid paper (or a
+   menu is hovered, raising the underlay) Pitch reverts to dark and the
+   red primary logo, which is what we want. Colour stays in tokens (§0.3). */
+[data-template='index'] .header[transparent]:not([data-sticky-state='active']) .header__row {
+  --color-transparent-text: var(--on-invert);
+  --color-transparent-text-rgb: 244 241 236;       /* --paper */
+  --color-transparent-text-contrast: var(--pitch);
+}
