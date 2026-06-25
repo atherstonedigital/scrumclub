@@ -39,7 +39,7 @@
       "settings": {
         "eyebrow": "IN STOCK NOW · NEW IN",
         "heading": "Matchday picks",
-        "collection": "hoodies",
+        "collection": "shop-all",
         "product_limit": 4,
         "link_label": "Shop all",
         "link_url": ""
@@ -66,19 +66,21 @@
         "fem": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/SC012_Womens_Retro_Shorts.3png_77eacc7c-0ea4-4899-a2b2-335bb752bc70.png",
             "overline": "WOMEN'S",
             "label": "Fem-Fit",
             "cta": "Browse",
-            "link": ""
+            "link": "shopify://collections/womens"
           }
         },
         "men": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/SC008G_Muddy_Ruck_Tshirt_Washed_Grey_.3png_92bec822-a276-4e5e-bb3d-f96890bd8026.png",
             "overline": "MEN'S",
             "label": "Men-Fit",
             "cta": "Browse",
-            "link": ""
+            "link": "shopify://collections/rugby-shirts"
           }
         }
       },
