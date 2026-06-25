@@ -1,0 +1,114 @@
+{%- comment -%}
+  sc-pdp-stock.liquid — PDP low-stock urgency signal (CLAUDE.md §2 CRO)
+  ------------------------------------------------------------------
+  Variant-aware scarcity cue shown above Add to Bag. Renders a per-variant
+  inventory map server-side; a small custom element updates the message
+  when the shopper switches size. Only surfaces for variants that track
+  inventory AND have overselling off (policy "deny") — so it never lies.
+  Honest scarcity only: hidden until JS confirms a real low count, so it
+  degrades to nothing without JS (§0.5). Theme block.
+{%- endcomment -%}
+
+{%- liquid
+  assign p = closest.product
+  assign threshold = block.settings.threshold | default: 10
+  assign pairs = ''
+  for v in p.variants
+    if v.inventory_management != blank and v.inventory_policy == 'deny'
+      assign pairs = pairs | append: '"' | append: v.id | append: '":' | append: v.inventory_quantity | append: ','
+    endif
+  endfor
+  assign pairs = pairs | split: ',' | join: ','
+  assign initial = p.selected_or_first_available_variant.id
+-%}
+
+{%- if pairs != blank -%}
+  <sc-stock
+    class="sc-stock"
+    data-map='{{ "{" | append: pairs | append: "}" }}'
+    data-threshold="{{ threshold }}"
+    data-initial="{{ initial }}"
+    data-low="{{ block.settings.low_text | default: 'Only {n} left — selling fast' | escape }}"
+    hidden
+    {{ block.shopify_attributes }}>
+    <span class="sc-stock__dot" aria-hidden="true"></span>
+    <span class="sc-stock__msg" role="status" aria-live="polite"></span>
+  </sc-stock>
+{%- endif -%}
+
+{% stylesheet %}
+  .sc-stock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 13px;
+    color: var(--try);
+  }
+  .sc-stock[hidden] { display: none; }
+  .sc-stock__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--try);
+    box-shadow: 0 0 0 0 rgba(225, 38, 28, 0.5);
+    animation: sc-stock-pulse 1.8s var(--ease-kick, ease-out) infinite;
+  }
+  @keyframes sc-stock-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(225, 38, 28, 0.45); }
+    70% { box-shadow: 0 0 0 7px rgba(225, 38, 28, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(225, 38, 28, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .sc-stock__dot { animation: none; } }
+{% endstylesheet %}
+
+{% javascript %}
+  class ScStock extends HTMLElement {
+    connectedCallback() {
+      try { this.map = JSON.parse(this.dataset.map || '{}'); } catch (e) { this.map = {}; }
+      this.threshold = parseInt(this.dataset.threshold || '10', 10);
+      this.lowTpl = this.dataset.low || 'Only {n} left';
+      this.msgEl = this.querySelector('.sc-stock__msg');
+      this.root = this.closest('.shopify-section') || document;
+      this.render();
+      this._onChange = () => requestAnimationFrame(() => this.render());
+      this.root.addEventListener('change', this._onChange);
+    }
+    disconnectedCallback() {
+      if (this._onChange) this.root.removeEventListener('change', this._onChange);
+    }
+    currentVariantId() {
+      const input = this.root.querySelector('[name="id"]');
+      if (input && input.value) return input.value;
+      const url = new URL(window.location.href);
+      return url.searchParams.get('variant') || this.dataset.initial;
+    }
+    render() {
+      const qty = this.map[this.currentVariantId()];
+      if (typeof qty === 'number' && qty > 0 && qty <= this.threshold) {
+        this.msgEl.textContent = this.lowTpl.replace('{n}', qty);
+        this.hidden = false;
+      } else {
+        this.hidden = true;
+      }
+    }
+  }
+  if (!customElements.get('sc-stock')) customElements.define('sc-stock', ScStock);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "SC PDP Stock Urgency",
+  "tag": null,
+  "settings": [
+    { "type": "paragraph", "content": "Shows a 'selling fast' cue only when the selected size tracks inventory, has overselling off, and is at or below the threshold. Updates on size change. Hidden otherwise." },
+    { "type": "range", "id": "threshold", "label": "Show when stock is at or below", "min": 1, "max": 25, "step": 1, "unit": "u", "default": 10 },
+    { "type": "text", "id": "low_text", "label": "Message", "info": "Use {n} for the remaining count.", "default": "Only {n} left — selling fast" }
+  ],
+  "presets": [ { "name": "SC PDP Stock Urgency", "category": "Scrum Club" } ]
+}
+{% endschema %}
