@@ -1,0 +1,225 @@
+{%- comment -%}
+  sc-404.liquid — Scrum Club on-brand 404 (CLAUDE.md §3.6)
+  ------------------------------------------------------------------
+  The one custom section Phase B gets: pitch surface + a single motif
+  (faint pitch-lines). Anton display headline (left-aligned, §2) with an
+  optional red accent word, Saira 800-italic eyebrow, primary cut-shadow
+  CTA + ghost CTA. Schema-driven copy so the client can edit. Brand values
+  come from the token layer (var(--...)); only instance values are inlined.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_pitch = false
+  if s.surface == 'pitch'
+    assign is_pitch = true
+  endif
+-%}
+
+<section
+  class="sc-404 {% if is_pitch %}sc-pitch is-pitch{% else %}sc-paper{% endif %}"
+  style="--m404-min-h: {{ s.min_height }}vh;"
+>
+  {%- if s.show_motif -%}
+    <span class="sc-404__lines" aria-hidden="true"></span>
+  {%- endif -%}
+
+  <div class="sc-wrap sc-404__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow{% if is_pitch %} muted{% endif %} sc-404__eyebrow">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+
+    {%- if s.headline != blank -%}
+      <h1 class="sc-display sc-404__headline">
+        {{- s.headline | escape -}}
+        {%- if s.accent_word != blank -%}
+          <span class="red">{{ s.accent_word | escape }}</span>
+        {%- endif -%}
+      </h1>
+    {%- endif -%}
+
+    {%- if s.subcopy != blank -%}
+      <div class="sc-body sc-404__subcopy">{{ s.subcopy }}</div>
+    {%- endif -%}
+
+    {%- if s.cta_primary_label != blank or s.cta_secondary_label != blank -%}
+      <div class="sc-404__ctas">
+        {%- if s.cta_primary_label != blank -%}
+          <a class="sc-btn sc-btn--primary" href="{{ s.cta_primary_link | default: routes.all_products_collection_url }}">
+            {{- s.cta_primary_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if s.cta_secondary_label != blank -%}
+          <a
+            class="sc-btn sc-btn--ghost{% if is_pitch %} on-pitch{% endif %}"
+            href="{{ s.cta_secondary_link | default: routes.root_url }}"
+          >
+            {{- s.cta_secondary_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-404 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--m404-min-h, 70vh);
+    overflow: hidden;
+  }
+  .sc-404.is-pitch {
+    background: linear-gradient(180deg, #0d0d11, var(--pitch));
+  }
+  /* Single motif: faint pitch-lines — touchline frame + halfway line. */
+  .sc-404__lines {
+    position: absolute;
+    inset: var(--s-6);
+    z-index: 0;
+    pointer-events: none;
+    border: 2px solid rgba(244, 241, 236, 0.07);
+  }
+  .sc-404__lines::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    left: 50%;
+    width: 2px;
+    background: rgba(244, 241, 236, 0.07);
+  }
+  .sc-404__lines::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22vmin;
+    height: 22vmin;
+    transform: translate(-50%, -50%);
+    border: 2px solid rgba(244, 241, 236, 0.07);
+    border-radius: 50%;
+  }
+  .sc-404.sc-paper .sc-404__lines,
+  .sc-404.sc-paper .sc-404__lines::before,
+  .sc-404.sc-paper .sc-404__lines::after {
+    border-color: rgba(11, 11, 14, 0.06);
+    background: rgba(11, 11, 14, 0.06);
+  }
+  .sc-404.sc-paper .sc-404__lines::before { border: 0; }
+  .sc-404__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    padding-block: var(--s-9) var(--s-8);
+  }
+  .sc-404__eyebrow { margin-bottom: var(--s-4); }
+  .sc-404__headline { margin-bottom: var(--s-5); }
+  .sc-404.is-pitch .sc-404__headline { color: var(--paper); }
+  .sc-404__headline .red { color: var(--try); }
+  .sc-404__subcopy { margin-bottom: var(--s-6); max-width: 52ch; }
+  .sc-404.is-pitch .sc-404__subcopy { color: var(--fog); }
+  .sc-404__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC 404",
+  "tag": "section",
+  "class": "sc-section sc-404-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "surface",
+      "label": "Surface",
+      "options": [
+        { "value": "pitch", "label": "Pitch (dark)" },
+        { "value": "paper", "label": "Paper (light)" }
+      ],
+      "default": "pitch"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 2,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "checkbox",
+      "id": "show_motif",
+      "label": "Show pitch-lines motif",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ERROR 404 · OFF THE PITCH"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "This page went"
+    },
+    {
+      "type": "text",
+      "id": "accent_word",
+      "label": "Accent word (red, optional)",
+      "info": "Appended to the headline in Try-red.",
+      "default": " missing"
+    },
+    {
+      "type": "richtext",
+      "id": "subcopy",
+      "label": "Subcopy",
+      "default": "<p>The link may be broken or the page has moved. Get back on the pitch.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "Shop the range"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Primary button link",
+      "info": "Defaults to the all-products collection."
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "Back to home"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Secondary button link",
+      "info": "Defaults to the homepage."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC 404"
+    }
+  ]
+}
+{% endschema %}
