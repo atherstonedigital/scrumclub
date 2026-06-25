@@ -99,7 +99,7 @@
         "h1": {
           "type": "hotspot",
           "settings": {
-            "product": "",
+            "product": "premium-sc-hoodie-black",
             "label": "",
             "link": "",
             "x": 38,
@@ -109,7 +109,7 @@
         "h2": {
           "type": "hotspot",
           "settings": {
-            "product": "",
+            "product": "unisex-cuffed-joggers",
             "label": "",
             "link": "",
             "x": 58,
@@ -126,7 +126,8 @@
         "heading": "Shop the kit",
         "body": "<p>The full matchday look, built to be worn together. Tap a piece to shop it.</p>",
         "cta_label": "View the lookbook",
-        "cta_link": ""
+        "cta_link": "",
+        "image": "shopify://shop_images/SC001_Premium_SC_Black_Hoodie.3png_8248df04-f02f-4a2b-aa4e-169ed39a24db.png"
       }
     },
     "commitment": {
