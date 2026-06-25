@@ -178,9 +178,9 @@
                       "static": true,
                       "settings": {
                         "style_class": "button-custom",
-                        "custom_button_background": "#E1261C",
+                        "custom_button_background": "#0B0B0E",
                         "custom_button_text": "#F4F1EC",
-                        "custom_button_border": "#E1261C"
+                        "custom_button_border": "#0B0B0E"
                       },
                       "blocks": {}
                     },
