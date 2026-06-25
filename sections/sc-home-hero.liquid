@@ -96,6 +96,10 @@
     align-items: flex-end;
     min-height: var(--hero-min-h, 88vh);
     overflow: hidden;
+    /* Reserve space for the transparent header that overlays the hero, so the
+       bottom-aligned content (eyebrow first) can never tuck under the nav/logo.
+       The hero background still bleeds full-height behind the header. */
+    padding-block-start: clamp(96px, 13vh, 150px);
   }
   .sc-home-hero.is-pitch {
     background: linear-gradient(180deg, #0d0d11, var(--pitch));
@@ -152,7 +156,9 @@
     position: relative;
     z-index: 2;
     max-width: 980px;
-    padding-block: var(--s-9) var(--s-8);
+    /* Top clearance is handled by the section's padding-block-start above; keep
+       the inner top padding light so tall content keeps its header clearance. */
+    padding-block: var(--s-5) var(--s-8);
   }
   .sc-home-hero__eyebrow { margin-bottom: var(--s-4); }
   .sc-home-hero__headline {

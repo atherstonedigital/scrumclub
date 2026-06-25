@@ -313,4 +313,9 @@ footer hr, footer [class*="divider"] { border-color: var(--border-invert); }
   --menu-top-level-font-color: var(--on-invert);
   --menu-top-level-font-color-rgb: 244 241 236;    /* --paper */
   --color-account-icon: var(--on-invert);
+  /* Mobile drawer toggle (hamburger) and the search/account/cart icons all read
+     --color-foreground; pin it to paper too so the whole mobile + desktop chrome
+     stays legible over the dark hero, independent of the transparent-text chain. */
+  --color-foreground: var(--on-invert);
+  --color-foreground-rgb: 244 241 236;             /* --paper */
 }
