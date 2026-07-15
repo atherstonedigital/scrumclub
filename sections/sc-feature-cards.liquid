@@ -1,0 +1,134 @@
+{%- comment -%}
+  sc-feature-cards.liquid — icon feature cards (Club Hub "why choose us")
+  ------------------------------------------------------------------
+  Anton H2 + up to four cards on a --chalk surface to separate from the
+  paper band around them. Card hover per §2: 1px inner border + corner
+  slash extends (reuses .sc-card), NO shadow lift. Icons are inline
+  Lucide-style SVGs (stroke currentColor) — no emoji, no external fetch.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="sc-fcards sc-paper">
+  <div class="sc-wrap">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow muted">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h2 class="sc-h2 sc-fcards__heading">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="sc-fcards__grid">
+      {%- for block in section.blocks -%}
+        <article class="sc-card sc-fcards__card sc-reveal" {{ block.shopify_attributes }}>
+          {%- case block.settings.icon -%}
+            {%- when 'pen-tool' -%}
+              <svg class="sc-fcards__icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg>
+            {%- when 'shield' -%}
+              <svg class="sc-fcards__icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+            {%- when 'users' -%}
+              <svg class="sc-fcards__icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          {%- endcase -%}
+          {%- if block.settings.heading != blank -%}
+            <h3 class="sc-fcards__title">{{ block.settings.heading | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="sc-fcards__text">{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-fcards { padding-block: var(--section-y-tight); }
+  .sc-fcards__heading {
+    color: var(--pitch);
+    margin: var(--s-2) 0 var(--s-6);
+  }
+  .sc-fcards__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+  }
+  .sc-fcards .sc-fcards__card {
+    /* chalk card on the paper band; .sc-card supplies border, radius and
+       the corner-slash hover — no shadows. Scoped selector so the chalk
+       surface beats .sc-card's paper default regardless of sheet order. */
+    background: var(--chalk);
+    padding: var(--s-6);
+  }
+  .sc-fcards__icon {
+    display: block;
+    color: var(--pitch);
+    margin-bottom: var(--s-4);
+  }
+  .sc-fcards__title {
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--pitch);
+    margin-bottom: var(--s-3);
+  }
+  .sc-fcards__text {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--pitch);
+    max-width: var(--measure);
+  }
+  @media (min-width: 900px) {
+    .sc-fcards__grid { grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Feature Cards",
+  "tag": "section",
+  "class": "sc-section sc-fcards-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "WHY CHOOSE US FOR YOUR NEXT KIT?" }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "pen-tool", "label": "Pen tool (design)" },
+            { "value": "shield", "label": "Shield (durability)" },
+            { "value": "users", "label": "Users (squad)" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "pen-tool"
+        },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "SC Feature Cards",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "pen-tool", "heading": "Bespoke designs" } },
+        { "type": "card", "settings": { "icon": "shield", "heading": "Built for the pitch" } },
+        { "type": "card", "settings": { "icon": "users", "heading": "Sizing for the whole squad" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

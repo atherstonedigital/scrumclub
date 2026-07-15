@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sc-club-hero",
+      "settings": {
+        "eyebrow": "CLUB HUB · BESPOKE KIT",
+        "heading": "WELCOME TO THE SCRUM CLUB HUB",
+        "lead": "Your club's colours. Your club's kit. We now design and manufacture bespoke rugby kit, built to order.",
+        "overlay_opacity": 55
+      }
+    },
+    "intro": {
+      "type": "sc-rich-text",
+      "settings": {
+        "surface": "paper",
+        "eyebrow": "",
+        "heading": "",
+        "body": "<p>We built our name on premium sportswear. Now we're bringing it to the pitch.</p><p>Grassroots side, university squad or semi-pro club: we make fully custom, high-performance rugby kit to your exact spec.</p><p>A kit is more than a uniform. It carries your club's history, pride and community. Our new platform makes designing, managing and ordering your club's gear simpler than it's ever been.</p>",
+        "cta_label": "",
+        "cta_link": ""
+      }
+    },
+    "features": {
+      "type": "sc-feature-cards",
+      "blocks": {
+        "design": {
+          "type": "card",
+          "settings": {
+            "icon": "pen-tool",
+            "heading": "Bespoke designs",
+            "text": "Work directly with our designers on a kit that carries your colours, crest and heritage. Classic hoops or modern geometry: your vision, our blueprint."
+          }
+        },
+        "durability": {
+          "type": "card",
+          "settings": {
+            "icon": "shield",
+            "heading": "Built for the pitch",
+            "text": "Rugby breaks weak kit. Ours is engineered with tear-resistant, moisture-wicking fabric that takes contact and keeps moving."
+          }
+        },
+        "sizing": {
+          "type": "card",
+          "settings": {
+            "icon": "users",
+            "heading": "Sizing for the whole squad",
+            "text": "Men's, women's and junior fits across a full size range, so every player gets kit that actually fits."
+          }
+        }
+      },
+      "block_order": [
+        "design",
+        "durability",
+        "sizing"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "WHY CHOOSE US FOR YOUR NEXT KIT?"
+      }
+    },
+    "cta": {
+      "type": "sc-cta-band",
+      "settings": {
+        "heading": "READY FOR THE NEW SEASON?",
+        "text": "Getting started is simple. Tell us what you need and we'll help you design a kit your players will be proud to wear.",
+        "cta_primary_label": "GET STARTED",
+        "cta_primary_link": "/pages/contact",
+        "cta_secondary_label": "CONTACT US",
+        "cta_secondary_link": "/pages/contact"
+      }
+    },
+    "contact": {
+      "type": "sc-contact-strip",
+      "settings": {
+        "eyebrow": "HAVE QUESTIONS?",
+        "email": "support@scrumclub.uk",
+        "text": "Email support@scrumclub.uk. We're happy to talk through your club's needs, turnaround times and bulk pricing.",
+        "closing": "Let's build something worth wearing."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "features",
+    "cta",
+    "contact"
+  ]
+}
