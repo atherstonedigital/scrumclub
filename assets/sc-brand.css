@@ -116,12 +116,15 @@ body {
 }
 
 /* ---- Slash motif ------------------------------------------------- */
+/* The brand slash is Try-red (v2 amendment): solid diagonal band, sharp
+   edges, no gradient, no shadow. --whistle yellow is semantic/warning
+   only — never decorative. */
 .sc-slash { position: relative; overflow: hidden; }
 .sc-slash::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--whistle);
+  background: var(--try);
   clip-path: polygon(72% 0, 100% 0, 38% 100%, 10% 100%);
   pointer-events: none;
 }

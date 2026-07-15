@@ -15,7 +15,9 @@
       "type": "sc-announcement",
       "settings": {
         "surface": "pitch",
-        "text": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
+        "text": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75",
+        "promo_text": "SAVE 20% ON CLEARANCE RANGE USING CODE SCRUM20",
+        "promo_link": "shopify://collections/clearance"
       }
     },
     "header_section": {
