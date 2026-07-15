@@ -29,7 +29,7 @@
     "marquee": {
       "type": "sc-marquee",
       "settings": {
-        "surface": "try",
+        "surface": "crimson",
         "text": "PLAY STRONG.|LOOK FIERCE.|BE UNSTOPPABLE.",
         "separator": "/",
         "speed": 26

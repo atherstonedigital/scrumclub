@@ -76,7 +76,7 @@ Motion (use the existing tokens): `--ease-tackle` `cubic-bezier(.85,0,.15,1)` fo
 | `--try-bright` | `#FF3A2D` | hover |
 | `--crimson` | `#8C1410` | pressed |
 | `--turf` | `#2F6F3E` | green, sparing accent |
-| `--whistle` | `#F5C518` | yellow, sparing accent / slash |
+| `--whistle` | `#F5C518` | yellow, semantic/warning accent only — the slash motif is `--try` (v2 amendment) |
 | `--chic` | `#D01060` | ScrumChic magenta — **deferred, token only** |
 | `--sleek` | `#5FA0A0` | ScrumSleek teal — **deferred, token only** |
 

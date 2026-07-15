@@ -18,6 +18,14 @@
       <span class="sc-announce__msg">{{ message | strip | escape }}</span>
       {%- unless forloop.last -%}<span class="sc-announce__sep" aria-hidden="true">·</span>{%- endunless -%}
     {%- endfor -%}
+    {%- if s.promo_text != blank -%}
+      {%- if messages.size > 0 -%}<span class="sc-announce__sep" aria-hidden="true">·</span>{%- endif -%}
+      {%- if s.promo_link != blank -%}
+        <a class="sc-announce__msg sc-announce__promo" href="{{ s.promo_link }}">{{ s.promo_text | strip | escape }}</a>
+      {%- else -%}
+        <span class="sc-announce__msg sc-announce__promo">{{ s.promo_text | strip | escape }}</span>
+      {%- endif -%}
+    {%- endif -%}
   </div>
 </section>
 
@@ -43,6 +51,9 @@
     font-size: 12px;
   }
   .sc-announce__sep { opacity: 0.5; }
+  .sc-announce__promo { color: inherit; }
+  a.sc-announce__promo { text-decoration: underline; text-underline-offset: 3px; }
+  a.sc-announce__promo:hover { color: var(--try-bright); }
   @media (max-width: 600px) {
     .sc-announce__sep { display: none; }
     .sc-announce__inner { gap: 4px var(--s-4); }
@@ -72,6 +83,17 @@
       "label": "Messages",
       "info": "Separate messages with a pipe ( | ).",
       "default": "MADE IN UK|5% OF EVERY ORDER FUNDS RESEARCH|FREE UK SHIPPING OVER £75"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Promo message",
+      "info": "Shown after the messages. CAPS per the type rules."
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "Promo link (optional)"
     }
   ],
   "presets": [ { "name": "SC Announcement" } ]
