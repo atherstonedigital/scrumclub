@@ -96,7 +96,7 @@
         "stat": "",
         "eyebrow": "THE MATCH RANGE · FEM-FIT",
         "heading": "Cut for the way you play.",
-        "body": "<p>Drafted from a women's body block and photographed independently — never resized from the men's line. Two-way stretch, mud-tolerant, built to last a season of contact.</p>",
+        "body": "<p>Drafted from a women's body block and photographed independently, never resized from the men's line. Two-way stretch, mud-tolerant, built to last a season of contact.</p>",
         "cta_label": "Shop Fem-Fit",
         "cta_link": "shopify://products/high-impact-bra",
         "image": "shopify://shop_images/SC006_High_Impact_Bra_e4b6c9c4-3f3b-40ad-aff4-9457c8cc272f.png",
@@ -109,7 +109,7 @@
         "fem": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/SC012_Womens_Retro_Shorts.3png_77eacc7c-0ea4-4899-a2b2-335bb752bc70.png",
+            "image": "shopify://shop_images/scrum_club_bra.jpg",
             "overline": "WOMEN'S",
             "label": "Fem-Fit",
             "cta": "Browse",
@@ -181,7 +181,7 @@
         "stat": "5%",
         "eyebrow": "WHY WE EXIST",
         "heading": "A cut of every order, every year.",
-        "body": "<p>Five percent of every order funds research into women's rugby — injury prevention, performance, participation. Audited annually and reported in the open. Not a campaign. A standing commitment.</p>",
+        "body": "<p>Five percent of every order funds research into women's rugby, injury prevention, performance, participation. Audited annually and reported in the open. Not a campaign. A standing commitment.</p>",
         "cta_label": "Read the commitment",
         "cta_link": "",
         "image": "shopify://shop_images/Rugby_Kit_Mannequin_In_a_photographic_style_a_woman_stands_holding_a_WSLkOSNS.png",
