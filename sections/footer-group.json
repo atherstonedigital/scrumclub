@@ -190,7 +190,7 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "",
+                "menu": "footer-shop",
                 "heading": "Shop",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
@@ -211,7 +211,7 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "",
+                "menu": "footer-club",
                 "heading": "Club",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
@@ -232,7 +232,7 @@
               "type": "menu",
               "name": "t:names.menu",
               "settings": {
-                "menu": "",
+                "menu": "footer-support",
                 "heading": "Support",
                 "menu_spacing": 12,
                 "show_as_accordion": true,
