@@ -22,7 +22,8 @@
         "cta_primary_link": "shopify://collections/all",
         "cta_secondary_label": "Explore Fem-Fit",
         "cta_secondary_link": "shopify://collections/womens",
-        "overlay_opacity": 60
+        "background_image": "shopify://shop_images/Rugby_Kit_Mannequin_In_a_gritty_realistic_style_a_determined_woman_w6kuh9M6.png",
+        "overlay_opacity": 55
       }
     },
     "marquee": {
@@ -43,6 +44,48 @@
         "product_limit": 4,
         "link_label": "Shop all",
         "link_url": ""
+      }
+    },
+    "trust": {
+      "type": "sc-trust-row",
+      "blocks": {
+        "made": {
+          "type": "item",
+          "settings": {
+            "title": "Made in the UK",
+            "text": "Cut and sewn in Britain. \"MADE IN UK\" on every label."
+          }
+        },
+        "research": {
+          "type": "item",
+          "settings": {
+            "title": "5% to research",
+            "text": "Audited annually, reported openly."
+          }
+        },
+        "tested": {
+          "type": "item",
+          "settings": {
+            "title": "Contact-tested",
+            "text": "Protective wear trialled by club players."
+          }
+        },
+        "fulfilled": {
+          "type": "item",
+          "settings": {
+            "title": "Self-fulfilled",
+            "text": "Packed and shipped by us. Free UK over £75."
+          }
+        }
+      },
+      "block_order": [
+        "made",
+        "research",
+        "tested",
+        "fulfilled"
+      ],
+      "settings": {
+        "surface": "paper"
       }
     },
     "femfit": {
@@ -134,7 +177,7 @@
       "type": "sc-media-text",
       "settings": {
         "surface": "pitch",
-        "image_position": "right",
+        "image_position": "left",
         "stat": "5%",
         "eyebrow": "WHY WE EXIST",
         "heading": "A cut of every order, every year.",
@@ -150,55 +193,14 @@
       "settings": {
         "eyebrow": "FROM THE CLUB",
         "heading": "Journal",
-        "blog": "",
+        "blog": "journal",
         "post_limit": 3,
         "link_label": "All stories"
       }
     },
-    "trust": {
-      "type": "sc-trust-row",
-      "blocks": {
-        "made": {
-          "type": "item",
-          "settings": {
-            "title": "Made in the UK",
-            "text": "Cut and sewn in Britain. \"MADE IN UK\" on every label."
-          }
-        },
-        "research": {
-          "type": "item",
-          "settings": {
-            "title": "5% to research",
-            "text": "Audited annually, reported openly."
-          }
-        },
-        "tested": {
-          "type": "item",
-          "settings": {
-            "title": "Contact-tested",
-            "text": "Protective wear trialled by club players."
-          }
-        },
-        "fulfilled": {
-          "type": "item",
-          "settings": {
-            "title": "Self-fulfilled",
-            "text": "Packed and shipped by us. Free UK over £75."
-          }
-        }
-      },
-      "block_order": [
-        "made",
-        "research",
-        "tested",
-        "fulfilled"
-      ],
-      "settings": {
-        "surface": "paper"
-      }
-    },
     "newsletter": {
       "type": "sc-newsletter",
+      "disabled": true,
       "settings": {
         "surface": "pitch",
         "eyebrow": "JOIN THE CLUB",
@@ -214,12 +216,12 @@
     "hero",
     "marquee",
     "featured",
+    "trust",
     "femfit",
     "shopbyfit",
     "look",
     "commitment",
     "journal",
-    "trust",
     "newsletter"
   ]
 }
