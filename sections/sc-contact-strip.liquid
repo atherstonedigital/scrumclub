@@ -1,0 +1,101 @@
+{%- comment -%}
+  sc-contact-strip.liquid — slim contact bar (Club Hub footer band)
+  ------------------------------------------------------------------
+  Paper surface, mono accent on the email address (spec-line treatment),
+  Saira sign-off. Display only — no form (the native contact form block
+  needs a main-content context; skipped per the build note).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="sc-contactstrip sc-paper">
+  <div class="sc-wrap sc-contactstrip__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow muted">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if s.text != blank -%}
+      <p class="sc-contactstrip__text">
+        {%- if s.email != blank -%}
+          {%- assign email_link = '<a class="sc-contactstrip__email" href="mailto:' | append: s.email | append: '">' | append: s.email | append: '</a>' -%}
+          {{- s.text | escape | replace: s.email, email_link -}}
+        {%- else -%}
+          {{- s.text | escape -}}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+    {%- if s.closing != blank -%}
+      <p class="sc-contactstrip__closing">{{ s.closing | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-contactstrip {
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--bone);
+  }
+  .sc-contactstrip__text {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--pitch);
+    max-width: var(--measure);
+    margin-top: var(--s-3);
+  }
+  .sc-contactstrip__email {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono);
+    color: var(--pitch);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sc-contactstrip__email:hover { color: var(--try); }
+  .sc-contactstrip__closing {
+    font-family: var(--font-action);
+    font-weight: 800;
+    font-style: italic;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--pitch);
+    margin-top: var(--s-5);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Contact Strip",
+  "tag": "section",
+  "class": "sc-section sc-contactstrip-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HAVE QUESTIONS?"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "support@scrumclub.uk",
+      "info": "Rendered as a mailto link where it appears in the text."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Email support@scrumclub.uk. We're happy to talk through your club's needs, turnaround times and bulk pricing."
+    },
+    {
+      "type": "text",
+      "id": "closing",
+      "label": "Closing line",
+      "default": "Let's build something worth wearing."
+    }
+  ],
+  "presets": [ { "name": "SC Contact Strip" } ]
+}
+{% endschema %}

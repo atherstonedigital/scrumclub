@@ -1,0 +1,151 @@
+{%- comment -%}
+  sc-club-hero.liquid — Club Hub landing hero (bespoke kit)
+  ------------------------------------------------------------------
+  Anton display H1 (caps, left), Saira eyebrow, Archivo lead line.
+  Optional full-bleed background image (picker empty until Drive assets
+  land — §7): with no image the band is solid --paper with --pitch ink;
+  with an image it goes full-bleed with a flat --pitch scrim (NOT a
+  gradient — gradient placeholders are banned) and --paper ink.
+  Reveal per §2: copy fades + rises 24px, 520ms --ease-kick (.sc-reveal).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign has_image = false
+  if s.background_image != blank
+    assign has_image = true
+  endif
+  assign overlay = s.overlay_opacity | divided_by: 100.0
+-%}
+
+<section
+  class="sc-club-hero {% if has_image %}sc-pitch has-image{% else %}sc-paper{% endif %}"
+  {% if has_image %}style="--hero-overlay: {{ overlay }};"{% endif %}
+>
+  {%- if has_image -%}
+    <div class="sc-club-hero__media">
+      {{
+        s.background_image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          class: 'sc-club-hero__img',
+          alt: s.background_image.alt | default: s.heading
+      }}
+      <span class="sc-club-hero__scrim" aria-hidden="true"></span>
+    </div>
+  {%- endif -%}
+
+  <div class="sc-wrap sc-club-hero__inner sc-reveal">
+    {%- if s.eyebrow != blank -%}
+      <p class="sc-eyebrow{% if has_image %} muted{% endif %}">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    <h1 class="sc-display sc-club-hero__heading">{{ s.heading | escape }}</h1>
+    {%- if s.lead != blank -%}
+      <p class="sc-club-hero__lead">{{ s.lead | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-club-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--section-y);
+  }
+  .sc-club-hero.has-image {
+    display: flex;
+    align-items: flex-end;
+    min-height: 62vh;
+    /* clearance for the header when the image bleeds behind it */
+    padding-block-start: clamp(96px, 13vh, 150px);
+  }
+  .sc-club-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .sc-club-hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .sc-club-hero__scrim {
+    /* flat colour at opacity — the sanctioned non-gradient overlay */
+    position: absolute;
+    inset: 0;
+    background: var(--pitch);
+    opacity: var(--hero-overlay, 0.55);
+  }
+  .sc-club-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+  }
+  .sc-club-hero__heading {
+    color: var(--pitch);
+    margin-top: var(--s-3);
+    /* landing scale: the global --fs-display max overflows a seven-word
+       headline; cap it so the composition holds on one screen */
+    font-size: clamp(40px, 7.5vw, 104px);
+  }
+  .sc-club-hero.has-image .sc-club-hero__heading { color: var(--paper); }
+  .sc-club-hero__lead {
+    font-family: var(--font-body);
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--pitch);
+    max-width: var(--measure);
+    margin-top: var(--s-5);
+  }
+  .sc-club-hero.has-image .sc-club-hero__lead { color: var(--paper); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Club Hero",
+  "tag": "section",
+  "class": "sc-section sc-club-hero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CLUB HUB · BESPOKE KIT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WELCOME TO THE SCRUM CLUB HUB"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead line",
+      "default": "Your club's colours. Your club's kit. We now design and manufacture bespoke rugby kit, built to order."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Optional. Leave empty for a solid paper band (image TBC — §7)."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    }
+  ],
+  "presets": [ { "name": "SC Club Hero" } ]
+}
+{% endschema %}

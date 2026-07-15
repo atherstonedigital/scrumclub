@@ -1,0 +1,105 @@
+{%- comment -%}
+  sc-cta-band.liquid — inverted call-to-action band (Club Hub)
+  ------------------------------------------------------------------
+  .sc-pitch surface (--pitch bg, --paper ink) — the contrast band is
+  pitch, NOT red (red stays at 5%). Primary button is the one sanctioned
+  red CTA with the cut-shadow (hero-level CTA per §2); secondary is the
+  paper-stroked ghost. Button motion comes from .sc-btn in sc-brand.css
+  (hover try→try-bright translate(-2px,-2px); press settles to crimson).
+  The primary URL is a setting so the Kit Builder link is a one-field
+  swap later (§6 #3).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="sc-ctaband sc-pitch">
+  <div class="sc-wrap sc-ctaband__inner sc-reveal">
+    {%- if s.heading != blank -%}
+      <h2 class="sc-h2 sc-ctaband__heading">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if s.text != blank -%}
+      <p class="sc-ctaband__text">{{ s.text | escape }}</p>
+    {%- endif -%}
+    {%- if s.cta_primary_label != blank or s.cta_secondary_label != blank -%}
+      <div class="sc-ctaband__ctas">
+        {%- if s.cta_primary_label != blank -%}
+          <a class="sc-btn sc-btn--primary" href="{{ s.cta_primary_link | default: '#' }}">
+            {{- s.cta_primary_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if s.cta_secondary_label != blank -%}
+          <a class="sc-btn sc-btn--ghost on-pitch" href="{{ s.cta_secondary_link | default: '#' }}">
+            {{- s.cta_secondary_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sc-ctaband { padding-block: var(--section-y); }
+  .sc-ctaband__heading { color: var(--paper); }
+  .sc-ctaband__text {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--paper);
+    max-width: var(--measure);
+    margin-top: var(--s-4);
+  }
+  .sc-ctaband__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: var(--s-6);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC CTA Band",
+  "tag": "section",
+  "class": "sc-section sc-ctaband-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "READY FOR THE NEW SEASON?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Getting started is simple. Tell us what you need and we'll help you design a kit your players will be proud to wear."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "GET STARTED"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Primary button link",
+      "info": "Swap to the Kit Builder URL when it exists (§6 #3)."
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "CONTACT US"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [ { "name": "SC CTA Band" } ]
+}
+{% endschema %}
