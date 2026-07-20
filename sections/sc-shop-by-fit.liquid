@@ -87,18 +87,21 @@
     background: linear-gradient(180deg, rgba(11, 11, 14, 0.1), rgba(11, 11, 14, 0.7));
   }
   /* Corner slash — brand guidelines p.24: one solid try-red bar per card,
-     -22deg, anchored across the top-right corner and clipped by the tile.
-     Fully opaque, never a translucent overlay on the photo. */
+     -22deg, anchored at the top-left corner. The lower end enters through
+     the left edge (clipped by the tile); the upper end stays free in-card
+     so the hover extension reads. Fully opaque, never a translucent
+     overlay on the photo. The 0.374 factor is sin(22deg): it pins the
+     free end ~14px below the top edge at any slash length. */
   .sc-fit__tile::after {
     content: "";
     position: absolute;
-    top: -20px;
-    right: -24px;
+    top: calc(var(--slash-length) * 0.374 + 14px);
+    left: -24px;
     width: var(--slash-length);
     height: var(--slash-thickness);
     background: var(--try);
     transform: rotate(-22deg);
-    transform-origin: top right;
+    transform-origin: top left;
     transition: width var(--dur-fast) var(--ease-tackle);
     pointer-events: none;
     z-index: 2;
