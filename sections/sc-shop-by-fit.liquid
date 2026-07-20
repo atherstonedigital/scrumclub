@@ -52,7 +52,6 @@
   .sc-fit__kicker { margin-bottom: var(--s-5); }
   .sc-fit__grid { display: grid; grid-template-columns: 1fr; gap: var(--s-4); }
   .sc-fit__tile {
-    --slash-length: clamp(180px, 34vw, 260px);
     --slash-thickness: clamp(14px, 2.6vw, 20px);
     position: relative;
     display: block;
@@ -87,25 +86,35 @@
     background: linear-gradient(180deg, rgba(11, 11, 14, 0.1), rgba(11, 11, 14, 0.7));
   }
   /* Corner slash — brand guidelines p.24: one solid try-red bar per card,
-     -22deg, anchored across the top-right corner and clipped by the tile.
-     Fully opaque, never a translucent overlay on the photo. */
+     -22deg, across the top-left corner. It enters through the left edge
+     and exits through the top border at ~the card's centre, clipped by
+     the tile on both ends. Fully opaque, never a translucent overlay on
+     the photo. top: 27% of the 4/3 tile height ≈ centre-exit for a
+     -22deg rise; width overshoots so both ends always clip. On hover the
+     bar nudges 6px along its perpendicular (a length-wise extension would
+     be invisible with both ends clipped) — translateY after the rotate
+     moves in the bar's local axis, so the slash slides, keeping angle. */
   .sc-fit__tile::after {
     content: "";
     position: absolute;
-    top: -20px;
-    right: -24px;
-    width: var(--slash-length);
+    top: 27%;
+    left: -24px;
+    width: calc(70% + 24px);
     height: var(--slash-thickness);
     background: var(--try);
     transform: rotate(-22deg);
-    transform-origin: top right;
-    transition: width var(--dur-fast) var(--ease-tackle);
+    transform-origin: top left;
     pointer-events: none;
     z-index: 2;
   }
-  .sc-fit__tile:hover::after,
-  .sc-fit__tile:focus-visible::after {
-    width: calc(var(--slash-length) + 8px);
+  @media (prefers-reduced-motion: no-preference) {
+    .sc-fit__tile::after {
+      transition: transform var(--dur-fast) var(--ease-tackle);
+    }
+    .sc-fit__tile:hover::after,
+    .sc-fit__tile:focus-visible::after {
+      transform: rotate(-22deg) translateY(6px);
+    }
   }
   .sc-fit__caption {
     position: absolute;
