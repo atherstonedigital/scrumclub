@@ -116,18 +116,12 @@ body {
 }
 
 /* ---- Slash motif ------------------------------------------------- */
-/* The brand slash is Try-red (v2 amendment): solid diagonal band, sharp
-   edges, no gradient, no shadow. --whistle yellow is semantic/warning
-   only — never decorative. */
-.sc-slash { position: relative; overflow: hidden; }
-.sc-slash::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--try);
-  clip-path: polygon(72% 0, 100% 0, 38% 100%, 10% 100%);
-  pointer-events: none;
-}
+/* The brand slash is Try-red (v2 amendment), per guidelines p.24: a single
+   solid -22deg bar clipped at a corner — a signature, not a wash. It is a
+   thin opaque bar, never a translucent band over imagery, so it has no
+   generic utility class here: implement it per composition (see
+   sections/sc-shop-by-fit.liquid for the reference corner-slash pattern).
+   --whistle yellow is semantic/warning only — never decorative. */
 
 /* ---- Typography utilities ---------------------------------------- */
 .sc-display {
