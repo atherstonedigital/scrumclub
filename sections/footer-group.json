@@ -58,7 +58,7 @@
               "type": "text",
               "name": "Text",
               "settings": {
-                "text": "<h3>Scrum Club</h3>",
+                "text": "<h3>ScrumClub</h3>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
