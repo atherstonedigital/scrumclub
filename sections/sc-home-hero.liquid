@@ -188,7 +188,12 @@
     /* Full .sc-wrap width so the copy ties to the site's shared left gutter
        line on large desktops — a narrower max-width here re-centres the whole
        block via .sc-wrap's auto margins, leaving the copy floating mid-screen.
-       Line lengths are capped per element below instead. */
+       Line lengths are capped per element below instead.
+       width:100% is load-bearing: the section is display:flex, so this inner
+       is a flex item that would otherwise shrink-wrap its content (~the 980px
+       headline) and re-centre via the wrap's auto margins — max-width alone
+       has no effect on it. */
+    width: 100%;
     max-width: var(--wrap);
     /* Top clearance is handled by the section's padding-block-start above; keep
        the inner top padding light so tall content keeps its header clearance. */
