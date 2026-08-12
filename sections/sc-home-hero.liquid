@@ -191,6 +191,10 @@
     padding-block: var(--s-5) var(--s-8);
   }
   .sc-home-hero__eyebrow { margin-bottom: var(--s-4); }
+  /* On the dark hero, use the warm neutrals (bone/chalk) instead of the global
+     --fog blue-grey — fog casts blue over warm/red hero imagery. Extra class in
+     the selector outranks .sc-pitch .sc-eyebrow.muted in sc-brand.css. */
+  .sc-home-hero.is-pitch .sc-eyebrow.sc-home-hero__eyebrow { color: var(--bone); }
   .sc-home-hero__headline {
     margin-bottom: var(--s-5);
     /* Hero-specific scale: the global --fs-display max (168px) overflows a
@@ -202,7 +206,7 @@
   .sc-home-hero.is-pitch .sc-home-hero__headline { color: var(--paper); }
   .sc-home-hero__headline .red { color: var(--try); }
   .sc-home-hero__subcopy { margin-bottom: var(--s-6); }
-  .sc-home-hero.is-pitch .sc-home-hero__subcopy { color: var(--fog); }
+  .sc-home-hero.is-pitch .sc-home-hero__subcopy { color: var(--chalk); }
   .sc-home-hero__ctas {
     display: flex;
     flex-wrap: wrap;
