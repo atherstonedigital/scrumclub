@@ -22,8 +22,9 @@
         "cta_primary_link": "shopify://collections/all",
         "cta_secondary_label": "Explore Fem-Fit",
         "cta_secondary_link": "shopify://collections/womens",
-        "background_image": "shopify://shop_images/Rugby_Kit_Mannequin_In_a_gritty_realistic_style_a_determined_woman_w6kuh9M6.png",
-        "overlay_opacity": 55
+        "background_image": "shopify://shop_images/SCRUM_CLUB_0826-13_Homepage.jpg",
+        "background_image_mobile": "shopify://shop_images/scrum_club_hero_mobile.jpg",
+        "overlay_opacity": 5
       }
     },
     "marquee": {
