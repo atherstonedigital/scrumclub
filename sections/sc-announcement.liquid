@@ -12,7 +12,7 @@
   assign messages = s.text | split: '|'
 -%}
 
-<section class="sc-announce sc-announce--{{ s.surface }}">
+<section class="sc-announce sc-announce--{{ s.surface }}" data-rotate-interval="{{ s.rotate_seconds | default: 4 }}">
   <div class="sc-wrap sc-announce__inner">
     {%- for message in messages -%}
       <span class="sc-announce__msg">{{ message | strip | escape }}</span>
@@ -54,11 +54,58 @@
   .sc-announce__promo { color: inherit; }
   a.sc-announce__promo { text-decoration: underline; text-underline-offset: 3px; }
   a.sc-announce__promo:hover { color: var(--try-bright); }
+  /* Mobile: rotate one message at a time instead of stacking them all —
+     the stacked bar eats too much viewport above the header. Messages
+     overlay in a single grid cell (bar height = tallest message, so it
+     never jumps); JS cycles .is-active. Enter rises from below, exit
+     continues upward (--ease-kick reveal, no bounce, per §2 motion). */
   @media (max-width: 600px) {
     .sc-announce__sep { display: none; }
-    .sc-announce__inner { gap: 4px var(--s-4); }
+    .sc-announce__inner { display: grid; justify-content: stretch; padding-block: 8px; }
+    .sc-announce__inner > .sc-announce__msg {
+      grid-area: 1 / 1;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(7px);
+      transition: opacity 360ms var(--ease-kick), transform 360ms var(--ease-kick);
+      pointer-events: none;
+    }
+    .sc-announce__inner > .sc-announce__msg.is-active {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    .sc-announce__inner > .sc-announce__msg.is-leaving { transform: translateY(-7px); }
+    /* Before JS runs (or without it) the first message stays visible. */
+    .sc-announce__inner:not(:has(.is-active)) > .sc-announce__msg:first-child {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sc-announce__inner > .sc-announce__msg { transition: none; transform: none; }
+    }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.sc-announce').forEach((bar) => {
+    const msgs = Array.from(bar.querySelectorAll('.sc-announce__msg'));
+    if (msgs.length < 2) return;
+    const interval = (parseInt(bar.dataset.rotateInterval, 10) || 4) * 1000;
+    let current = 0;
+    msgs[0].classList.add('is-active');
+    setInterval(() => {
+      if (document.hidden) return;
+      const leaving = msgs[current];
+      current = (current + 1) % msgs.length;
+      leaving.classList.remove('is-active');
+      leaving.classList.add('is-leaving');
+      setTimeout(() => leaving.classList.remove('is-leaving'), 400);
+      msgs[current].classList.add('is-active');
+    }, interval);
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -94,6 +141,17 @@
       "type": "url",
       "id": "promo_link",
       "label": "Promo link (optional)"
+    },
+    {
+      "type": "range",
+      "id": "rotate_seconds",
+      "label": "Mobile rotation speed",
+      "info": "Seconds each message shows on small screens. Desktop shows all messages inline.",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "default": 4
     }
   ],
   "presets": [ { "name": "SC Announcement" } ]
