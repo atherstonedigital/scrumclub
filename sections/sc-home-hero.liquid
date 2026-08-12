@@ -21,19 +21,40 @@
   class="sc-home-hero {% if is_pitch %}sc-pitch is-pitch{% else %}sc-paper{% endif %}"
   style="--hero-min-h: {{ s.min_height }}vh; --hero-overlay: {{ overlay }};"
 >
-  {%- if s.background_image != blank -%}
+  {%- liquid
+    # Desktop image is the base; a separate mobile crop (optional) swaps in
+    # below 750px via <picture>, so each device downloads only its own asset.
+    # If only a mobile image is set, it serves as the base everywhere.
+    assign base_image = s.background_image | default: s.background_image_mobile
+  -%}
+  {%- if base_image != blank -%}
     <div class="sc-home-hero__media">
-      {{
-        s.background_image
-        | image_url: width: 2400
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          sizes: '100vw',
-          widths: '600, 900, 1200, 1600, 2000, 2400',
-          class: 'sc-home-hero__img',
-          alt: s.background_image.alt | default: s.headline
-      }}
+      <picture>
+        {%- if s.background_image_mobile != blank and s.background_image != blank -%}
+          <source
+            media="(max-width: 749px)"
+            sizes="100vw"
+            srcset="
+              {{ s.background_image_mobile | image_url: width: 450 }} 450w,
+              {{ s.background_image_mobile | image_url: width: 600 }} 600w,
+              {{ s.background_image_mobile | image_url: width: 900 }} 900w,
+              {{ s.background_image_mobile | image_url: width: 1200 }} 1200w,
+              {{ s.background_image_mobile | image_url: width: 1500 }} 1500w
+            "
+          >
+        {%- endif -%}
+        {{
+          base_image
+          | image_url: width: 2400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            sizes: '100vw',
+            widths: '600, 900, 1200, 1600, 2000, 2400',
+            class: 'sc-home-hero__img',
+            alt: base_image.alt | default: s.headline
+        }}
+      </picture>
       <span class="sc-home-hero__scrim" aria-hidden="true"></span>
     </div>
   {%- else -%}
@@ -113,6 +134,11 @@
     position: absolute;
     inset: 0;
     z-index: 0;
+  }
+  .sc-home-hero__media picture {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
   .sc-home-hero__img {
     width: 100%;
@@ -273,6 +299,12 @@
       "id": "background_image",
       "label": "Background image",
       "info": "Leave blank to show a 'Photography TBC' placeholder."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image (mobile)",
+      "info": "Optional portrait crop shown on screens under 750px. Falls back to the desktop image when blank."
     },
     {
       "type": "range",
