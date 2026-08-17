@@ -1,0 +1,314 @@
+{%- comment -%}
+  sc-waitlist.liquid — PDP restock waitlist (out-of-stock intent capture)
+  ---------------------------------------------------------------------
+  Renders a "notify me when it's back" panel in place of nothing when the
+  SELECTED variant is unavailable. Captures the shopper's email against the
+  exact product + size so restock demand is measurable per size, not just
+  per product.
+
+  Capture routes (schema-driven, `capture_method`):
+    • customer (default) — Shopify's {% form 'customer' %}. Creates/updates a
+      customer tagged `waitlist`, `waitlist:<product-handle>` and
+      `waitlist:<product-handle>:<size>`. Segmentable in admin, exportable,
+      and syncs to Klaviyo. NOTE: this form sets accepts_marketing = true —
+      the default consent line says so. See the PR note / §6 for the call on
+      whether that is the right consent model for a restock alert.
+    • contact — Shopify's {% form 'contact' %}. Emails the store the product,
+      size and shopper email. No list, no marketing consent.
+
+  Variant-aware: the panel is server-rendered per variant. sc-waitlist.js
+  re-renders it on variant change via the theme's productSelect event (the
+  same mechanism product-inventory / product-price use) and submits async so
+  the shopper is not bounced off the PDP.
+
+  The <sc-waitlist> host always renders (even in stock) so the element stays
+  in the DOM for morphing when the shopper switches to a sold-out size.
+
+  Theme block — place inside the product-information section, under the buy
+  buttons. No Pitch core files touched (CLAUDE.md §0.1).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = block.settings
+  assign p = closest.product
+  assign v = p.selected_or_first_available_variant
+
+  assign sold_out = false
+  if p != blank and v == blank
+    assign sold_out = true
+  elsif p != blank and v.available == false
+    assign sold_out = true
+  endif
+
+  # In the theme editor the panel would be invisible on an in-stock product,
+  # so show it as a clearly-labelled preview instead (§0.5 — placeholders are
+  # marked, never passed off as live state).
+  assign preview = false
+  if request.design_mode and sold_out == false and p != blank
+    assign preview = true
+  endif
+
+  assign show = false
+  if sold_out or preview
+    assign show = true
+  endif
+
+  # Size label — omitted for single-variant products (never an empty label).
+  assign size_label = ''
+  if p.has_only_default_variant == false and v.title != blank
+    assign size_label = v.title
+  endif
+
+  # Tags: broad → product → product+size, so admin can segment at any level.
+  assign prefix = s.tag_prefix | default: 'waitlist' | handleize
+  assign tag_list = prefix
+  if p.handle != blank
+    assign product_tag = prefix | append: ':' | append: p.handle
+    assign tag_list = tag_list | append: ',' | append: product_tag
+    if size_label != blank
+      assign size_handle = size_label | handleize
+      assign tag_list = tag_list | append: ',' | append: product_tag | append: ':' | append: size_handle
+    endif
+  endif
+
+  assign lead = s.body
+  if size_label != blank
+    assign lead = lead | replace: '[size]', size_label
+  else
+    assign lead = lead | replace: ' in [size]', '' | replace: '[size]', ''
+  endif
+
+  assign field_id = 'sc-waitlist-email-' | append: block.id
+  assign error_message = s.error_message | default: "That didn't send. Check the address and try again."
+-%}
+
+<script
+  src="{{ 'sc-waitlist.js' | asset_url }}"
+  type="module"
+></script>
+
+<sc-waitlist
+  class="sc-waitlist"
+  data-product-id="{{ p.id }}"
+  data-variant-id="{{ v.id }}"
+  data-error-message="{{ error_message | escape }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if show -%}
+    <div class="sc-waitlist__panel{% if preview %} sc-waitlist__panel--preview{% endif %}">
+      {%- if preview -%}
+        <p class="sc-mono sc-waitlist__preview-note">
+          EDITOR PREVIEW — SHOWN ONLY WHEN THE SELECTED SIZE IS SOLD OUT
+        </p>
+      {%- endif -%}
+
+      {%- if s.eyebrow != blank -%}
+        <p class="sc-eyebrow sc-waitlist__eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+
+      {%- if s.heading != blank -%}
+        <p class="sc-waitlist__heading">{{ s.heading | escape }}</p>
+      {%- endif -%}
+
+      {%- if lead != blank -%}
+        <p class="sc-body sc-small sc-waitlist__lead">{{ lead | escape }}</p>
+      {%- endif -%}
+
+      {%- capture email_field -%}
+        <label class="sc-waitlist__label" for="{{ field_id }}">
+          {{- s.placeholder | default: 'Email address' | escape -}}
+        </label>
+        <input
+          id="{{ field_id }}"
+          class="sc-waitlist__input"
+          type="email"
+          name="contact[email]"
+          placeholder="{{ s.placeholder | default: 'Email address' | escape }}"
+          autocomplete="email"
+          required
+          {% if preview %}disabled{% endif %}
+        >
+        <button
+          type="submit"
+          class="sc-btn sc-waitlist__submit"
+          {% if preview %}disabled{% endif %}
+        >
+          {{- s.button_label | default: 'Notify me' | escape -}}
+        </button>
+      {%- endcapture -%}
+
+      {%- if s.capture_method == 'contact' -%}
+        {%- form 'contact', class: 'sc-waitlist__form' -%}
+          <input type="hidden" name="contact[body]" value="Restock waitlist request.">
+          <input type="hidden" name="contact[Product]" value="{{ p.title | escape }}">
+          {%- if size_label != blank -%}
+            <input type="hidden" name="contact[Size]" value="{{ size_label | escape }}">
+          {%- endif -%}
+          <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ v.url | default: p.url }}">
+          {{ email_field }}
+          {%- render 'sc-waitlist-messages', form: form, settings: s -%}
+        {%- endform -%}
+      {%- else -%}
+        {%- form 'customer', class: 'sc-waitlist__form' -%}
+          <input type="hidden" name="contact[tags]" value="{{ tag_list | escape }}">
+          {{ email_field }}
+          {%- render 'sc-waitlist-messages', form: form, settings: s -%}
+        {%- endform -%}
+      {%- endif -%}
+
+      <p class="sc-waitlist__done" data-sc-waitlist-done role="status" hidden>
+        {{- s.success_message | default: "You're on the list. We'll email you when it's back." | escape -}}
+      </p>
+
+      {%- if s.consent_text != blank -%}
+        <p class="sc-mono sc-waitlist__consent">{{ s.consent_text | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</sc-waitlist>
+
+{% stylesheet %}
+  .sc-waitlist { display: block; }
+  .sc-waitlist:empty { display: none; }
+
+  .sc-waitlist__panel {
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--try);
+    border-radius: var(--r-1);
+    background: var(--paper);
+    padding: var(--s-5);
+  }
+
+  .sc-waitlist__panel--preview { opacity: 0.6; }
+  .sc-waitlist__preview-note { margin-bottom: var(--s-3); color: var(--grit); }
+
+  .sc-waitlist__eyebrow { margin-bottom: var(--s-2); }
+
+  .sc-waitlist__heading {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-h1);
+    letter-spacing: var(--track-h1);
+    text-align: left;
+    color: var(--steel);
+    margin: 0 0 var(--s-2);
+  }
+
+  .sc-waitlist__lead { color: var(--grit); margin: 0 0 var(--s-4); }
+
+  .sc-waitlist__form { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+  .sc-waitlist__label {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+
+  .sc-waitlist__input {
+    flex: 1 1 200px;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    color: var(--steel);
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--r-1);
+    padding: 14px 16px;
+  }
+  .sc-waitlist__input:focus-visible { outline: 2px solid var(--try); outline-offset: 2px; }
+
+  /* Solid pitch button, no cut-shadow: §2 reserves var(--cut) for hero CTAs
+     and stat blocks, and red is already spent on the out-of-stock signal. */
+  .sc-waitlist__submit {
+    flex: 0 0 auto;
+    background: var(--pitch);
+    color: var(--paper);
+    padding: 14px 22px;
+  }
+  .sc-waitlist__submit:hover { background: var(--steel); transform: translate(-2px, -2px); }
+  .sc-waitlist__submit:active { background: var(--pitch); transform: translate(0, 0); }
+  .sc-waitlist__submit[disabled] { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .sc-waitlist__msg { flex: 1 0 100%; margin-top: var(--s-2); font-size: var(--fs-small); }
+  .sc-waitlist__msg--ok { color: var(--turf); }
+  .sc-waitlist__msg--err { color: var(--try); }
+
+  .sc-waitlist__done { margin: 0; color: var(--turf); font-size: var(--fs-small); }
+  .sc-waitlist__done[hidden] { display: none; }
+
+  .sc-waitlist__consent {
+    margin: var(--s-3) 0 0;
+    line-height: 1.5;
+    max-width: var(--measure);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sc-waitlist__submit { transition: none; }
+    .sc-waitlist__submit:hover { transform: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SC Waitlist",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows only when the selected size is sold out. Captures restock interest against the product and size."
+    },
+    {
+      "type": "select",
+      "id": "capture_method",
+      "label": "Where sign-ups go",
+      "options": [
+        { "value": "customer", "label": "Customer list (tagged, segmentable)" },
+        { "value": "contact", "label": "Store email (contact form)" }
+      ],
+      "default": "customer",
+      "info": "Customer list tags each sign-up waitlist:<product>:<size> — filter customers by tag in admin to see demand per size. Note: this route also sets email marketing consent."
+    },
+    {
+      "type": "text",
+      "id": "tag_prefix",
+      "label": "Tag prefix",
+      "default": "waitlist",
+      "info": "Customer-list route only.",
+      "visible_if": "{{ block.settings.capture_method == 'customer' }}"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "OUT OF STOCK" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "JOIN THE WAITLIST" },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Body",
+      "default": "We'll email you the moment this comes back in [size]. Nothing else.",
+      "info": "Use [size] to insert the selected size. Removed automatically on single-size products."
+    },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Notify me" },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You're on the list. We'll email you when it's back."
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Error message",
+      "default": "That didn't send. Check the address and try again."
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent line",
+      "default": "We use your email for this restock alert and Scrum Club updates. Unsubscribe any time."
+    }
+  ],
+  "presets": [ { "name": "SC Waitlist", "category": "ScrumClub" } ]
+}
+{% endschema %}

@@ -342,11 +342,29 @@
                     }
                   },
                   "block_order": []
+                },
+                "sc_waitlist_r4Kd2m": {
+                  "type": "sc-waitlist",
+                  "name": "SC Waitlist",
+                  "settings": {
+                    "capture_method": "customer",
+                    "tag_prefix": "waitlist",
+                    "eyebrow": "OUT OF STOCK",
+                    "heading": "JOIN THE WAITLIST",
+                    "body": "We'll email you the moment this comes back in [size]. Nothing else.",
+                    "placeholder": "Email address",
+                    "button_label": "Notify me",
+                    "success_message": "You're on the list. We'll email you when it's back.",
+                    "error_message": "That didn't send. Check the address and try again.",
+                    "consent_text": "We use your email for this restock alert and Scrum Club updates. Unsubscribe any time."
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "variant_picker_KePPVa",
-                "buy_buttons_6p8c63"
+                "buy_buttons_6p8c63",
+                "sc_waitlist_r4Kd2m"
               ]
             },
             "text_LbbLqQ": {
