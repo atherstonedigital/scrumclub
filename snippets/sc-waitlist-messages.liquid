@@ -1,0 +1,20 @@
+{%- comment -%}
+  sc-waitlist-messages.liquid — no-JS form feedback for blocks/sc-waitlist
+  ---------------------------------------------------------------------
+  Rendered inside the waitlist form so a shopper without JS still gets a
+  result after the full-page POST. With JS, sc-waitlist.js handles feedback
+  inline and the page never reloads.
+
+  @param form     - the Liquid form object from the enclosing {% form %}
+  @param settings - the block's settings (for the copy)
+{%- endcomment -%}
+
+{%- if form.posted_successfully? -%}
+  <p class="sc-waitlist__msg sc-waitlist__msg--ok" role="status" data-sc-waitlist-msg>
+    {{- settings.success_message | default: "You're on the list. We'll email you when it's back." | escape -}}
+  </p>
+{%- elsif form.errors -%}
+  <p class="sc-waitlist__msg sc-waitlist__msg--err" role="alert" data-sc-waitlist-msg>
+    {{- form.errors | default_errors -}}
+  </p>
+{%- endif -%}
