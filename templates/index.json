@@ -124,7 +124,7 @@
             "overline": "MEN'S",
             "label": "Men-Fit",
             "cta": "Browse",
-            "link": "shopify://collections/rugby-shirts"
+            "link": "shopify://collections/mens"
           }
         }
       },
@@ -169,8 +169,8 @@
         "eyebrow": "LOOKBOOK",
         "heading": "Shop the kit",
         "body": "<p>The full matchday look, built to be worn together. Tap a piece to shop it.</p>",
-        "cta_label": "View the lookbook",
-        "cta_link": "",
+        "cta_label": "VIEW THE RANGE",
+        "cta_link": "shopify://collections/shop-all",
         "image": "shopify://shop_images/SCRUM_CLUB_SHOPTHEKIT.jpg"
       }
     },
@@ -184,7 +184,7 @@
         "heading": "A cut of every order, every year.",
         "body": "<p>Five percent of every order funds research into women's rugby, injury prevention, performance, participation. Audited annually and reported in the open. Not a campaign. A standing commitment.</p>",
         "cta_label": "Read the commitment",
-        "cta_link": "",
+        "cta_link": "/blogs/journal/where-the-5-percent-goes",
         "image": "shopify://shop_images/Rugby_Kit_Mannequin_In_a_photographic_style_a_woman_stands_holding_a_WSLkOSNS.png",
         "placeholder_label": "Photography TBC"
       }
